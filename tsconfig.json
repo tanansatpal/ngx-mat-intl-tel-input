@@ -17,6 +17,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "ngx-mat-intl-tel-input": [
+        "dist/ngx-mat-intl-tel-input"
+      ],
+      "ngx-mat-intl-tel-input/*": [
+        "dist/ngx-mat-intl-tel-input/*"
+      ]
+    }
   }
 }
