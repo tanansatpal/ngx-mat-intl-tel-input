@@ -59,9 +59,9 @@ Refer to main app in this repository for working example.
 ## Options
 
 | Options                       | Type                   | Default            | Description                                                                         |
-| ------------------------------|------------------------|--------------------|-------------------------------------------------------------------------------------|                                |
+| ------------------------------|------------------------|--------------------|-------------------------------------------------------------------------------------|
 | preferredCountries            | ```string[]```         | ```[]```           | List of country abbreviations, which will appear at the top.                        |
-| onlyCountries                 | ```string[]```         | ```[]```           | List of manually selected country abbreviations, which will appear in the dropdown. |                      |
+| onlyCountries                 | ```string[]```         | ```[]```           | List of manually selected country abbreviations, which will appear in the dropdown. |                    |
 | enablePlaceholder             | ```boolean```          | ```true```         | Input placeholder text, which addapts to the country selected.                      |
 
 ## Library Contributions
