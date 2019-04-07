@@ -1,9 +1,6 @@
 # International Telephone Input for Angular Material (NgxMatIntlTelInput)
-[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
 
 An Angular Material package for entering and validating international telephone numbers. It adds a flag dropdown to any input, detects the user's country, displays a relevant placeholder and provides formatting/validation methods.
-
-![alt](readme-assets/ngx-mat-intl-tel-input.jpg)
 
 **Supports:**
 
