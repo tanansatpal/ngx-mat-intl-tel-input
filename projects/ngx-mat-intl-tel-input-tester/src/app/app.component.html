@@ -1,0 +1,32 @@
+<div style="margin: 50px">
+  <h3>Test International Telephone Input Form</h3>
+  <br>
+  <form #f="ngForm" [formGroup]="phoneForm">
+      <mat-form-field style="width:50%">
+        <ngx-mat-intl-tel-input
+          [cssClass]="'custom'"
+          [preferredCountries]="['us', 'gb']"
+          [enableAutoCountrySelect]="true"
+          [enablePlaceholder]="true"
+          placeholder="Enter Number"
+          name="phone"
+          formControlName="phone" #phone></ngx-mat-intl-tel-input>
+          <mat-hint>e.g. {{phone.selectedCountry.placeHolder}}</mat-hint>
+          <mat-error *ngIf="f.form.controls['phone']?.errors?.required">Required Field</mat-error>
+          <mat-error *ngIf="f.form.controls['phone']?.errors?.validatePhoneNumber">Invalid Number</mat-error>
+      </mat-form-field>
+
+    <mat-form-field>
+      <input name="name" matInput placeholder="Name" formControlName="name" />
+    </mat-form-field>
+    <mat-form-field>
+      <input name="surname" matInput placeholder="surname" formControlName="surname" />
+    </mat-form-field>
+  </form>
+  <br>
+  <div><strong>Is input valid:</strong> <pre>{{ !f.form.controls['phone'].invalid }}</pre></div>
+  <div><strong>Is input touched:</strong> <pre>{{ f.form.controls['phone'].touched }}</pre></div>
+  <div><strong>Is form valid:</strong> <pre>{{ f.form.valid }}</pre></div>
+  <div><strong>Form value:</strong> <pre>{{ f.form.value|json }}</pre></div>
+  <div><strong>Form validation errors:</strong> <pre>{{ f.form.controls['phone'].errors | json }}</pre></div>
+</div>
