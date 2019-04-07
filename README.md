@@ -1,27 +1,88 @@
-# NgxMatIntlTelInput
+# International Telephone Input for Angular Material (NgxMatIntlTelInput)
+[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.0-beta.4.
+An Angular Material package for entering and validating international telephone numbers. It adds a flag dropdown to any input, detects the user's country, displays a relevant placeholder and provides formatting/validation methods.
 
-## Development server
+![alt](readme-assets/ngx-mat-intl-tel-input.jpg)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+**Supports:**
 
-## Code scaffolding
+- Angular 7
+- Angular Material 7
+- ReactiveFormsModule
+- FormsModule
+- Validation with [google-libphonenumber](https://github.com/ruimarinho/google-libphonenumber)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Installation
 
-## Build
+### Install Dependencies
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+```$ npm install google-libphonenumber --save```
 
-## Running unit tests
+### Install This Library
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```$ npm install ngx-mat-intl-tel-input --save```
 
-## Running end-to-end tests
+## Usage
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+### Import
 
-## Further help
+Add ```NgxIntlTelInputModule``` to your module file:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+```javascript
+
+imports: [
+    NgxIntlTelInputModule,
+  ]
+
+```
+
+## Example
+
+Refer to main app in this repository for working example.
+
+```html
+
+<form #f="ngForm" [formGroup]="phoneForm">
+  <ngx-mat-intl-tel-input
+  [cssClass]="'custom'"
+  [preferredCountries]="['us', 'gb']"
+  [onlyCountries]="['us', 'gb', 'es']"
+  [enableAutoCountrySelect]="true"
+  [enablePlaceholder]="true"
+  name="phone"
+  formControlName="phone"></ngx-mat-intl-tel-input>
+</form>
+
+```
+
+## Options
+
+| Options                       | Type                   | Default            | Description                                                                         |
+| ------------------------------|------------------------|--------------------|-------------------------------------------------------------------------------------|                                |
+| preferredCountries            | ```string[]```         | ```[]```           | List of country abbreviations, which will appear at the top.                        |
+| onlyCountries                 | ```string[]```         | ```[]```           | List of manually selected country abbreviations, which will appear in the dropdown. |                      |
+| enablePlaceholder             | ```boolean```          | ```true```         | Input placeholder text, which addapts to the country selected.                      |
+
+## Library Contributions
+
+- Fork repo.
+- Update ```./projects/ngx-mat-intl-tel-input```
+- Update ```./src/lib``` with new functionality.
+- Update README.md
+- Pull request.
+
+### Helpful commands
+
+- Build lib: ```$ npm run build_lib```
+- Copy license and readme files: ```$ npm run copy-files```
+- Create package: ```$ npm run npm_pack```
+- Build lib and create package: ```$ npm run package```
+
+### Use locally
+
+After building and creating package, you can use it locally too.
+
+In your project run:
+
+```$ npm install --save {{path to your local '*.tgz' package file}}```

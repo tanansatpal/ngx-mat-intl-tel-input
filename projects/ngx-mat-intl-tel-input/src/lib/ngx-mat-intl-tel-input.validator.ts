@@ -2,7 +2,7 @@ import {FormControl} from '@angular/forms';
 import * as lpn from 'google-libphonenumber';
 
 export const phoneNumberValidator = (control: FormControl) => {
-  const error = {validatePhoneNumber: {valid: false}};
+  const error = {validatePhoneNumber: false};
   let numberInstance: lpn.PhoneNumber;
   if (control.value && control.value) {
     try {
