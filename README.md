@@ -24,12 +24,12 @@ An Angular Material package for entering and validating international telephone 
 
 ### Import
 
-Add ```NgxIntlTelInputModule``` to your module file:
+Add ```NgxMatIntlTelInputModule``` to your module file:
 
 ```javascript
 
 imports: [
-    NgxIntlTelInputModule,
+    NgxMatIntlTelInputModule,
   ]
 
 ```
