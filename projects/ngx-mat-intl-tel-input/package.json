@@ -1,6 +1,6 @@
 {
   "name": "ngx-mat-intl-tel-input",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "peerDependencies": {
     "@angular/common": "~7.3.0",
     "@angular/core": "~7.2.0",
@@ -24,8 +24,19 @@
     "ng6",
     "ng7",
     "intl-tel-input",
+    "ng-intl-tel-input",
     "phone number",
-    "validation"
+    "phone",
+    "validation",
+    "international",
+    "i18n",
+    "country",
+    "dial",
+    "code",
+    "telephone",
+    "mobile",
+    "input",
+    "flag"
   ],
-  "license": "MIT",
+  "license": "MIT"
 }

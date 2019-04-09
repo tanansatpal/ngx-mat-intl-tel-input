@@ -53,6 +53,24 @@ Refer to main app in this repository for working example.
 
 ```
 
+If you want to show the sample number for the country selected or errors , use mat-hint anf mat-error as
+
+```html
+<form #f="ngForm" [formGroup]="phoneForm">
+  <ngx-mat-intl-tel-input
+    [cssClass]="'custom'"
+    [preferredCountries]="['us', 'gb']"
+    [onlyCountries]="['us', 'gb', 'es']"
+    [enableAutoCountrySelect]="true"
+    [enablePlaceholder]="true"
+    name="phone"
+    formControlName="phone" #phone></ngx-mat-intl-tel-input>
+  <mat-hint>e.g. {{phone.selectedCountry.placeHolder}}</mat-hint>
+  <mat-error *ngIf="f.form.controls['phone']?.errors?.required">Required Field</mat-error>
+  <mat-error *ngIf="f.form.controls['phone']?.errors?.validatePhoneNumber">Invalid Number</mat-error>
+</form>
+```
+
 ## Options
 
 | Options                       | Type                   | Default            | Description                                                                         |
