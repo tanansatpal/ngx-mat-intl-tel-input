@@ -42,7 +42,6 @@ Refer to main app in this repository for working example.
 
 <form #f="ngForm" [formGroup]="phoneForm">
   <ngx-mat-intl-tel-input
-  [cssClass]="'custom'"
   [preferredCountries]="['us', 'gb']"
   [onlyCountries]="['us', 'gb', 'es']"
   [enableAutoCountrySelect]="true"
@@ -58,7 +57,6 @@ If you want to show the sample number for the country selected or errors , use m
 ```html
 <form #f="ngForm" [formGroup]="phoneForm">
   <ngx-mat-intl-tel-input
-    [cssClass]="'custom'"
     [preferredCountries]="['us', 'gb']"
     [onlyCountries]="['us', 'gb', 'es']"
     [enableAutoCountrySelect]="true"
