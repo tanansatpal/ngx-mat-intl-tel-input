@@ -64,7 +64,7 @@ Refer to main app in this repository for working example.
 ## Library Contributions
 
 - Fork repo.
-- Update ```./projects/ngx-mat-intl-tel-input```
+- Go to ```./projects/ngx-mat-intl-tel-input```
 - Update ```./src/lib``` with new functionality.
 - Update README.md
 - Pull request.
