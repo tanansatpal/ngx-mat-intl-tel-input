@@ -32,7 +32,7 @@
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26",
     "hammerjs": "^2.0.8",
-    "google-libphonenumber": "^3.2.2"
+    "libphonenumber-js": "^1.7.16"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.13.0",

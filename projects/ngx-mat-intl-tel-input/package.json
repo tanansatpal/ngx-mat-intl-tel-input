@@ -5,7 +5,7 @@
     "@angular/common": "~7.3.0",
     "@angular/core": "~7.2.0",
     "@angular/forms": "^7.2.12",
-    "google-libphonenumber": "^3.2.2"
+    "libphonenumber-js": "^1.7.16"
   },
   "repository": {
     "type": "git",

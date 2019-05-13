@@ -9,11 +9,13 @@ import {
   HostBinding,
   OnDestroy
 } from '@angular/core';
+
+let examples = require('libphonenumber-js/examples.mobile.json');
 import {NG_VALIDATORS, NgControl} from '@angular/forms';
 import {CountryCode} from './data/country-code';
 import {phoneNumberValidator} from './ngx-mat-intl-tel-input.validator';
 import {Country} from './model/country.model';
-import * as lpn from 'google-libphonenumber';
+import {getExampleNumber, parsePhoneNumberFromString, PhoneNumber} from 'libphonenumber-js';
 import {MatFormFieldControl} from '@angular/material';
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {Subject} from 'rxjs';
@@ -38,7 +40,7 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   @Input() preferredCountries: Array<string> = [];
   @Input() enablePlaceholder = true;
   @Input() cssClass;
-  @Input() name;
+  @Input() name: string;
   @Input() onlyCountries: Array<string> = [];
   @Input() enableAutoCountrySelect = false;
   private _placeholder: string;
@@ -48,14 +50,13 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   focused = false;
   errorState = false;
   static nextId = 0;
-  @HostBinding() id = `ngx-mat-in-tel-input-${NgxMatIntlTelInputComponent.nextId++}`;
+  @HostBinding() id = `ngx-mat-intl-tel-input-${NgxMatIntlTelInputComponent.nextId++}`;
   describedBy = '';
   phoneNumber = '';
   allCountries: Array<Country> = [];
   preferredCountriesInDropDown: Array<Country> = [];
   selectedCountry: Country;
-  numberInstance: lpn.PhoneNumber;
-  phoneUtil = lpn.PhoneNumberUtil.getInstance();
+  numberInstance: PhoneNumber;
   value;
 
   private _getFullNumber() {
@@ -79,9 +80,10 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   }
 
   onTouched = () => {
-  }
+  };
+
   propagateChange = (_: any) => {
-  }
+  };
 
   constructor(
     private countryCodeData: CountryCode,
@@ -130,13 +132,13 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
 
   public onPhoneNumberChange(): void {
     try {
-      this.numberInstance = this.phoneUtil.parse(this._getFullNumber(), this.selectedCountry.iso2.toUpperCase());
+      this.numberInstance = parsePhoneNumberFromString(this._getFullNumber());
+      this.value = this.numberInstance.number;
     } catch (e) {
       this.value = '';
       this.propagateChange('');
       return;
     }
-    this.value = this._getFullNumber();
     this.propagateChange(this.value);
   }
 
@@ -173,9 +175,9 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
     });
   }
 
-  protected getPhoneNumberPlaceHolder(countryCode: string): string {
+  protected getPhoneNumberPlaceHolder(countryISOCode: any): string {
     try {
-      return this.phoneUtil.format(this.phoneUtil.getExampleNumber(countryCode), lpn.PhoneNumberFormat.INTERNATIONAL);
+      return getExampleNumber(countryISOCode, examples).number.toString();
     } catch (e) {
       return e;
     }
@@ -195,12 +197,14 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
 
   writeValue(value: any): void {
     if (value) {
-      this.numberInstance = this.phoneUtil.parse(value);
-      let dialCode = this.numberInstance.getCountryCode();
-      this.phoneNumber = this.numberInstance.getNationalNumber();
+      console.log("value : ", value);
+      this.numberInstance = parsePhoneNumberFromString(value);
+      console.log(this.numberInstance);
+      let countryCode = this.numberInstance.country;
+      this.phoneNumber = this.numberInstance.formatNational();
+      if (!countryCode) return;
       setTimeout(_ => {
-        this.selectedCountry = this.allCountries.find(c => c.dialCode == dialCode)
-        console.log(this.selectedCountry);
+        this.selectedCountry = this.allCountries.find(c => c.iso2 == countryCode.toLowerCase())
       }, 1)
     }
   }
@@ -226,12 +230,10 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
 
   @Input()
   get required(): boolean {
-    console.log("Required :: ::: ::: ",this._required);
     return this._required;
   }
 
   set required(value: boolean) {
-    console.log("Required :: ",value);
     this._required = coerceBooleanProperty(value);
     this.stateChanges.next();
   }

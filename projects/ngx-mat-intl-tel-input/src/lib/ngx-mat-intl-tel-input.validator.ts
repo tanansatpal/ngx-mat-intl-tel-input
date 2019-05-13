@@ -1,17 +1,21 @@
 import {FormControl} from '@angular/forms';
-import * as lpn from 'google-libphonenumber';
+import {parsePhoneNumber, ParseError, PhoneNumber} from 'libphonenumber-js';
 
 export const phoneNumberValidator = (control: FormControl) => {
-  const error = {validatePhoneNumber: false};
-  let numberInstance: lpn.PhoneNumber;
+  const error = {validatePhoneNumber: true};
+  let numberInstance: PhoneNumber;
   if (control.value && control.value) {
     try {
-      numberInstance = lpn.PhoneNumberUtil.getInstance().parse(control.value);
+      numberInstance = parsePhoneNumber(control.value);
+      console.log("control :: ", control);
     } catch (e) {
+      control.setValue('');
       return error;
     }
 
-    if (numberInstance && !lpn.PhoneNumberUtil.getInstance().isValidNumber(numberInstance)) {
+    if (numberInstance && !numberInstance.isValid()) {
+      control.setValue('');
+      if (!control.touched) control.markAsTouched();
       return error;
     }
   }

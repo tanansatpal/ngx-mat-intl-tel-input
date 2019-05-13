@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
 import {NgxMatIntlTelInputModule} from '../../../ngx-mat-intl-tel-input/src/lib/ngx-mat-intl-tel-input.module';
-import {MatFormFieldModule, MatInputModule} from '@angular/material';
+import {MatButtonModule, MatFormFieldModule, MatInputModule} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -17,6 +17,7 @@ import {MatFormFieldModule, MatInputModule} from '@angular/material';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatButtonModule,
     NgxMatIntlTelInputModule
   ],
   providers: [],

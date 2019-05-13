@@ -8,13 +8,13 @@ An Angular Material package for entering and validating international telephone 
 - Angular Material 7
 - ReactiveFormsModule
 - FormsModule
-- Validation with [google-libphonenumber](https://github.com/ruimarinho/google-libphonenumber)
+- Validation with [libphonenumber-js](https://github.com/catamphetamine/libphonenumber-js)
 
 ## Installation
 
 ### Install Dependencies
 
-```$ npm install google-libphonenumber --save```
+```$ npm install libphonenumber-js --save```
 
 ### Install This Library
 
@@ -43,7 +43,6 @@ Refer to main app in this repository for working example.
 <form #f="ngForm" [formGroup]="phoneForm">
   <ngx-mat-intl-tel-input
   [preferredCountries]="['us', 'gb']"
-  [onlyCountries]="['us', 'gb', 'es']"
   [enableAutoCountrySelect]="true"
   [enablePlaceholder]="true"
   name="phone"
