@@ -14,6 +14,6 @@ export class AppComponent {
   });
 
   onSubmit() {
-    console.log("onSubmit", this.phoneForm);
+    console.log('onSubmit', this.phoneForm);
   }
 }
