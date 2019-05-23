@@ -10,9 +10,8 @@ import {
   OnDestroy
 } from '@angular/core';
 
-let examples = require('libphonenumber-js/examples.mobile.json');
 import {NG_VALIDATORS, NgControl} from '@angular/forms';
-import {CountryCode} from './data/country-code';
+import {CountryCode, Examples} from './data/country-code';
 import {phoneNumberValidator} from './ngx-mat-intl-tel-input.validator';
 import {Country} from './model/country.model';
 import {getExampleNumber, parsePhoneNumberFromString, PhoneNumber} from 'libphonenumber-js';
@@ -177,7 +176,7 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
 
   protected getPhoneNumberPlaceHolder(countryISOCode: any): string {
     try {
-      return getExampleNumber(countryISOCode, examples).number.toString();
+      return getExampleNumber(countryISOCode, Examples).number.toString();
     } catch (e) {
       return e;
     }
@@ -197,15 +196,16 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
 
   writeValue(value: any): void {
     if (value) {
-      console.log("value : ", value);
       this.numberInstance = parsePhoneNumberFromString(value);
       console.log(this.numberInstance);
-      let countryCode = this.numberInstance.country;
+      const countryCode = this.numberInstance.country;
       this.phoneNumber = this.numberInstance.formatNational();
-      if (!countryCode) return;
+      if (!countryCode) {
+        return;
+      }
       setTimeout(_ => {
-        this.selectedCountry = this.allCountries.find(c => c.iso2 == countryCode.toLowerCase())
-      }, 1)
+        this.selectedCountry = this.allCountries.find(c => c.iso2 === countryCode.toLowerCase());
+      }, 1);
     }
   }
 
@@ -254,6 +254,7 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
 
   onContainerClick(event: MouseEvent) {
     if ((event.target as Element).tagName.toLowerCase() !== 'input') {
+      // tslint:disable-next-line:no-non-null-assertion
       this.elRef.nativeElement.querySelector('input')!.focus();
     }
   }
