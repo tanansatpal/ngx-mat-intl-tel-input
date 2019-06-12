@@ -15,7 +15,7 @@ import {CountryCode, Examples} from './data/country-code';
 import {phoneNumberValidator} from './ngx-mat-intl-tel-input.validator';
 import {Country} from './model/country.model';
 import {getExampleNumber, parsePhoneNumberFromString, PhoneNumber} from 'libphonenumber-js';
-import {MatFormFieldControl} from '@angular/material';
+import {MatFormFieldControl, ErrorStateMatcher} from '@angular/material';
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {Subject} from 'rxjs';
 import {FocusMonitor} from '@angular/cdk/a11y';
@@ -42,6 +42,7 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   @Input() name: string;
   @Input() onlyCountries: Array<string> = [];
   @Input() enableAutoCountrySelect = false;
+  @Input() errorStateMatcher: ErrorStateMatcher;
   private _placeholder: string;
   private _required = false;
   private _disabled = false;

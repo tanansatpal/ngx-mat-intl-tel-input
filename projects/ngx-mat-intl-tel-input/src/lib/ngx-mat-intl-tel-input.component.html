@@ -19,11 +19,12 @@
     </button>
   </mat-menu>
 
-  <input type="tel" id="phone" autocomplete="off"
+  <input matInput type="tel" id="phone" autocomplete="off"
          [ngClass]="cssClass"
          (blur)="onTouched()"
          (keypress)="onInputKeyPress($event)"
          [(ngModel)]="phoneNumber"
          (ngModelChange)="onPhoneNumberChange()"
+         [errorStateMatcher]="errorStateMatcher"
          [disabled]="disabled" #focusable>
 </div>
