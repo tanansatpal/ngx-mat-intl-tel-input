@@ -7,7 +7,6 @@ export const phoneNumberValidator = (control: FormControl) => {
   if (control.value && control.value) {
     try {
       numberInstance = parsePhoneNumber(control.value);
-      console.log("control :: ", control);
     } catch (e) {
       control.setValue('');
       return error;

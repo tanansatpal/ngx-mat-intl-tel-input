@@ -197,7 +197,6 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   writeValue(value: any): void {
     if (value) {
       this.numberInstance = parsePhoneNumberFromString(value);
-      console.log(this.numberInstance);
       const countryCode = this.numberInstance.country;
       this.phoneNumber = this.numberInstance.formatNational();
       if (!countryCode) {
