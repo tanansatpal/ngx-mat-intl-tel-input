@@ -21,6 +21,7 @@ import {Subject} from 'rxjs';
 import {FocusMonitor} from '@angular/cdk/a11y';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'ngx-mat-intl-tel-input',
   templateUrl: './ngx-mat-intl-tel-input.component.html',
   styleUrls: ['./ngx-mat-intl-tel-input.component.css'],
@@ -35,6 +36,7 @@ import {FocusMonitor} from '@angular/cdk/a11y';
   ]
 })
 export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, MatFormFieldControl<any> {
+  static nextId = 0;
 
   @Input() preferredCountries: Array<string> = [];
   @Input() enablePlaceholder = true;
@@ -43,13 +45,15 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   @Input() onlyCountries: Array<string> = [];
   @Input() enableAutoCountrySelect = false;
   @Input() errorStateMatcher: ErrorStateMatcher;
+  // tslint:disable-next-line:variable-name
   private _placeholder: string;
+  // tslint:disable-next-line:variable-name
   private _required = false;
+  // tslint:disable-next-line:variable-name
   private _disabled = false;
   stateChanges = new Subject<void>();
   focused = false;
   errorState = false;
-  static nextId = 0;
   @HostBinding() id = `ngx-mat-intl-tel-input-${NgxMatIntlTelInputComponent.nextId++}`;
   describedBy = '';
   phoneNumber = '';
@@ -58,6 +62,14 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   selectedCountry: Country;
   numberInstance: PhoneNumber;
   value;
+
+  static getPhoneNumberPlaceHolder(countryISOCode: any): string {
+    try {
+      return getExampleNumber(countryISOCode, Examples).number.toString();
+    } catch (e) {
+      return e;
+    }
+  }
 
   private _getFullNumber() {
     const val = this.phoneNumber.trim();
@@ -80,10 +92,10 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   }
 
   onTouched = () => {
-  };
+  }
 
   propagateChange = (_: any) => {
-  };
+  }
 
   constructor(
     private countryCodeData: CountryCode,
@@ -135,9 +147,9 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
       this.numberInstance = parsePhoneNumberFromString(this._getFullNumber());
       this.value = this.numberInstance.number;
     } catch (e) {
-      this.value = '';
-      this.propagateChange('');
-      return;
+      // if no possible numbers are there,
+      // then the full number is passed so that validator could be triggered and proper error could be shown
+      this.value = this._getFullNumber();
     }
     this.propagateChange(this.value);
   }
@@ -168,19 +180,11 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
       };
 
       if (this.enablePlaceholder) {
-        country.placeHolder = this.getPhoneNumberPlaceHolder(country.iso2.toUpperCase());
+        country.placeHolder = NgxMatIntlTelInputComponent.getPhoneNumberPlaceHolder(country.iso2.toUpperCase());
       }
 
       this.allCountries.push(country);
     });
-  }
-
-  protected getPhoneNumberPlaceHolder(countryISOCode: any): string {
-    try {
-      return getExampleNumber(countryISOCode, Examples).number.toString();
-    } catch (e) {
-      return e;
-    }
   }
 
   registerOnChange(fn: any): void {
@@ -203,7 +207,7 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
       if (!countryCode) {
         return;
       }
-      setTimeout(_ => {
+      setTimeout(() => {
         this.selectedCountry = this.allCountries.find(c => c.iso2 === countryCode.toLowerCase());
       }, 1);
     }

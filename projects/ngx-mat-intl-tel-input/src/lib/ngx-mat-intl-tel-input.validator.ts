@@ -1,5 +1,5 @@
 import {FormControl} from '@angular/forms';
-import {parsePhoneNumber, ParseError, PhoneNumber} from 'libphonenumber-js';
+import {parsePhoneNumber, PhoneNumber} from 'libphonenumber-js';
 
 export const phoneNumberValidator = (control: FormControl) => {
   const error = {validatePhoneNumber: true};
@@ -14,7 +14,7 @@ export const phoneNumberValidator = (control: FormControl) => {
 
     if (numberInstance && !numberInstance.isValid()) {
       control.setValue('');
-      if (!control.touched) control.markAsTouched();
+      if (!control.touched) { control.markAsTouched(); }
       return error;
     }
   }
