@@ -7,7 +7,6 @@ export class SearchPipe implements PipeTransform {
 
   // country | search:'searchCriteria'
   transform(country: any, searchCriteria?: any): any {
-    console.log('tick');
     if (!searchCriteria || searchCriteria === '') {
       return true;
     }
