@@ -45,6 +45,7 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   @Input() onlyCountries: Array<string> = [];
   @Input() enableAutoCountrySelect = false;
   @Input() errorStateMatcher: ErrorStateMatcher;
+  @Input() enableSearch = false;
   // tslint:disable-next-line:variable-name
   private _placeholder: string;
   // tslint:disable-next-line:variable-name
@@ -62,6 +63,7 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   selectedCountry: Country;
   numberInstance: PhoneNumber;
   value;
+  searchCriteria: string;
 
   static getPhoneNumberPlaceHolder(countryISOCode: any): string {
     try {

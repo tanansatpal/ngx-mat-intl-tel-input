@@ -45,6 +45,7 @@ Refer to main app in this repository for working example.
   [preferredCountries]="['us', 'gb']"
   [enableAutoCountrySelect]="true"
   [enablePlaceholder]="true"
+  [enableSearch]="true"
   name="phone"
   formControlName="phone"></ngx-mat-intl-tel-input>
 </form>
@@ -75,6 +76,7 @@ If you want to show the sample number for the country selected or errors , use m
 | preferredCountries            | ```string[]```         | ```[]```           | List of country abbreviations, which will appear at the top.                        |
 | onlyCountries                 | ```string[]```         | ```[]```           | List of manually selected country abbreviations, which will appear in the dropdown. |                    |
 | enablePlaceholder             | ```boolean```          | ```true```         | Input placeholder text, which adapts to the country selected.                      |
+| enableSearch                  | ```boolean```          | ```false```        | Whether to display a search bar to help filter down the list of countries          |
 
 ## Library Contributions
 
