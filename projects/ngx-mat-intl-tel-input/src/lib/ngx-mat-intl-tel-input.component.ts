@@ -130,10 +130,15 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
     if (this.onlyCountries.length) {
       this.allCountries = this.allCountries.filter(c => this.onlyCountries.includes(c.iso2));
     }
-    if (this.preferredCountriesInDropDown.length) {
-      this.selectedCountry = this.preferredCountriesInDropDown[0];
+    if (this.numberInstance && this.numberInstance.country) {
+      // If an existing number is present, we use it to determine selectedCountry
+      this.selectedCountry = this.allCountries.find(c => c.iso2 === this.numberInstance.country.toLowerCase());
     } else {
-      this.selectedCountry = this.allCountries[0];
+      if (this.preferredCountriesInDropDown.length) {
+        this.selectedCountry = this.preferredCountriesInDropDown[0];
+      } else {
+        this.selectedCountry = this.allCountries[0];
+      }
     }
   }
 
@@ -148,6 +153,9 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
     try {
       this.numberInstance = parsePhoneNumberFromString(this._getFullNumber());
       this.value = this.numberInstance.number;
+      if (this.numberInstance && this.numberInstance.isValid()) {
+        this.phoneNumber = this.numberInstance.formatNational();
+      }
     } catch (e) {
       // if no possible numbers are there,
       // then the full number is passed so that validator could be triggered and proper error could be shown
