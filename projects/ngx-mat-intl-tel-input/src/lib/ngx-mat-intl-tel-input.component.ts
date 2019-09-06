@@ -1,13 +1,15 @@
 import {
   Component,
-  Optional,
-  Self,
-  OnInit,
   DoCheck,
-  Input,
   ElementRef,
+  EventEmitter,
   HostBinding,
-  OnDestroy
+  Input,
+  OnDestroy,
+  OnInit,
+  Optional,
+  Output,
+  Self
 } from '@angular/core';
 
 import {NG_VALIDATORS, NgControl} from '@angular/forms';
@@ -15,7 +17,7 @@ import {CountryCode, Examples} from './data/country-code';
 import {phoneNumberValidator} from './ngx-mat-intl-tel-input.validator';
 import {Country} from './model/country.model';
 import {getExampleNumber, parsePhoneNumberFromString, PhoneNumber} from 'libphonenumber-js';
-import {MatFormFieldControl, ErrorStateMatcher} from '@angular/material';
+import {ErrorStateMatcher, MatFormFieldControl} from '@angular/material';
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {Subject} from 'rxjs';
 import {FocusMonitor} from '@angular/cdk/a11y';
@@ -46,12 +48,6 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   @Input() enableAutoCountrySelect = false;
   @Input() errorStateMatcher: ErrorStateMatcher;
   @Input() enableSearch = false;
-  // tslint:disable-next-line:variable-name
-  private _placeholder: string;
-  // tslint:disable-next-line:variable-name
-  private _required = false;
-  // tslint:disable-next-line:variable-name
-  private _disabled = false;
   stateChanges = new Subject<void>();
   focused = false;
   errorState = false;
@@ -64,40 +60,8 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   numberInstance: PhoneNumber;
   value;
   searchCriteria: string;
-
-  static getPhoneNumberPlaceHolder(countryISOCode: any): string {
-    try {
-      return getExampleNumber(countryISOCode, Examples).number.toString();
-    } catch (e) {
-      return e;
-    }
-  }
-
-  private _getFullNumber() {
-    const val = this.phoneNumber.trim();
-    const dialCode = this.selectedCountry.dialCode;
-    let prefix;
-    const numericVal = val.replace(/\D/g, '');
-    // normalized means ensure starts with a 1, so we can match against the full dial code
-    const normalizedVal = numericVal.charAt(0) === '1' ? numericVal : '1'.concat(numericVal);
-    if (val.charAt(0) !== '+') {
-      // when using separateDialCode, it is visible so is effectively part of the typed number
-      prefix = '+'.concat(dialCode);
-    } else if (val && val.charAt(0) !== '+' && val.charAt(0) !== '1' && dialCode && dialCode.charAt(0) === '1'
-      && dialCode.length === 4 && dialCode !== normalizedVal.substr(0, 4)) {
-      // ensure national NANP numbers contain the area code
-      prefix = dialCode.substr(1);
-    } else {
-      prefix = '';
-    }
-    return prefix + numericVal;
-  }
-
-  onTouched = () => {
-  };
-
-  propagateChange = (_: any) => {
-  };
+  @Output()
+  countryChanged: EventEmitter<Country> = new EventEmitter<Country>();
 
   constructor(
     private countryCodeData: CountryCode,
@@ -118,6 +82,68 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
     }
   }
 
+  // tslint:disable-next-line:variable-name
+  private _placeholder: string;
+
+  @Input()
+  get placeholder(): string {
+    return this._placeholder;
+  }
+
+  set placeholder(value: string) {
+    this._placeholder = value;
+    this.stateChanges.next();
+  }
+
+  // tslint:disable-next-line:variable-name
+  private _required = false;
+
+  @Input()
+  get required(): boolean {
+    return this._required;
+  }
+
+  set required(value: boolean) {
+    this._required = coerceBooleanProperty(value);
+    this.stateChanges.next();
+  }
+
+  // tslint:disable-next-line:variable-name
+  private _disabled = false;
+
+  @Input()
+  get disabled(): boolean {
+    return this._disabled;
+  }
+
+  set disabled(value: boolean) {
+    this._disabled = coerceBooleanProperty(value);
+    this.stateChanges.next();
+  }
+
+  get empty() {
+    return !this.phoneNumber;
+  }
+
+  @HostBinding('class.ngx-floating')
+  get shouldLabelFloat() {
+    return this.focused || !this.empty;
+  }
+
+  static getPhoneNumberPlaceHolder(countryISOCode: any): string {
+    try {
+      return getExampleNumber(countryISOCode, Examples).number.toString();
+    } catch (e) {
+      return e;
+    }
+  }
+
+  onTouched = () => {
+  };
+
+  propagateChange = (_: any) => {
+  };
+
   ngOnInit() {
     if (this.preferredCountries.length) {
       this.preferredCountries.forEach(iso2 => {
@@ -135,6 +161,7 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
     } else {
       this.selectedCountry = this.allCountries[0];
     }
+    this.countryChanged.emit(this.selectedCountry);
   }
 
   ngDoCheck(): void {
@@ -158,6 +185,7 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
 
   public onCountrySelect(country: Country, el): void {
     this.selectedCountry = country;
+    this.countryChanged.emit(this.selectedCountry);
     this.onPhoneNumberChange();
     el.focus();
   }
@@ -167,26 +195,6 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
     if (!pattern.test(event.key)) {
       event.preventDefault();
     }
-  }
-
-  protected fetchCountryData(): void {
-    this.countryCodeData.allCountries.forEach(c => {
-      const country: Country = {
-        name: c[0].toString(),
-        iso2: c[1].toString(),
-        dialCode: c[2].toString(),
-        priority: +c[3] || 0,
-        areaCodes: c[4] as string[] || undefined,
-        flagClass: c[1].toString().toUpperCase(),
-        placeHolder: ''
-      };
-
-      if (this.enablePlaceholder) {
-        country.placeHolder = NgxMatIntlTelInputComponent.getPhoneNumberPlaceHolder(country.iso2.toUpperCase());
-      }
-
-      this.allCountries.push(country);
-    });
   }
 
   registerOnChange(fn: any): void {
@@ -212,48 +220,10 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
         }
         setTimeout(() => {
           this.selectedCountry = this.allCountries.find(c => c.iso2 === countryCode.toLowerCase());
+          this.countryChanged.emit(this.selectedCountry);
         }, 1);
       }
     }
-  }
-
-  get empty() {
-    return !this.phoneNumber;
-  }
-
-  @HostBinding('class.ngx-floating')
-  get shouldLabelFloat() {
-    return this.focused || !this.empty;
-  }
-
-  @Input()
-  get placeholder(): string {
-    return this._placeholder;
-  }
-
-  set placeholder(value: string) {
-    this._placeholder = value;
-    this.stateChanges.next();
-  }
-
-  @Input()
-  get required(): boolean {
-    return this._required;
-  }
-
-  set required(value: boolean) {
-    this._required = coerceBooleanProperty(value);
-    this.stateChanges.next();
-  }
-
-  @Input()
-  get disabled(): boolean {
-    return this._disabled;
-  }
-
-  set disabled(value: boolean) {
-    this._disabled = coerceBooleanProperty(value);
-    this.stateChanges.next();
   }
 
   setDescribedByIds(ids: string[]) {
@@ -270,6 +240,46 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   ngOnDestroy() {
     this.stateChanges.complete();
     this.fm.stopMonitoring(this.elRef);
+  }
+
+  protected fetchCountryData(): void {
+    this.countryCodeData.allCountries.forEach(c => {
+      const country: Country = {
+        name: c[0].toString(),
+        iso2: c[1].toString(),
+        dialCode: c[2].toString(),
+        priority: +c[3] || 0,
+        areaCodes: c[4] as string[] || undefined,
+        flagClass: c[1].toString().toUpperCase(),
+        placeHolder: ''
+      };
+
+      if (this.enablePlaceholder) {
+        country.placeHolder = NgxMatIntlTelInputComponent.getPhoneNumberPlaceHolder(country.iso2.toUpperCase());
+      }
+
+      this.allCountries.push(country);
+    });
+  }
+
+  private _getFullNumber() {
+    const val = this.phoneNumber.trim();
+    const dialCode = this.selectedCountry.dialCode;
+    let prefix;
+    const numericVal = val.replace(/\D/g, '');
+    // normalized means ensure starts with a 1, so we can match against the full dial code
+    const normalizedVal = numericVal.charAt(0) === '1' ? numericVal : '1'.concat(numericVal);
+    if (val.charAt(0) !== '+') {
+      // when using separateDialCode, it is visible so is effectively part of the typed number
+      prefix = '+'.concat(dialCode);
+    } else if (val && val.charAt(0) !== '+' && val.charAt(0) !== '1' && dialCode && dialCode.charAt(0) === '1'
+      && dialCode.length === 4 && dialCode !== normalizedVal.substr(0, 4)) {
+      // ensure national NANP numbers contain the area code
+      prefix = dialCode.substr(1);
+    } else {
+      prefix = '';
+    }
+    return prefix + numericVal;
   }
 
 }
