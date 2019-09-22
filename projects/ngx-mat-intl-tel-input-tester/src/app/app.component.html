@@ -6,7 +6,6 @@
       <ngx-mat-intl-tel-input
         [cssClass]="'custom'"
         [preferredCountries]="['us', 'ca']"
-        [enableAutoCountrySelect]="true"
         [enablePlaceholder]="true"
         placeholder="Enter Number"
         name="phone"
@@ -27,6 +26,34 @@
 
     <button mat-button>Submit</button>
     <button type="reset" mat-button (click)="onReset()">Reset</button>
+  </form>
+
+
+  <form [formGroup]="profileForm">
+
+    <label>
+      First Name:
+      <input type="text" formControlName="firstName">
+    </label>
+
+    <label>
+      Last Name:
+      <input type="text" formControlName="lastName">
+    </label>
+
+    <mat-form-field style="width:50%">
+      <ngx-mat-intl-tel-input
+        [cssClass]="'custom'"
+        [preferredCountries]="['us', 'ca']"
+        [enablePlaceholder]="true"
+        placeholder="Enter Number"
+        name="phone"
+        formControlName="phone" #phone></ngx-mat-intl-tel-input>
+      <mat-hint>e.g. {{phone.selectedCountry.placeHolder}}</mat-hint>
+      <mat-error *ngIf="f.form.controls['phone']?.errors?.required">Required Field</mat-error>
+      <mat-error *ngIf="f.submitted && f.form.controls['phone']?.errors?.validatePhoneNumber">Invalid Number</mat-error>
+    </mat-form-field>
+
   </form>
   <br>
   <div><strong>Is input valid:</strong>

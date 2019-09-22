@@ -45,7 +45,6 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   @Input() cssClass;
   @Input() name: string;
   @Input() onlyCountries: Array<string> = [];
-  @Input() enableAutoCountrySelect = false;
   @Input() errorStateMatcher: ErrorStateMatcher;
   @Input() enableSearch = false;
   // tslint:disable-next-line:variable-name
