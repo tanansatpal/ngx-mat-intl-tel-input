@@ -48,6 +48,12 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   @Input() enableAutoCountrySelect = false;
   @Input() errorStateMatcher: ErrorStateMatcher;
   @Input() enableSearch = false;
+  // tslint:disable-next-line:variable-name
+  private _placeholder: string;
+  // tslint:disable-next-line:variable-name
+  private _required = false;
+  // tslint:disable-next-line:variable-name
+  private _disabled = false;
   stateChanges = new Subject<void>();
   focused = false;
   errorState = false;
@@ -62,6 +68,40 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   searchCriteria: string;
   @Output()
   countryChanged: EventEmitter<Country> = new EventEmitter<Country>();
+
+  static getPhoneNumberPlaceHolder(countryISOCode: any): string {
+    try {
+      return getExampleNumber(countryISOCode, Examples).number.toString();
+    } catch (e) {
+      return e;
+    }
+  }
+
+  private _getFullNumber() {
+    const val = this.phoneNumber.trim();
+    const dialCode = this.selectedCountry.dialCode;
+    let prefix;
+    const numericVal = val.replace(/\D/g, '');
+    // normalized means ensure starts with a 1, so we can match against the full dial code
+    const normalizedVal = numericVal.charAt(0) === '1' ? numericVal : '1'.concat(numericVal);
+    if (val.charAt(0) !== '+') {
+      // when using separateDialCode, it is visible so is effectively part of the typed number
+      prefix = '+'.concat(dialCode);
+    } else if (val && val.charAt(0) !== '+' && val.charAt(0) !== '1' && dialCode && dialCode.charAt(0) === '1'
+      && dialCode.length === 4 && dialCode !== normalizedVal.substr(0, 4)) {
+      // ensure national NANP numbers contain the area code
+      prefix = dialCode.substr(1);
+    } else {
+      prefix = '';
+    }
+    return prefix + numericVal;
+  }
+
+  onTouched = () => {
+  }
+
+  propagateChange = (_: any) => {
+  }
 
   constructor(
     private countryCodeData: CountryCode,
@@ -81,68 +121,6 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
       this.ngControl.valueAccessor = this;
     }
   }
-
-  // tslint:disable-next-line:variable-name
-  private _placeholder: string;
-
-  @Input()
-  get placeholder(): string {
-    return this._placeholder;
-  }
-
-  set placeholder(value: string) {
-    this._placeholder = value;
-    this.stateChanges.next();
-  }
-
-  // tslint:disable-next-line:variable-name
-  private _required = false;
-
-  @Input()
-  get required(): boolean {
-    return this._required;
-  }
-
-  set required(value: boolean) {
-    this._required = coerceBooleanProperty(value);
-    this.stateChanges.next();
-  }
-
-  // tslint:disable-next-line:variable-name
-  private _disabled = false;
-
-  @Input()
-  get disabled(): boolean {
-    return this._disabled;
-  }
-
-  set disabled(value: boolean) {
-    this._disabled = coerceBooleanProperty(value);
-    this.stateChanges.next();
-  }
-
-  get empty() {
-    return !this.phoneNumber;
-  }
-
-  @HostBinding('class.ngx-floating')
-  get shouldLabelFloat() {
-    return this.focused || !this.empty;
-  }
-
-  static getPhoneNumberPlaceHolder(countryISOCode: any): string {
-    try {
-      return getExampleNumber(countryISOCode, Examples).number.toString();
-    } catch (e) {
-      return e;
-    }
-  }
-
-  onTouched = () => {
-  };
-
-  propagateChange = (_: any) => {
-  };
 
   ngOnInit() {
     if (this.preferredCountries.length) {
@@ -197,51 +175,6 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
     }
   }
 
-  registerOnChange(fn: any): void {
-    this.propagateChange = fn;
-  }
-
-  registerOnTouched(fn: any) {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
-  writeValue(value: any): void {
-    if (value) {
-      this.numberInstance = parsePhoneNumberFromString(value);
-      if (this.numberInstance) {
-        const countryCode = this.numberInstance.country;
-        this.phoneNumber = this.numberInstance.formatNational();
-        if (!countryCode) {
-          return;
-        }
-        setTimeout(() => {
-          this.selectedCountry = this.allCountries.find(c => c.iso2 === countryCode.toLowerCase());
-          this.countryChanged.emit(this.selectedCountry);
-        }, 1);
-      }
-    }
-  }
-
-  setDescribedByIds(ids: string[]) {
-    this.describedBy = ids.join(' ');
-  }
-
-  onContainerClick(event: MouseEvent) {
-    if ((event.target as Element).tagName.toLowerCase() !== 'input') {
-      // tslint:disable-next-line:no-non-null-assertion
-      this.elRef.nativeElement.querySelector('input')!.focus();
-    }
-  }
-
-  ngOnDestroy() {
-    this.stateChanges.complete();
-    this.fm.stopMonitoring(this.elRef);
-  }
-
   protected fetchCountryData(): void {
     this.countryCodeData.allCountries.forEach(c => {
       const country: Country = {
@@ -262,24 +195,97 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
     });
   }
 
-  private _getFullNumber() {
-    const val = this.phoneNumber.trim();
-    const dialCode = this.selectedCountry.dialCode;
-    let prefix;
-    const numericVal = val.replace(/\D/g, '');
-    // normalized means ensure starts with a 1, so we can match against the full dial code
-    const normalizedVal = numericVal.charAt(0) === '1' ? numericVal : '1'.concat(numericVal);
-    if (val.charAt(0) !== '+') {
-      // when using separateDialCode, it is visible so is effectively part of the typed number
-      prefix = '+'.concat(dialCode);
-    } else if (val && val.charAt(0) !== '+' && val.charAt(0) !== '1' && dialCode && dialCode.charAt(0) === '1'
-      && dialCode.length === 4 && dialCode !== normalizedVal.substr(0, 4)) {
-      // ensure national NANP numbers contain the area code
-      prefix = dialCode.substr(1);
-    } else {
-      prefix = '';
+  registerOnChange(fn: any): void {
+    this.propagateChange = fn;
+  }
+
+  registerOnTouched(fn: any) {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
+  writeValue(value: any): void {
+    // when form is reset
+    if (value === null) {
+      this.reset();
     }
-    return prefix + numericVal;
+    if (value) {
+      this.numberInstance = parsePhoneNumberFromString(value);
+      if (this.numberInstance) {
+        const countryCode = this.numberInstance.country;
+        this.phoneNumber = this.numberInstance.formatNational();
+        if (!countryCode) {
+          return;
+        }
+        setTimeout(() => {
+          this.selectedCountry = this.allCountries.find(c => c.iso2 === countryCode.toLowerCase());
+          this.countryChanged.emit(this.selectedCountry);
+        }, 1);
+      }
+    }
+  }
+
+  get empty() {
+    return !this.phoneNumber;
+  }
+
+  @HostBinding('class.ngx-floating')
+  get shouldLabelFloat() {
+    return this.focused || !this.empty;
+  }
+
+  @Input()
+  get placeholder(): string {
+    return this._placeholder;
+  }
+
+  set placeholder(value: string) {
+    this._placeholder = value;
+    this.stateChanges.next();
+  }
+
+  @Input()
+  get required(): boolean {
+    return this._required;
+  }
+
+  set required(value: boolean) {
+    this._required = coerceBooleanProperty(value);
+    this.stateChanges.next();
+  }
+
+  @Input()
+  get disabled(): boolean {
+    return this._disabled;
+  }
+
+  set disabled(value: boolean) {
+    this._disabled = coerceBooleanProperty(value);
+    this.stateChanges.next();
+  }
+
+  setDescribedByIds(ids: string[]) {
+    this.describedBy = ids.join(' ');
+  }
+
+  onContainerClick(event: MouseEvent) {
+    if ((event.target as Element).tagName.toLowerCase() !== 'input') {
+      // tslint:disable-next-line:no-non-null-assertion
+      this.elRef.nativeElement.querySelector('input')!.focus();
+    }
+  }
+
+  reset() {
+    this.phoneNumber = null;
+    this.propagateChange(null);
+  }
+
+  ngOnDestroy() {
+    this.stateChanges.complete();
+    this.fm.stopMonitoring(this.elRef);
   }
 
 }
