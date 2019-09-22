@@ -1,13 +1,15 @@
 import {
   Component,
-  Optional,
-  Self,
-  OnInit,
   DoCheck,
-  Input,
   ElementRef,
+  EventEmitter,
   HostBinding,
-  OnDestroy
+  Input,
+  OnDestroy,
+  OnInit,
+  Optional,
+  Output,
+  Self
 } from '@angular/core';
 
 import {NG_VALIDATORS, NgControl} from '@angular/forms';
@@ -15,7 +17,7 @@ import {CountryCode, Examples} from './data/country-code';
 import {phoneNumberValidator} from './ngx-mat-intl-tel-input.validator';
 import {Country} from './model/country.model';
 import {getExampleNumber, parsePhoneNumberFromString, PhoneNumber} from 'libphonenumber-js';
-import {MatFormFieldControl, ErrorStateMatcher} from '@angular/material';
+import {ErrorStateMatcher, MatFormFieldControl} from '@angular/material';
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {Subject} from 'rxjs';
 import {FocusMonitor} from '@angular/cdk/a11y';
@@ -64,6 +66,8 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   numberInstance: PhoneNumber;
   value;
   searchCriteria: string;
+  @Output()
+  countryChanged: EventEmitter<Country> = new EventEmitter<Country>();
 
   static getPhoneNumberPlaceHolder(countryISOCode: any): string {
     try {
@@ -135,6 +139,7 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
     } else {
       this.selectedCountry = this.allCountries[0];
     }
+    this.countryChanged.emit(this.selectedCountry);
   }
 
   ngDoCheck(): void {
@@ -158,6 +163,7 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
 
   public onCountrySelect(country: Country, el): void {
     this.selectedCountry = country;
+    this.countryChanged.emit(this.selectedCountry);
     this.onPhoneNumberChange();
     el.focus();
   }
@@ -216,6 +222,7 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
         }
         setTimeout(() => {
           this.selectedCountry = this.allCountries.find(c => c.iso2 === countryCode.toLowerCase());
+          this.countryChanged.emit(this.selectedCountry);
         }, 1);
       }
     }
