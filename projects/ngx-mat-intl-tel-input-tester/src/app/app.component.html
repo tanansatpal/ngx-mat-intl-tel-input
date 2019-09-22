@@ -18,12 +18,15 @@
 
     <mat-form-field>
       <input name="name" matInput placeholder="Name" formControlName="name"/>
+      <mat-error *ngIf="f.form.controls['name']?.errors?.required">Required Field</mat-error>
     </mat-form-field>
     <mat-form-field>
       <input name="surname" matInput placeholder="surname" formControlName="surname"/>
+      <mat-error *ngIf="f.form.controls['surname']?.errors?.required">Required Field</mat-error>
     </mat-form-field>
 
     <button mat-button>Submit</button>
+    <button type="reset" mat-button (click)="onReset()">Reset</button>
   </form>
   <br>
   <div><strong>Is input valid:</strong>
@@ -40,5 +43,7 @@
   </div>
   <div><strong>Form validation errors:</strong>
     <pre>{{ f.form.controls['phone'].errors | json }}</pre>
+    <pre>{{ f.form.controls['name'].errors | json }}</pre>
+    <pre>{{ f.form.controls['surname'].errors | json }}</pre>
   </div>
 </div>

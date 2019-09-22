@@ -94,10 +94,10 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   }
 
   onTouched = () => {
-  };
+  }
 
   propagateChange = (_: any) => {
-  };
+  }
 
   constructor(
     private countryCodeData: CountryCode,
@@ -202,6 +202,10 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   }
 
   writeValue(value: any): void {
+    // when form is reset
+    if (value === null) {
+      this.reset();
+    }
     if (value) {
       this.numberInstance = parsePhoneNumberFromString(value);
       if (this.numberInstance) {
@@ -265,6 +269,11 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
       // tslint:disable-next-line:no-non-null-assertion
       this.elRef.nativeElement.querySelector('input')!.focus();
     }
+  }
+
+  reset() {
+    this.phoneNumber = null;
+    this.propagateChange(null);
   }
 
   ngOnDestroy() {

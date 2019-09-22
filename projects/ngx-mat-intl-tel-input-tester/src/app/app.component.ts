@@ -8,12 +8,16 @@ import {FormGroup, FormControl, Validators} from '@angular/forms';
 })
 export class AppComponent {
   phoneForm = new FormGroup({
-    phone: new FormControl('', [Validators.required]),
+    phone: new FormControl(undefined, [Validators.required]),
     name: new FormControl(undefined, [Validators.required]),
     surname: new FormControl(undefined, [Validators.required])
   });
 
   onSubmit() {
     console.log('onSubmit', this.phoneForm);
+  }
+
+  onReset() {
+    this.phoneForm.reset();
   }
 }
