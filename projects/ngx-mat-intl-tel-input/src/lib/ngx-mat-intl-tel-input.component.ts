@@ -278,7 +278,7 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   }
 
   reset() {
-    this.phoneNumber = null;
+    this.phoneNumber = '';
     this.propagateChange(null);
   }
 
