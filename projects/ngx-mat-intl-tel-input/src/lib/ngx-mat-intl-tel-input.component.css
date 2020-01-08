@@ -54,7 +54,6 @@ input.country-search {
   flex-shrink: 0;
   height: initial;
   line-height: unset;
-  padding: 0 20px 0 0;
   width: 90px;
   opacity: 0;
   transition: opacity 200ms;

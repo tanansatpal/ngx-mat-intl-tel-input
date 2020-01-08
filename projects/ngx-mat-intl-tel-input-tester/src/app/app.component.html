@@ -6,7 +6,6 @@
       <ngx-mat-intl-tel-input
         [cssClass]="'custom'"
         [preferredCountries]="['us', 'ca']"
-        [enableAutoCountrySelect]="true"
         [enablePlaceholder]="true"
         placeholder="Enter Number"
         name="phone"
@@ -18,12 +17,43 @@
 
     <mat-form-field>
       <input name="name" matInput placeholder="Name" formControlName="name"/>
+      <mat-error *ngIf="f.form.controls['name']?.errors?.required">Required Field</mat-error>
     </mat-form-field>
     <mat-form-field>
       <input name="surname" matInput placeholder="surname" formControlName="surname"/>
+      <mat-error *ngIf="f.form.controls['surname']?.errors?.required">Required Field</mat-error>
     </mat-form-field>
 
     <button mat-button>Submit</button>
+    <button type="reset" mat-button (click)="onReset()">Reset</button>
+  </form>
+
+
+  <form [formGroup]="profileForm">
+
+    <label>
+      First Name:
+      <input type="text" formControlName="firstName">
+    </label>
+
+    <label>
+      Last Name:
+      <input type="text" formControlName="lastName">
+    </label>
+
+    <mat-form-field style="width:50%">
+      <ngx-mat-intl-tel-input
+        [cssClass]="'custom'"
+        [preferredCountries]="['us', 'ca']"
+        [enablePlaceholder]="true"
+        placeholder="Enter Number"
+        name="phone"
+        formControlName="phone" #phone></ngx-mat-intl-tel-input>
+      <mat-hint>e.g. {{phone.selectedCountry.placeHolder}}</mat-hint>
+      <mat-error *ngIf="f.form.controls['phone']?.errors?.required">Required Field</mat-error>
+      <mat-error *ngIf="f.submitted && f.form.controls['phone']?.errors?.validatePhoneNumber">Invalid Number</mat-error>
+    </mat-form-field>
+
   </form>
   <br>
   <div><strong>Is input valid:</strong>
@@ -40,5 +70,7 @@
   </div>
   <div><strong>Form validation errors:</strong>
     <pre>{{ f.form.controls['phone'].errors | json }}</pre>
+    <pre>{{ f.form.controls['name'].errors | json }}</pre>
+    <pre>{{ f.form.controls['surname'].errors | json }}</pre>
   </div>
 </div>

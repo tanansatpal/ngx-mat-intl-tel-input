@@ -4,19 +4,20 @@ import {parsePhoneNumber, PhoneNumber} from 'libphonenumber-js';
 export const phoneNumberValidator = (control: FormControl) => {
   const error = {validatePhoneNumber: true};
   let numberInstance: PhoneNumber;
-  if (control.value && control.value) {
+  if (control.value) {
     try {
       numberInstance = parsePhoneNumber(control.value);
     } catch (e) {
-      control.setValue('');
+      control.setValue(null);
       return error;
     }
 
     if (numberInstance && !numberInstance.isValid()) {
-      control.setValue('');
-      if (!control.touched) { control.markAsTouched(); }
+      control.setValue(null);
+      if (!control.touched) {
+        control.markAsTouched();
+      }
       return error;
     }
   }
-  return;
 };

@@ -1,13 +1,15 @@
 import {
   Component,
-  Optional,
-  Self,
-  OnInit,
   DoCheck,
-  Input,
   ElementRef,
+  EventEmitter,
   HostBinding,
-  OnDestroy
+  Input,
+  OnDestroy,
+  OnInit,
+  Optional,
+  Output,
+  Self
 } from '@angular/core';
 
 import {NG_VALIDATORS, NgControl} from '@angular/forms';
@@ -15,7 +17,7 @@ import {CountryCode, Examples} from './data/country-code';
 import {phoneNumberValidator} from './ngx-mat-intl-tel-input.validator';
 import {Country} from './model/country.model';
 import {getExampleNumber, parsePhoneNumberFromString, PhoneNumber} from 'libphonenumber-js';
-import {MatFormFieldControl, ErrorStateMatcher} from '@angular/material';
+import {ErrorStateMatcher, MatFormFieldControl} from '@angular/material';
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {Subject} from 'rxjs';
 import {FocusMonitor} from '@angular/cdk/a11y';
@@ -43,7 +45,6 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   @Input() cssClass;
   @Input() name: string;
   @Input() onlyCountries: Array<string> = [];
-  @Input() enableAutoCountrySelect = false;
   @Input() errorStateMatcher: ErrorStateMatcher;
   @Input() enableSearch = false;
   // tslint:disable-next-line:variable-name
@@ -64,6 +65,8 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   numberInstance: PhoneNumber;
   value;
   searchCriteria: string;
+  @Output()
+  countryChanged: EventEmitter<Country> = new EventEmitter<Country>();
 
   static getPhoneNumberPlaceHolder(countryISOCode: any): string {
     try {
@@ -94,10 +97,10 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   }
 
   onTouched = () => {
-  };
+  }
 
   propagateChange = (_: any) => {
-  };
+  }
 
   constructor(
     private countryCodeData: CountryCode,
@@ -140,6 +143,7 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
         this.selectedCountry = this.allCountries[0];
       }
     }
+    this.countryChanged.emit(this.selectedCountry);
   }
 
   ngDoCheck(): void {
@@ -166,6 +170,7 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
 
   public onCountrySelect(country: Country, el): void {
     this.selectedCountry = country;
+    this.countryChanged.emit(this.selectedCountry);
     this.onPhoneNumberChange();
     el.focus();
   }
@@ -210,6 +215,10 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   }
 
   writeValue(value: any): void {
+    // when form is reset
+    if (value === null) {
+      this.reset();
+    }
     if (value) {
       this.numberInstance = parsePhoneNumberFromString(value);
       if (this.numberInstance) {
@@ -220,6 +229,7 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
         }
         setTimeout(() => {
           this.selectedCountry = this.allCountries.find(c => c.iso2 === countryCode.toLowerCase());
+          this.countryChanged.emit(this.selectedCountry);
         }, 1);
       }
     }
@@ -273,6 +283,11 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
       // tslint:disable-next-line:no-non-null-assertion
       this.elRef.nativeElement.querySelector('input')!.focus();
     }
+  }
+
+  reset() {
+    this.phoneNumber = '';
+    this.propagateChange(null);
   }
 
   ngOnDestroy() {
