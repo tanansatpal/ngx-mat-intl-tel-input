@@ -4,7 +4,7 @@
   "lib": {
     "entryFile": "src/public-api.ts",
     "umdModuleIds": {
-      "libphonenumber": "^1.7.16"
+      "libphonenumber": "^1.7.25"
     }
   }
 }
