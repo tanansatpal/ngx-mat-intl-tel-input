@@ -1,6 +1,6 @@
 {
   "name": "ngx-mat-intl-tel-input",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "peerDependencies": {
     "@angular/common": "~8.2.12",
     "@angular/core": "~8.2.12",
