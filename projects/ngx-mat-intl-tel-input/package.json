@@ -1,45 +1,45 @@
 {
-  "name": "ngx-mat-intl-tel-input",
-  "version": "2.0.5",
-  "peerDependencies": {
-    "@angular/common": "~8.2.12",
-    "@angular/core": "~8.2.12",
-    "@angular/forms": "~8.2.12",
-    "@angular/platform-browser": "~8.2.12",
-    "@angular/platform-browser-dynamic": "~8.2.12",
-    "libphonenumber-js": "^1.7.25"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tanansatpal/ngx-mat-intl-tel-input"
-  },
-  "author": {
-    "name": "Satpal Tanan",
-    "email": "tanansatpal@gmail.com"
-  },
-  "keywords": [
-    "angular",
-    "material",
-    "ng2",
-    "ng4",
-    "ng5",
-    "ng6",
-    "ng7",
-    "ng8",
-    "intl-tel-input",
-    "ng-intl-tel-input",
-    "phone number",
-    "phone",
-    "validation",
-    "international",
-    "i18n",
-    "country",
-    "dial",
-    "code",
-    "telephone",
-    "mobile",
-    "input",
-    "flag"
-  ],
-  "license": "MIT"
+    "name": "ngx-mat-intl-tel-input",
+    "version": "2.0.5",
+    "peerDependencies": {
+        "@angular/common": "~9.0.0",
+        "@angular/core": "~9.0.0",
+        "@angular/forms": "~9.0.0",
+        "@angular/platform-browser": "~9.0.0",
+        "@angular/platform-browser-dynamic": "~9.0.0",
+        "libphonenumber-js": "^1.7.25"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/tanansatpal/ngx-mat-intl-tel-input"
+    },
+    "author": {
+        "name": "Satpal Tanan",
+        "email": "tanansatpal@gmail.com"
+    },
+    "keywords": [
+        "angular",
+        "material",
+        "ng2",
+        "ng4",
+        "ng5",
+        "ng6",
+        "ng7",
+        "ng8",
+        "intl-tel-input",
+        "ng-intl-tel-input",
+        "phone number",
+        "phone",
+        "validation",
+        "international",
+        "i18n",
+        "country",
+        "dial",
+        "code",
+        "telephone",
+        "mobile",
+        "input",
+        "flag"
+    ],
+    "license": "MIT"
 }

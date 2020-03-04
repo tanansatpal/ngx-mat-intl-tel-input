@@ -6,7 +6,7 @@ describe('NgxMatIntlTelInputService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: NgxMatIntlTelInputService = TestBed.get(NgxMatIntlTelInputService);
+    const service: NgxMatIntlTelInputService = TestBed.inject(NgxMatIntlTelInputService);
     expect(service).toBeTruthy();
   });
 });

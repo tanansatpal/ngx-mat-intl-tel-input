@@ -1,3 +1,4 @@
+import { MatFormFieldControl } from '@angular/material/form-field';
 import {
   Component,
   DoCheck,
@@ -17,10 +18,11 @@ import {CountryCode, Examples} from './data/country-code';
 import {phoneNumberValidator} from './ngx-mat-intl-tel-input.validator';
 import {Country} from './model/country.model';
 import {getExampleNumber, parsePhoneNumberFromString, PhoneNumber} from 'libphonenumber-js';
-import {ErrorStateMatcher, MatFormFieldControl} from '@angular/material';
+
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {Subject} from 'rxjs';
 import {FocusMonitor} from '@angular/cdk/a11y';
+import { ErrorStateMatcher } from '@angular/material/core';
 
 @Component({
   // tslint:disable-next-line:component-selector
