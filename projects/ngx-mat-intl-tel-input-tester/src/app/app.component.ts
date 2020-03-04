@@ -18,7 +18,7 @@ export class AppComponent {
   profileForm = this.fb.group({
     firstName: [''],
     lastName: [''],
-    phone: ['+919813785563']
+    phone: ['']
   });
 
   constructor(private fb: FormBuilder) { }
