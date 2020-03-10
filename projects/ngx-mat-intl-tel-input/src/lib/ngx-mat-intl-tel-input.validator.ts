@@ -13,7 +13,6 @@ export const phoneNumberValidator = (control: FormControl) => {
     }
 
     if (numberInstance && !numberInstance.isValid()) {
-      control.setValue(null);
       if (!control.touched) {
         control.markAsTouched();
       }
