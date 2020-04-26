@@ -13,25 +13,24 @@ import {
   Self
 } from '@angular/core';
 
-import {NG_VALIDATORS, NgControl} from '@angular/forms';
-import {CountryCode, Examples} from './data/country-code';
-import {phoneNumberValidator} from './ngx-mat-intl-tel-input.validator';
-import {Country} from './model/country.model';
-import {getExampleNumber, parsePhoneNumberFromString, PhoneNumber} from 'libphonenumber-js';
+import { NG_VALIDATORS, NgControl } from '@angular/forms';
+import { CountryCode, Examples } from './data/country-code';
+import { phoneNumberValidator } from './ngx-mat-intl-tel-input.validator';
+import { Country } from './model/country.model';
+import { getExampleNumber, parsePhoneNumberFromString, PhoneNumber } from 'libphonenumber-js';
 
-import {coerceBooleanProperty} from '@angular/cdk/coercion';
-import {Subject} from 'rxjs';
-import {FocusMonitor} from '@angular/cdk/a11y';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { Subject } from 'rxjs';
+import { FocusMonitor } from '@angular/cdk/a11y';
 import { ErrorStateMatcher } from '@angular/material/core';
 
 @Component({
-  // tslint:disable-next-line:component-selector
   selector: 'ngx-mat-intl-tel-input',
   templateUrl: './ngx-mat-intl-tel-input.component.html',
   styleUrls: ['./ngx-mat-intl-tel-input.component.css'],
   providers: [
     CountryCode,
-    {provide: MatFormFieldControl, useExisting: NgxMatIntlTelInputComponent},
+    { provide: MatFormFieldControl, useExisting: NgxMatIntlTelInputComponent },
     {
       provide: NG_VALIDATORS,
       useValue: phoneNumberValidator,
@@ -40,7 +39,121 @@ import { ErrorStateMatcher } from '@angular/material/core';
   ]
 })
 export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, MatFormFieldControl<any> {
+  ///////////////////////////MatFormFieldControl implementation
+  ///////////////////////////////////////////////////////////////
+
+  private _placeholder: string;
+  private _required = false;
+  private _disabled = false;
+  focused = false;
+  value;
+  stateChanges = new Subject<void>();
   static nextId = 0;
+
+  @HostBinding() id = `ngx-mat-intl-tel-input-${NgxMatIntlTelInputComponent.nextId++}`;
+
+  @Input()
+  get placeholder(): string {
+    return this._placeholder;
+  }
+
+  set placeholder(value: string) {
+    this._placeholder = value;
+    this.stateChanges.next();
+  }
+
+  @Input()
+  get required(): boolean {
+    return this._required;
+  }
+
+  set required(value: boolean) {
+    this._required = coerceBooleanProperty(value);
+    this.stateChanges.next();
+  }
+
+  @Input()
+  get disabled(): boolean {
+    return this._disabled;
+  }
+
+  set disabled(value: boolean) {
+    this._disabled = coerceBooleanProperty(value);
+    this.stateChanges.next();
+  }
+
+
+  get empty() {
+    return !this.phoneNumber;
+  }
+
+  @HostBinding('class.ngx-floating')
+  get shouldLabelFloat() {
+    return this.focused || !this.empty;
+  }
+  errorState = false;
+  controlType = 'ngx-mat-intl-tel-input';
+  @HostBinding('attr.aria-describedby') describedBy = '';
+
+  setDescribedByIds(ids: string[]) {
+    this.describedBy = ids.join(' ');
+  }
+
+  onContainerClick(event: MouseEvent) {
+    if ((event.target as Element).tagName.toLowerCase() !== 'input') {
+      this.elRef.nativeElement.querySelector('input')!.focus();
+    }
+  }
+  //////////////////////////////////////////////////////////
+  ////END FORM FIELD IMPLEMENTATION/////////////////////////
+  //////////////////////////////////////////////////////////
+
+
+
+  //////////////////////////////////////////////////////////////
+  ////////CONTROL VALUE ACCESSOE//////////////////////////
+  /////////////////////////////////////////////////////////
+  propagateChange = (_: any) => {
+  }
+  registerOnChange(fn: any): void {
+    this.propagateChange = fn;
+  }
+  onTouched = () => {
+  }
+  registerOnTouched(fn: any) {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
+
+
+  writeValue(value: any): void {
+    // when form is reset
+    if (value === null) {
+      this.reset();
+    }
+    if (value) {
+      this.numberInstance = parsePhoneNumberFromString(value);
+      if (this.numberInstance) {
+        const countryCode = this.numberInstance.country;
+        this.phoneNumber = this.numberInstance.formatNational();
+        if (!countryCode) {
+          return;
+        }
+        setTimeout(() => {
+          this.selectedCountry = this.allCountries.find(c => c.iso2 === countryCode.toLowerCase());
+          this.countryChanged.emit(this.selectedCountry);
+        }, 1);
+      }
+    }
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
   @Input() preferredCountries: Array<string> = [];
   @Input() enablePlaceholder = true;
@@ -49,23 +162,12 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   @Input() onlyCountries: Array<string> = [];
   @Input() errorStateMatcher: ErrorStateMatcher;
   @Input() enableSearch = false;
-  // tslint:disable-next-line:variable-name
-  private _placeholder: string;
-  // tslint:disable-next-line:variable-name
-  private _required = false;
-  // tslint:disable-next-line:variable-name
-  private _disabled = false;
-  stateChanges = new Subject<void>();
-  focused = false;
-  errorState = false;
-  @HostBinding() id = `ngx-mat-intl-tel-input-${NgxMatIntlTelInputComponent.nextId++}`;
-  describedBy = '';
+
   phoneNumber = '';
   allCountries: Array<Country> = [];
   preferredCountriesInDropDown: Array<Country> = [];
   selectedCountry: Country;
   numberInstance: PhoneNumber;
-  value;
   searchCriteria: string;
   @Output()
   countryChanged: EventEmitter<Country> = new EventEmitter<Country>();
@@ -80,6 +182,9 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
 
   private _getFullNumber() {
     const val = this.phoneNumber.trim();
+    if(!val){
+      return null;
+    }
     const dialCode = this.selectedCountry.dialCode;
     let prefix;
     const numericVal = val.replace(/\D/g, '');
@@ -98,11 +203,7 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
     return prefix + numericVal;
   }
 
-  onTouched = () => {
-  }
 
-  propagateChange = (_: any) => {
-  }
 
   constructor(
     private countryCodeData: CountryCode,
@@ -118,35 +219,17 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
       this.stateChanges.next();
     });
     this.fetchCountryData();
+
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
     }
   }
 
   ngOnInit() {
-    if (this.preferredCountries.length) {
-      this.preferredCountries.forEach(iso2 => {
-        const preferredCountry = this.allCountries.filter((c) => {
-          return c.iso2 === iso2;
-        });
-        this.preferredCountriesInDropDown.push(preferredCountry[0]);
-      });
-    }
-    if (this.onlyCountries.length) {
-      this.allCountries = this.allCountries.filter(c => this.onlyCountries.includes(c.iso2));
-    }
-    if (this.numberInstance && this.numberInstance.country) {
-      // If an existing number is present, we use it to determine selectedCountry
-      this.selectedCountry = this.allCountries.find(c => c.iso2 === this.numberInstance.country.toLowerCase());
-    } else {
-      if (this.preferredCountriesInDropDown.length) {
-        this.selectedCountry = this.preferredCountriesInDropDown[0];
-      } else {
-        this.selectedCountry = this.allCountries[0];
-      }
-    }
-    this.countryChanged.emit(this.selectedCountry);
+    this.setCountryDropdown();
+    this.setSelectedCountry();
   }
+  
 
   ngDoCheck(): void {
     if (this.ngControl) {
@@ -183,7 +266,6 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
       event.preventDefault();
     }
   }
-
   protected fetchCountryData(): void {
     this.countryCodeData.allCountries.forEach(c => {
       const country: Country = {
@@ -204,87 +286,34 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
     });
   }
 
-  registerOnChange(fn: any): void {
-    this.propagateChange = fn;
-  }
-
-  registerOnTouched(fn: any) {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
-  writeValue(value: any): void {
-    // when form is reset
-    if (value === null) {
-      this.reset();
+  private setCountryDropdown() {
+    if (this.preferredCountries.length) {
+      this.preferredCountries.forEach(iso2 => {
+        const preferredCountry = this.allCountries.filter((c) => {
+          return c.iso2 === iso2;
+        });
+        this.preferredCountriesInDropDown.push(preferredCountry[0]);
+      });
     }
-    if (value) {
-      this.numberInstance = parsePhoneNumberFromString(value);
-      if (this.numberInstance) {
-        const countryCode = this.numberInstance.country;
-        this.phoneNumber = this.numberInstance.formatNational();
-        if (!countryCode) {
-          return;
-        }
-        setTimeout(() => {
-          this.selectedCountry = this.allCountries.find(c => c.iso2 === countryCode.toLowerCase());
-          this.countryChanged.emit(this.selectedCountry);
-        }, 1);
+    if (this.onlyCountries.length) {
+      this.allCountries = this.allCountries.filter(c => this.onlyCountries.includes(c.iso2));
+    }
+
+  }
+
+  private setSelectedCountry() {
+    if (this.numberInstance && this.numberInstance.country) {
+      // If an existing number is present, we use it to determine selectedCountry
+      this.selectedCountry = this.allCountries.find(c => c.iso2 === this.numberInstance.country.toLowerCase());
+    } else {
+      if (this.preferredCountriesInDropDown.length) {
+        this.selectedCountry = this.preferredCountriesInDropDown[0];
+      } else {
+        this.selectedCountry = this.allCountries[0];
       }
     }
-  }
+    this.countryChanged.emit(this.selectedCountry);
 
-  get empty() {
-    return !this.phoneNumber;
-  }
-
-  @HostBinding('class.ngx-floating')
-  get shouldLabelFloat() {
-    return this.focused || !this.empty;
-  }
-
-  @Input()
-  get placeholder(): string {
-    return this._placeholder;
-  }
-
-  set placeholder(value: string) {
-    this._placeholder = value;
-    this.stateChanges.next();
-  }
-
-  @Input()
-  get required(): boolean {
-    return this._required;
-  }
-
-  set required(value: boolean) {
-    this._required = coerceBooleanProperty(value);
-    this.stateChanges.next();
-  }
-
-  @Input()
-  get disabled(): boolean {
-    return this._disabled;
-  }
-
-  set disabled(value: boolean) {
-    this._disabled = coerceBooleanProperty(value);
-    this.stateChanges.next();
-  }
-
-  setDescribedByIds(ids: string[]) {
-    this.describedBy = ids.join(' ');
-  }
-
-  onContainerClick(event: MouseEvent) {
-    if ((event.target as Element).tagName.toLowerCase() !== 'input') {
-      // tslint:disable-next-line:no-non-null-assertion
-      this.elRef.nativeElement.querySelector('input')!.focus();
-    }
   }
 
   reset() {
