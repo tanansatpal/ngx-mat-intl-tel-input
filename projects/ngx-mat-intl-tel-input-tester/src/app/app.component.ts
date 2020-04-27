@@ -10,14 +10,10 @@ import { FormBuilder } from '@angular/forms';
 })
 export class AppComponent {
   phoneForm = new FormGroup({
-    phone: new FormControl(undefined, [Validators.required]),
-    name: new FormControl(undefined, [Validators.required]),
-    surname: new FormControl(undefined, [Validators.required])
+    phone: new FormControl(undefined, []),
   });
 
   profileForm = this.fb.group({
-    firstName: [''],
-    lastName: [''],
     phone: ['']
   });
 
