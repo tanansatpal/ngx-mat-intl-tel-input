@@ -15,7 +15,7 @@ import {
 
 import { NG_VALIDATORS, NgControl } from '@angular/forms';
 import { CountryCode, Examples } from './data/country-code';
-import { phoneNumberValidator } from './ngx-mat-intl-tel-input.validator';
+import { phoneNumberValidator, isValidPhoneNumbers } from './ngx-mat-intl-tel-input.validator';
 import { Country } from './model/country.model';
 import { getExampleNumber, parsePhoneNumberFromString, PhoneNumber } from 'libphonenumber-js';
 
@@ -135,20 +135,20 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
     if (value === null) {
       this.reset();
     }
-    if (value) {
-      this.numberInstance = parsePhoneNumberFromString(value);
-      if (this.numberInstance) {
-        const countryCode = this.numberInstance.country;
-        this.phoneNumber = this.numberInstance.formatNational();
-        if (!countryCode) {
-          return;
-        }
-        setTimeout(() => {
-          this.selectedCountry = this.allCountries.find(c => c.iso2 === countryCode.toLowerCase());
-          this.countryChanged.emit(this.selectedCountry);
-        }, 1);
+
+    this.numberInstance = typeof (value) === 'string' ? parsePhoneNumberFromString(value) : parsePhoneNumberFromString(value[value.length - 1]);
+    if (this.numberInstance) {
+      const countryCode = this.numberInstance.country;
+      this.phoneNumber = this.numberInstance.formatNational();
+      if (!countryCode) {
+        return;
       }
+      setTimeout(() => {
+        this.selectedCountry = this.allCountries.find(c => c.iso2 === countryCode.toLowerCase());
+        this.countryChanged.emit(this.selectedCountry);
+      }, 1);
     }
+
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -161,7 +161,7 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   @Input() name: string;
   @Input() onlyCountries: Array<string> = [];
   @Input() errorStateMatcher: ErrorStateMatcher;
-  @Input() enableSearch = false;
+  @Input() enableSearch = this.onlyCountries.length < 10 ? false : true;
 
   phoneNumber = '';
   allCountries: Array<Country> = [];
@@ -182,7 +182,7 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
 
   private _getFullNumber() {
     const val = this.phoneNumber.trim();
-    if(!val){
+    if (!val) {
       return null;
     }
     const dialCode = this.selectedCountry.dialCode;
@@ -229,7 +229,7 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
     this.setCountryDropdown();
     this.setSelectedCountry();
   }
-  
+
 
   ngDoCheck(): void {
     if (this.ngControl) {
