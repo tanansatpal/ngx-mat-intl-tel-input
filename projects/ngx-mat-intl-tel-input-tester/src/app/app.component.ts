@@ -10,12 +10,10 @@ import { FormBuilder } from '@angular/forms';
 })
 export class AppComponent {
   phoneForm = new FormGroup({
-    phone: new FormControl(undefined, []),
+    phone: new FormControl(''),
   });
 
-  profileForm = this.fb.group({
-    phone: ['']
-  });
+  phone2 = new FormControl([]);
 
   constructor(private fb: FormBuilder) { }
 

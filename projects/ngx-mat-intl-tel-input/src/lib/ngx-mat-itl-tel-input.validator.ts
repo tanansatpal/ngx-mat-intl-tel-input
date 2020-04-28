@@ -1,13 +1,14 @@
 import { FormControl } from '@angular/forms';
-import { parsePhoneNumber, PhoneNumber } from 'libphonenumber-js';
+import { PhoneNumber, parsePhoneNumberFromString } from 'libphonenumber-js';
 
-export const isValidPhoneNumbers = (value: string | []) => {
+export const validatePhoneNumber = (value: string | [], countryCode?: string) => {
+  if(value===""||value===null|| value===undefined)return true;
   let numberInstance: PhoneNumber;
   if (value) {
     if (Array.isArray(value)) {
       value.forEach(num => {
         try {
-          numberInstance = parsePhoneNumber(num);
+          numberInstance = parsePhoneNumberFromString(num);
         } catch (e) {
           //control.setValue(null);
           return false;
@@ -25,7 +26,8 @@ export const isValidPhoneNumbers = (value: string | []) => {
     } else {
 
       try {
-        numberInstance = parsePhoneNumber(value);
+        //@ts-ignore
+        numberInstance = parsePhoneNumberFromString(value, countryCode);
       } catch (e) {
         //control.setValue(null);
         return false;
@@ -40,14 +42,14 @@ export const isValidPhoneNumbers = (value: string | []) => {
       }
     }
   }
-  return true;
+  return numberInstance ? true : false;
 }
 
 
 
 export const phoneNumberValidator = (control: FormControl) => {
   const error = { validatePhoneNumber: true };
-  if (!isValidPhoneNumbers(control.value)) {
+  if (!validatePhoneNumber(control.value)) {
     return error;
   }
 };

@@ -3,13 +3,9 @@
   <br>
   <form #f="ngForm" [formGroup]="phoneForm" (ngSubmit)="onSubmit()">
     <mat-form-field style="width:50%">
-      <ngx-mat-intl-tel-input
-        [cssClass]="'custom'"
-        [preferredCountries]="['us', 'ca']"
-        [enablePlaceholder]="true"
-        placeholder="Enter Number"
-        name="phone"
-        formControlName="phone" #phone></ngx-mat-intl-tel-input>
+
+      <ngx-mat-itl-tel-input [cssClass]="'custom'" [preferredCountries]="['us', 'ca']" [enablePlaceholder]="true"
+        placeholder="Enter Number" name="phone" formControlName="phone" #phone></ngx-mat-itl-tel-input>
       <mat-hint>e.g. {{phone.selectedCountry.placeHolder}}</mat-hint>
       <mat-error *ngIf="f.form.controls['phone']?.errors?.required">Required Field</mat-error>
       <mat-error *ngIf="f.submitted && f.form.controls['phone']?.errors?.validatePhoneNumber">Invalid Number</mat-error>
@@ -20,24 +16,6 @@
     <button type="reset" mat-button (click)="onReset()">Reset</button>
   </form>
 
-
-  <form [formGroup]="profileForm">
-
-
-    <mat-form-field style="width:50%">
-      <ngx-mat-intl-tel-input
-        [cssClass]="'custom'"
-        [preferredCountries]="['us', 'ca']"
-        [enablePlaceholder]="true"
-        placeholder="Enter Number"
-        name="phone"
-        formControlName="phone" #phone></ngx-mat-intl-tel-input>
-      <mat-hint>e.g. {{phone.selectedCountry.placeHolder}}</mat-hint>
-      <mat-error *ngIf="f.form.controls['phone']?.errors?.required">Required Field</mat-error>
-      <mat-error *ngIf="f.submitted && f.form.controls['phone']?.errors?.validatePhoneNumber">Invalid Number</mat-error>
-    </mat-form-field>
-
-  </form>
   <br>
   <div><strong>Is input valid:</strong>
     <pre>{{ !f.form.controls['phone'].invalid }}</pre>
@@ -54,4 +32,8 @@
   <div><strong>Form validation errors:</strong>
     <pre>{{ f.form.controls['phone'].errors | json }}</pre>
   </div>
+</div>
+
+<div class="">
+  <ngx-mat-itl-tel-chip-input [control]="phone2"></ngx-mat-itl-tel-chip-input>
 </div>

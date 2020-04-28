@@ -14,9 +14,9 @@ import {
 } from '@angular/core';
 
 import { NG_VALIDATORS, NgControl } from '@angular/forms';
-import { CountryCode, Examples } from './data/country-code';
-import { phoneNumberValidator, isValidPhoneNumbers } from './ngx-mat-intl-tel-input.validator';
-import { Country } from './model/country.model';
+import { CountryCode, Examples } from '../data/country-code';
+import { phoneNumberValidator, validatePhoneNumber } from '../ngx-mat-itl-tel-input.validator';
+import { Country } from '../model/country.model';
 import { getExampleNumber, parsePhoneNumberFromString, PhoneNumber, AsYouType } from 'libphonenumber-js';
 
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
@@ -25,12 +25,12 @@ import { FocusMonitor } from '@angular/cdk/a11y';
 import { ErrorStateMatcher } from '@angular/material/core';
 
 @Component({
-  selector: 'ngx-mat-intl-tel-input',
-  templateUrl: './ngx-mat-intl-tel-input.component.html',
-  styleUrls: ['./ngx-mat-intl-tel-input.component.css'],
+  selector: 'ngx-mat-itl-tel-input',
+  templateUrl: './ngx-mat-itl-tel-input.component.html',
+  styleUrls: ['./ngx-mat-itl-tel-input.component.css'],
   providers: [
     CountryCode,
-    { provide: MatFormFieldControl, useExisting: NgxMatIntlTelInputComponent },
+    { provide: MatFormFieldControl, useExisting: NgxMatItlTelInputComponent },
     {
       provide: NG_VALIDATORS,
       useValue: phoneNumberValidator,
@@ -38,7 +38,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
     }
   ]
 })
-export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, MatFormFieldControl<any> {
+export class NgxMatItlTelInputComponent implements OnInit, OnDestroy, DoCheck, MatFormFieldControl<any> {
   ///////////////////////////MatFormFieldControl implementation
   ///////////////////////////////////////////////////////////////
 
@@ -50,7 +50,7 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   stateChanges = new Subject<void>();
   static nextId = 0;
 
-  @HostBinding() id = `ngx-mat-intl-tel-input-${NgxMatIntlTelInputComponent.nextId++}`;
+  @HostBinding() id = `ngx-mat-intl-tel-input-${NgxMatItlTelInputComponent.nextId++}`;
 
   @Input()
   get placeholder(): string {
@@ -157,7 +157,11 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
+  @Input() matChipInputAddOnBlur
+  @Input() matChipInputFor;
+  @Output() matChipInputTokenEnd = new EventEmitter();
+  @Input() autocomplete: string = "tel"
+  @Input() countrySelectionDisabled: boolean = false;
   @Input() preferredCountries: Array<string> = [];
   @Input() enablePlaceholder = true;
   @Input() cssClass;
@@ -218,18 +222,23 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   }
 
   public onPhoneNumberChange(event): void {
+    
     this.asYouType.reset();
     let value;
     this.input = this.asYouType.input(event);
 
     this.numberInstance = this.asYouType.getNumber();
 
-    if (this.numberInstance)
+    if (this.numberInstance) {
       value = this.numberInstance.number;
-    else
+
+    }
+    else {
       // if no possible numbers are there,
       // then the full number is passed so that validator could be triggered and proper error could be shown
       value = this.input;
+    }
+
 
     console.log(value);
     this.propagateChange(value);
@@ -254,7 +263,7 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
       };
 
       if (this.enablePlaceholder) {
-        country.placeHolder = NgxMatIntlTelInputComponent.getPhoneNumberPlaceHolder(country.iso2.toUpperCase());
+        country.placeHolder = NgxMatItlTelInputComponent.getPhoneNumberPlaceHolder(country.iso2.toUpperCase());
       }
 
       this.allCountries.push(country);
