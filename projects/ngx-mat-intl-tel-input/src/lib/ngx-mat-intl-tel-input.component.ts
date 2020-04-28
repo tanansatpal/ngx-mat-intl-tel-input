@@ -17,7 +17,7 @@ import { NG_VALIDATORS, NgControl } from '@angular/forms';
 import { CountryCode, Examples } from './data/country-code';
 import { phoneNumberValidator, isValidPhoneNumbers } from './ngx-mat-intl-tel-input.validator';
 import { Country } from './model/country.model';
-import { getExampleNumber, parsePhoneNumberFromString, PhoneNumber } from 'libphonenumber-js';
+import { getExampleNumber, parsePhoneNumberFromString, PhoneNumber, AsYouType } from 'libphonenumber-js';
 
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Subject } from 'rxjs';
@@ -84,7 +84,7 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
 
 
   get empty() {
-    return !this.phoneNumber;
+    return !this.input;
   }
 
   @HostBinding('class.ngx-floating')
@@ -131,15 +131,17 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
 
 
   writeValue(value: any): void {
-    // when form is reset
+    console.log(value)
+
     if (value === null) {
       this.reset();
+      return;
     }
 
     this.numberInstance = typeof (value) === 'string' ? parsePhoneNumberFromString(value) : parsePhoneNumberFromString(value[value.length - 1]);
     if (this.numberInstance) {
       const countryCode = this.numberInstance.country;
-      this.phoneNumber = this.numberInstance.formatNational();
+      this.input = this.numberInstance.formatNational();
       if (!countryCode) {
         return;
       }
@@ -150,6 +152,7 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
     }
 
   }
+
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -163,7 +166,8 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   @Input() errorStateMatcher: ErrorStateMatcher;
   @Input() enableSearch = this.onlyCountries.length < 10 ? false : true;
 
-  phoneNumber = '';
+  input;
+  asYouType: AsYouType = new AsYouType();
   allCountries: Array<Country> = [];
   preferredCountriesInDropDown: Array<Country> = [];
   selectedCountry: Country;
@@ -179,31 +183,6 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
       return e;
     }
   }
-
-  private _getFullNumber() {
-    const val = this.phoneNumber.trim();
-    if (!val) {
-      return null;
-    }
-    const dialCode = this.selectedCountry.dialCode;
-    let prefix;
-    const numericVal = val.replace(/\D/g, '');
-    // normalized means ensure starts with a 1, so we can match against the full dial code
-    const normalizedVal = numericVal.charAt(0) === '1' ? numericVal : '1'.concat(numericVal);
-    if (val.charAt(0) !== '+') {
-      // when using separateDialCode, it is visible so is effectively part of the typed number
-      prefix = '+'.concat(dialCode);
-    } else if (val && val.charAt(0) !== '+' && val.charAt(0) !== '1' && dialCode && dialCode.charAt(0) === '1'
-      && dialCode.length === 4 && dialCode !== normalizedVal.substr(0, 4)) {
-      // ensure national NANP numbers contain the area code
-      prefix = dialCode.substr(1);
-    } else {
-      prefix = '';
-    }
-    return prefix + numericVal;
-  }
-
-
 
   constructor(
     private countryCodeData: CountryCode,
@@ -226,8 +205,8 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   }
 
   ngOnInit() {
-    this.setCountryDropdown();
-    this.setSelectedCountry();
+    this.initCountryDropdown();
+    this.initSelectedCountry();
   }
 
 
@@ -238,34 +217,30 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
     }
   }
 
-  public onPhoneNumberChange(): void {
-    try {
-      this.numberInstance = parsePhoneNumberFromString(this._getFullNumber());
-      this.value = this.numberInstance.number;
-      if (this.numberInstance && this.numberInstance.isValid()) {
-        this.phoneNumber = this.numberInstance.formatNational();
-      }
-    } catch (e) {
+  public onPhoneNumberChange(event): void {
+    this.asYouType.reset();
+    let value;
+    this.input = this.asYouType.input(event);
+
+    this.numberInstance = this.asYouType.getNumber();
+
+    if (this.numberInstance)
+      value = this.numberInstance.number;
+    else
       // if no possible numbers are there,
       // then the full number is passed so that validator could be triggered and proper error could be shown
-      this.value = this._getFullNumber();
-    }
-    this.propagateChange(this.value);
+      value = this.input;
+
+    console.log(value);
+    this.propagateChange(value);
   }
 
   public onCountrySelect(country: Country, el): void {
-    this.selectedCountry = country;
-    this.countryChanged.emit(this.selectedCountry);
-    this.onPhoneNumberChange();
+    this.setSelectedCountry(country);
     el.focus();
   }
 
-  public onInputKeyPress(event): void {
-    const pattern = /[0-9+\- ]/;
-    if (!pattern.test(event.key)) {
-      event.preventDefault();
-    }
-  }
+
   protected fetchCountryData(): void {
     this.countryCodeData.allCountries.forEach(c => {
       const country: Country = {
@@ -286,7 +261,7 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
     });
   }
 
-  private setCountryDropdown() {
+  private initCountryDropdown() {
     if (this.preferredCountries.length) {
       this.preferredCountries.forEach(iso2 => {
         const preferredCountry = this.allCountries.filter((c) => {
@@ -301,23 +276,32 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
 
   }
 
-  private setSelectedCountry() {
+  private initSelectedCountry() {
+    let country;
     if (this.numberInstance && this.numberInstance.country) {
       // If an existing number is present, we use it to determine selectedCountry
-      this.selectedCountry = this.allCountries.find(c => c.iso2 === this.numberInstance.country.toLowerCase());
+      country = this.allCountries.find(c => c.iso2 === this.numberInstance.country.toLowerCase());
     } else {
       if (this.preferredCountriesInDropDown.length) {
-        this.selectedCountry = this.preferredCountriesInDropDown[0];
+        country = this.preferredCountriesInDropDown[0];
       } else {
-        this.selectedCountry = this.allCountries[0];
+        country = this.allCountries[0];
       }
     }
-    this.countryChanged.emit(this.selectedCountry);
+    this.setSelectedCountry(country);
 
   }
 
+  setSelectedCountry(country: Country) {
+    this.selectedCountry = country;
+    //@ts-ignore
+    this.asYouType = new AsYouType(country.iso2.toUpperCase());
+    this.countryChanged.emit(this.selectedCountry);
+  }
+
   reset() {
-    this.phoneNumber = '';
+    this.asYouType.reset();
+    this.input = '';
     this.propagateChange(null);
   }
 

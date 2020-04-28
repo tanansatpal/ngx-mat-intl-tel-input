@@ -25,9 +25,9 @@
   <input matInput type="tel" autocomplete="off"
          [ngClass]="cssClass"
          (blur)="onTouched()"
-         (keypress)="onInputKeyPress($event)"
-         [(ngModel)]="phoneNumber"
-         (ngModelChange)="onPhoneNumberChange()"
+         
+         [(ngModel)]="input"
+         (ngModelChange)="onPhoneNumberChange($event)"
          [errorStateMatcher]="errorStateMatcher"
          [disabled]="disabled" #focusable>
 </div>

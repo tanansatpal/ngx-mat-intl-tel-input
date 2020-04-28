@@ -29,7 +29,7 @@
     "@angular/router": "~9.1.3",
     "core-js": "^2.6.11",
     "hammerjs": "^2.0.8",
-    "libphonenumber-js": "^1.7.38",
+    "libphonenumber-js": "^1.7.51",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.3"
