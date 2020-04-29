@@ -35,5 +35,21 @@
 </div>
 
 <div class="">
-  <ngx-mat-itl-tel-chip-input [control]="phone2"></ngx-mat-itl-tel-chip-input>
+  <ngx-mat-itl-tel-chip-input appearance="outline" [control]="phone2"></ngx-mat-itl-tel-chip-input>
+</div>
+<br>
+<div><strong>Is input valid:</strong>
+  <pre>{{ !phone2.invalid }}</pre>
+</div>
+<div><strong>Is input touched:</strong>
+  <pre>{{ phone2.touched }}</pre>
+</div>
+<div><strong>Is form valid:</strong>
+  <pre>{{ phone2.valid }}</pre>
+</div>
+<div><strong>Form value:</strong>
+  <pre>{{ phone2.value|json }}</pre>
+</div>
+<div><strong>Form validation errors:</strong>
+  <pre>{{ phone2.errors | json }}</pre>
 </div>

@@ -18,6 +18,9 @@ export class NgxMatItlTelChipInputComponent implements OnInit {
   @Input() autocomplete = 'tel';
   private currentCountryCode;
 
+  get isArray(){
+    return Array.isArray(this.control.value)
+  }
   onCountryChanged(country: Country) {
     console.log(country)
     this.currentCountryCode = country.iso2.toUpperCase();
@@ -30,27 +33,22 @@ export class NgxMatItlTelChipInputComponent implements OnInit {
   addTel(event: MatChipInputEvent) {
     const control = this.control;
     const tel = event.value
+    if (!tel) return;
     //let value = event.value;
     if (validatePhoneNumber(tel, this.currentCountryCode)) {
-      console.log(tel);
-      console.log(this.currentCountryCode)
       let numberInstance = parsePhoneNumberFromString(tel, this.currentCountryCode);
-      console.log(numberInstance);
       let num = numberInstance.number;
       if (control.value.indexOf(num) > -1) {
         control.setErrors({ phoneNumberExists: true });
         return;
       }
       control.setValue([...control.value, num]);
-      
+
       // control.updateValueAndValidity();
       event.input.value = '';
     }
     else if (event.input.value) {
       control.setErrors({ validatePhoneNumber: true })
-      console.log("ERROR")
-      console.log(control.errors)
-      console.log(control.invalid)
     }
     else control.updateValueAndValidity();
     console.log("add", control.value)
@@ -74,6 +72,4 @@ export class NgxMatItlTelChipInputComponent implements OnInit {
     }
     return ''
   }
-
-
 }
