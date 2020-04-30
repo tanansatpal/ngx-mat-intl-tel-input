@@ -1,97 +1,96 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Country } from '../model/country.model';
 import { CountryCode } from '../data/country-code';
+import { PhoneNumber } from 'libphonenumber-js';
 
 
 @Component({
-  selector: 'lib-ngx-mat-itl-country-select',
+  selector: 'ngx-mat-itl-country-select',
   templateUrl: './ngx-mat-itl-country-select.component.html',
   styleUrls: ['./ngx-mat-itl-country-select.component.css'],
   providers: [CountryCode]
 })
 export class NgxMatItlCountrySelectComponent implements OnInit {
+  numberInstance: PhoneNumber;
   @Input()
-  get selectedCountry() {
+  //@ts-ignore
+  get selectedCountry(): Country {
     return this._selectedCountry;
   }
-  set selectedCountry(country: Country | string) {
-    this._selectedCountry = typeof (country) === "string" ? this.allCountries.find(c => c.iso2 === countryCode.toLowerCase()) : country;
+  //@ts-ignore
+  set selectedCountry(country: string | Country) {
+    this._selectedCountry = typeof (country) === "string" ? this._supportedCountries.find(c => c.iso2 === country) : country;
+    console.log(country);
     this.countryChanged.emit(this._selectedCountry);
   }
   _selectedCountry: Country;
-  allCountries: Array<Country> = [];
-  preferredCountriesInDropDown: Array<Country> = [];
+
+  @Input() supportedCountries: Array<string> = [];
+  @Input() preferredCountries: Array<string> = [];
+  @Input() enableSearch = this.supportedCountries.length < 10 ? false : true;
+  @Input() disabled: boolean = false;
+
+
+
+  _supportedCountries: Array<Country> = [];
+  _preferredCountries: Array<Country> = [];
   searchCriteria: string;
 
 
-  @Input() countrySelectionDisabled: boolean = false;
-  @Input() preferredCountries: Array<string> = [];
-  @Input() enablePlaceholder = true;
-  @Input() onlyCountries: Array<string> = [];
-  @Input() enableSearch = this.onlyCountries.length < 10 ? false : true;
 
   @Output() countryChanged: EventEmitter<Country> = new EventEmitter<Country>();
-  constructor(private countryCodeData: CountryCode) { this.fetchCountryData(); }
+  constructor(private countryCodeData: CountryCode) {  }
 
   ngOnInit(): void {
-    this.initCountryDropdown();
+    this.initCountries();
     this.initSelectedCountry();
   }
-  protected fetchCountryData(): void {
-    this.countryCodeData.allCountries.forEach(c => {
-      const country: Country = {
+
+  private initCountries(): void {
+    if (this.supportedCountries.length) {
+      this._supportedCountries = this.countryCodeData.allCountries.filter(c => this.supportedCountries.includes(c[1].toString().toUpperCase())).map(c => ({
         name: c[0].toString(),
-        iso2: c[1].toString(),
+        iso2: c[1].toString().toUpperCase(),
         dialCode: c[2].toString(),
         priority: +c[3] || 0,
         areaCodes: c[4] as string[] || undefined,
         flagClass: c[1].toString().toUpperCase(),
-        placeHolder: ''
-      };
+      }))
+    } else {
+      this._supportedCountries = this.countryCodeData.allCountries.map(
+        c => ({
+          name: c[0].toString(),
+          iso2: c[1].toString().toUpperCase(),
+          dialCode: c[2].toString(),
+          priority: +c[3] || 0,
+          areaCodes: c[4] as string[] || undefined,
+          flagClass: c[1].toString().toUpperCase(),
+        })
+      )
+    }
 
-      if (this.enablePlaceholder) {
-        country.placeHolder = NgxMatItlCountrySelectComponent.getPhoneNumberPlaceHolder(country.iso2.toUpperCase());
-      }
+    console.log(this.preferredCountries)
 
-      this.allCountries.push(country);
-    });
-  }
-
-  private initCountryDropdown() {
+    //put prefered countries on top
     if (this.preferredCountries.length) {
-      this.preferredCountries.forEach(iso2 => {
-        const preferredCountry = this.allCountries.filter((c) => {
-          return c.iso2 === iso2;
-        });
-        this.preferredCountriesInDropDown.push(preferredCountry[0]);
-      });
+      this._preferredCountries = this._supportedCountries.filter(c => this.preferredCountries.includes(c.iso2));
+      
+      this._supportedCountries = this._supportedCountries.filter(c => !this.preferredCountries.includes(c.iso2));
+      this._supportedCountries = this._preferredCountries.concat(this._supportedCountries);
     }
-    if (this.onlyCountries.length) {
-      this.allCountries = this.allCountries.filter(c => this.onlyCountries.includes(c.iso2));
-    }
-
   }
 
   private initSelectedCountry() {
     let country;
+
+    // If an existing number is present, we use it to determine selectedCountry
     if (this.numberInstance && this.numberInstance.country) {
-      // If an existing number is present, we use it to determine selectedCountry
-      country = this.allCountries.find(c => c.iso2 === this.numberInstance.country.toLowerCase());
+      country = this._supportedCountries.find(c => c.iso2 === this.numberInstance.country);
     } else {
-      if (this.preferredCountriesInDropDown.length) {
-        country = this.preferredCountriesInDropDown[0];
-      } else {
-        country = this.allCountries[0];
-      }
+      country = this._supportedCountries[0];
     }
     this.selectedCountry = country;
 
   }
-  static getPhoneNumberPlaceHolder(countryISOCode: any): string {
-    try {
-      return getExampleNumber(countryISOCode, Examples).number.toString();
-    } catch (e) {
-      return e;
-    }
-  }
+
 }

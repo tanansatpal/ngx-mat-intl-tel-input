@@ -30,6 +30,6 @@ import { NgxMatItlCountrySelectComponent } from './ngx-mat-itl-country-select/ng
     MatDividerModule,
     MatIconModule
   ],
-  exports: [NgxMatItlTelInputComponent, NgxMatItlTelChipInputComponent]
+  exports: [NgxMatItlTelInputComponent, NgxMatItlTelChipInputComponent, NgxMatItlCountrySelectComponent]
 })
 export class NgxMatItlTelInputModule { }

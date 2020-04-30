@@ -1,16 +1,17 @@
 <mat-form-field [appearance]="appearance">
     <mat-chip-list #telList [formControl]="control">
-        <mat-chip *ngFor="let tel of control.value" [selectable]="false" [removable]="true" (removed)="onRemoveTel(tel)">
+        <mat-chip *ngFor="let tel of control.value" [selectable]="false" [removable]="true"
+            (removed)="onRemoveTel(tel)">
             {{tel}}
             <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>
     </mat-chip-list>
     <mat-label>{{label}}</mat-label>
+    <ngx-mat-itl-country-select matPrefix [disabled]="control.value?.length>0" [preferredCountries]="['US', 'CA']">
+    </ngx-mat-itl-country-select>
     <ngx-mat-itl-tel-input placeholder="Enter phone..." [matChipInputFor]="telList" [matChipInputAddOnBlur]="true"
-        (matChipInputTokenEnd)="addTel($event)" [autocomplete]="autocomplete"
-        [countrySelectionDisabled]="control.value?.length>0" [preferredCountries]="['us', 'ca']"
-        [enablePlaceholder]="true" placeholder="Enter Number" name="phone" #phone
-        (countryChanged)="onCountryChanged($event)">
+        (matChipInputTokenEnd)="addTel($event)" [autocomplete]="autocomplete" placeholder="Enter Number" name="phone"
+        #phone (countryChanged)="onCountryChanged($event)">
     </ngx-mat-itl-tel-input>
     <mat-error *ngIf="control.invalid">{{getErrorMessage()}}</mat-error>
 </mat-form-field>
