@@ -1,4 +1,4 @@
-input.country-search {
+/* input.country-search {
   width: 100%;
   height: 34px;
   padding: 20px;
@@ -6,7 +6,7 @@ input.country-search {
   border-bottom: 1px solid #ddd;
   font-size: 14px;
   padding-bottom: 24px;
-}
+} */
 
 .icon-wrapper {
   padding-right: 24px;
@@ -26,7 +26,7 @@ input.country-search {
   vertical-align: top;
 }
 
-.country-selector {
+/* .country-selector {
   background-image: url(https://www.gstatic.com/images/icons/material/system/1x/arrow_drop_down_grey600_18dp.png);
   background-position: right center;
   background-repeat: no-repeat;
@@ -48,11 +48,31 @@ input.country-search {
   font-size: inherit;
   font-weight: inherit;
   z-index: 1;
+} */
+
+.country-selector{
+  background-image: url(https://www.gstatic.com/images/icons/material/system/1x/arrow_drop_down_grey600_18dp.png);
+  background-position: right center;
+  background-repeat: no-repeat;
+  background-size: 18px auto;
+  border-radius: 0;
+  color: rgba(0, 0, 0, 0.87);
+  flex-shrink: 0;
+  height: initial;
+  line-height: unset;
+  font-size: inherit;
+  font-weight: inherit;
+ 
+  
 }
 
-:host.ngx-floating .country-selector {
+/* :host{
+  top: unset !important;
+} */
+
+/* :host.ngx-floating .country-selector {
   opacity: 1 !important;
-}
+} */
 
 .country-selector-flag {
   display: inline-block;

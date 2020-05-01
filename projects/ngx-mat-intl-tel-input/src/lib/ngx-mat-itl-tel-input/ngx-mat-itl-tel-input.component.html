@@ -1,8 +1,8 @@
 
   <input *ngIf="!matChipInputFor" matInput type="tel" [autocomplete]="autocomplete" [ngClass]="cssClass" (blur)="onTouched()" [(ngModel)]="input"
-    (ngModelChange)="onPhoneNumberChange($event)" [errorStateMatcher]="errorStateMatcher" [disabled]="disabled">
+    (ngModelChange)="onPhoneNumberChange($event)" [errorStateMatcher]="errorStateMatcher" [disabled]="disabled" #focusable>
 
   <input *ngIf="matChipInputFor" [matChipInputFor]="matChipInputFor" [matChipInputAddOnBlur]="matChipInputAddOnBlur"
     (matChipInputTokenEnd)="matChipInputTokenEnd.emit($event)" type="tel" [autocomplete]="autocomplete"
     [ngClass]="cssClass" (blur)="onTouched()" [(ngModel)]="input"  (ngModelChange)="onPhoneNumberChange($event)"
-    [disabled]="disabled">
+    [disabled]="disabled" #focusable>

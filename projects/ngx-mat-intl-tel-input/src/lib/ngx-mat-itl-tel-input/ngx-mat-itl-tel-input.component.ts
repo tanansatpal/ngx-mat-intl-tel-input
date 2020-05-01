@@ -15,7 +15,7 @@ import {
 } from '@angular/core';
 
 import { NG_VALIDATORS, NgControl } from '@angular/forms';
-import { phoneNumberValidator} from '../ngx-mat-itl-tel-input.validator';
+import { phoneNumberValidator } from '../ngx-mat-itl-tel-input.validator';
 import { parsePhoneNumberFromString, PhoneNumber, AsYouType } from 'libphonenumber-js';
 
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
@@ -28,7 +28,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
   templateUrl: './ngx-mat-itl-tel-input.component.html',
   styleUrls: ['./ngx-mat-itl-tel-input.component.css'],
   providers: [
-   
+
     { provide: MatFormFieldControl, useExisting: NgxMatItlTelInputComponent },
     {
       provide: NG_VALIDATORS,
@@ -44,7 +44,17 @@ export class NgxMatItlTelInputComponent implements OnInit, OnDestroy, DoCheck, M
   private _placeholder: string;
   private _required = false;
   private _disabled = false;
-  focused = false;
+  _focused = false;
+
+  get focused() {
+    return this._focused
+  }
+  set focused(value: boolean) {
+    if (value) {
+      this.inputEl?.nativeElement.focus();
+    }
+    this._focused = value;
+  }
   value;
   stateChanges = new Subject<void>();
   static nextId = 0;
@@ -169,7 +179,7 @@ export class NgxMatItlTelInputComponent implements OnInit, OnDestroy, DoCheck, M
   ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-  @ViewChild('focusable') inputEl;
+  @ViewChild('focusable') inputEl: ElementRef;
   @Input() matChipInputAddOnBlur
   @Input() matChipInputFor;
   @Output() matChipInputTokenEnd = new EventEmitter();
@@ -185,7 +195,7 @@ export class NgxMatItlTelInputComponent implements OnInit, OnDestroy, DoCheck, M
   input;
   asYouType: AsYouType = new AsYouType();
 
-  
+
 
   @Input()
   get countryCode() {
@@ -195,7 +205,10 @@ export class NgxMatItlTelInputComponent implements OnInit, OnDestroy, DoCheck, M
     this._countryCode = value;
     //@ts-ignore
     this.asYouType = new AsYouType(value);
-    this.inputEl.focus();
+
+    this.inputEl?.nativeElement.focus();
+
+    this.onPhoneNumberChange(this.input ? this.input : "");
   }
 
   _countryCode: string;
@@ -205,7 +218,7 @@ export class NgxMatItlTelInputComponent implements OnInit, OnDestroy, DoCheck, M
 
 
   constructor(
-    
+
     private fm: FocusMonitor,
     private elRef: ElementRef<HTMLElement>,
     @Optional() @Self() public ngControl: NgControl

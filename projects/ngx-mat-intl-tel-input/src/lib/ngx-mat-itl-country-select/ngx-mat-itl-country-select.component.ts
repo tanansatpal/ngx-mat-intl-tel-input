@@ -21,7 +21,7 @@ export class NgxMatItlCountrySelectComponent implements OnInit {
   set selectedCountry(country: string | Country) {
     this._selectedCountry = typeof (country) === "string" ? this._supportedCountries.find(c => c.iso2 === country) : country;
     console.log(country);
-    this.countryChanged.emit(this._selectedCountry);
+    this.countryChanged.emit(this._selectedCountry.iso2);
   }
   _selectedCountry: Country;
 
@@ -38,7 +38,7 @@ export class NgxMatItlCountrySelectComponent implements OnInit {
 
 
 
-  @Output() countryChanged: EventEmitter<Country> = new EventEmitter<Country>();
+  @Output() countryChanged: EventEmitter<string> = new EventEmitter<string>();
   constructor(private countryCodeData: CountryCode) {  }
 
   ngOnInit(): void {

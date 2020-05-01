@@ -3,9 +3,10 @@
   <br>
   <form #f="ngForm" [formGroup]="phoneForm" (ngSubmit)="onSubmit()">
     <mat-form-field style="width:50%">
-      <ngx-mat-itl-country-select [preferredCountries]="['US', 'CA']"></ngx-mat-itl-country-select>
-      <ngx-mat-itl-tel-input [cssClass]="'custom'"
-        placeholder="Enter Number" name="phone" formControlName="phone" #phone></ngx-mat-itl-tel-input>
+      <ngx-mat-itl-country-select (countryChanged)="phone.countryCode=$event" matPrefix
+        [preferredCountries]="['US', 'CA']"></ngx-mat-itl-country-select>
+      <ngx-mat-itl-tel-input [cssClass]="'custom'" placeholder="Enter Number" name="phone" formControlName="phone"
+        #phone></ngx-mat-itl-tel-input>
       <mat-error *ngIf="f.form.controls['phone']?.errors?.required">Required Field</mat-error>
       <mat-error *ngIf="f.submitted && f.form.controls['phone']?.errors?.validatePhoneNumber">Invalid Number</mat-error>
     </mat-form-field>
@@ -35,7 +36,7 @@
 </div>
 
 <div class="">
-  <ngx-mat-itl-tel-chip-input appearance="outline" [control]="phone2"></ngx-mat-itl-tel-chip-input>
+  <ngx-mat-itl-tel-chip-input [control]="phone2"></ngx-mat-itl-tel-chip-input>
 </div>
 <br>
 <div><strong>Is input valid:</strong>

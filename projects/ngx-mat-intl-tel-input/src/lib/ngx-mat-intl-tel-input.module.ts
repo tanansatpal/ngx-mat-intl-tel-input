@@ -11,6 +11,7 @@ import { SearchPipe } from './search.pipe';
 import { NgxMatItlTelChipInputComponent } from './ngx-mat-itl-tel-chip-input/ngx-mat-itl-tel-chip-input.component';
 import { NgxMatItlTelInputComponent } from './ngx-mat-itl-tel-input/ngx-mat-itl-tel-input.component';
 import { NgxMatItlCountrySelectComponent } from './ngx-mat-itl-country-select/ngx-mat-itl-country-select.component';
+import { TeleTelInputComponent } from './tele-tel-input/tele-tel-input.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { NgxMatItlCountrySelectComponent } from './ngx-mat-itl-country-select/ng
     NgxMatItlTelChipInputComponent,
     SearchPipe,
     NgxMatItlCountrySelectComponent,
+    TeleTelInputComponent,
   ],
   imports: [
     CommonModule,
