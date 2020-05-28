@@ -17,7 +17,7 @@ import {FormGroupDirective, NG_VALIDATORS, NgControl, NgForm} from '@angular/for
 import {CountryCode, Examples} from './data/country-code';
 import {phoneNumberValidator} from './ngx-mat-intl-tel-input.validator';
 import {Country} from './model/country.model';
-import {getExampleNumber, parsePhoneNumberFromString, PhoneNumber} from 'libphonenumber-js';
+import {getExampleNumber, parsePhoneNumberFromString, PhoneNumber, CountryCode as CC} from 'libphonenumber-js';
 
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {Subject} from 'rxjs';
@@ -181,7 +181,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
 
   public onPhoneNumberChange(): void {
     try {
-      this.numberInstance = parsePhoneNumberFromString(this.phoneNumber.toString());
+      this.numberInstance = parsePhoneNumberFromString(this.phoneNumber.toString(), this.selectedCountry.iso2.toUpperCase() as CC);
       this.value = this.numberInstance.number;
       if (this.numberInstance && this.numberInstance.isValid()) {
         this.phoneNumber = this.numberInstance.nationalNumber;
@@ -252,7 +252,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
       this.numberInstance = parsePhoneNumberFromString(value);
       if (this.numberInstance) {
         const countryCode = this.numberInstance.country;
-        this.phoneNumber = this.numberInstance.formatNational();
+        this.phoneNumber = this.numberInstance.nationalNumber;
         if (!countryCode) {
           return;
         }
@@ -260,6 +260,8 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
           this.selectedCountry = this.allCountries.find(c => c.iso2 === countryCode.toLowerCase());
           this.countryChanged.emit(this.selectedCountry);
         }, 1);
+      } else {
+        this.phoneNumber = value;
       }
     }
   }
