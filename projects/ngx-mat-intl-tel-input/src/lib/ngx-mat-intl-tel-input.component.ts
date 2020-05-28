@@ -188,6 +188,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
         if (this.selectedCountry.iso2 !== this.numberInstance.country) {
           this.selectedCountry = this.getCountry(this.numberInstance.country);
         }
+        this.preferredCountriesInDropDown.push(this.selectedCountry);
       }
     } catch (e) {
       // if no possible numbers are there,
@@ -258,6 +259,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
         }
         setTimeout(() => {
           this.selectedCountry = this.allCountries.find(c => c.iso2 === countryCode.toLowerCase());
+          this.preferredCountriesInDropDown.push(this.selectedCountry);
           this.countryChanged.emit(this.selectedCountry);
         }, 1);
       } else {
