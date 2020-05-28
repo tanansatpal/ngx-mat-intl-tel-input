@@ -1,4 +1,4 @@
-import { MatFormFieldControl } from '@angular/material/form-field';
+import {MatFormFieldControl} from '@angular/material/form-field';
 import {
   Component,
   DoCheck,
@@ -13,7 +13,7 @@ import {
   Self
 } from '@angular/core';
 
-import {NG_VALIDATORS, NgControl} from '@angular/forms';
+import {FormGroupDirective, NG_VALIDATORS, NgControl, NgForm} from '@angular/forms';
 import {CountryCode, Examples} from './data/country-code';
 import {phoneNumberValidator} from './ngx-mat-intl-tel-input.validator';
 import {Country} from './model/country.model';
@@ -22,7 +22,24 @@ import {getExampleNumber, parsePhoneNumberFromString, PhoneNumber} from 'libphon
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {Subject} from 'rxjs';
 import {FocusMonitor} from '@angular/cdk/a11y';
-import { ErrorStateMatcher } from '@angular/material/core';
+import {CanUpdateErrorState, CanUpdateErrorStateCtor, ErrorStateMatcher, mixinErrorState} from '@angular/material/core';
+import {E164Number} from 'libphonenumber-js/types';
+
+class NgxMatIntlTelInputBase {
+  // tslint:disable-next-line:variable-name
+  constructor(public _defaultErrorStateMatcher: ErrorStateMatcher,
+              // tslint:disable-next-line:variable-name
+              public _parentForm: NgForm,
+              // tslint:disable-next-line:variable-name
+              public _parentFormGroup: FormGroupDirective,
+              /** @docs-private */
+              public ngControl: NgControl) {
+  }
+}
+
+// tslint:disable-next-line:variable-name
+const _NgxMatIntlTelInputMixinBase: CanUpdateErrorStateCtor & typeof NgxMatIntlTelInputBase =
+  mixinErrorState(NgxMatIntlTelInputBase);
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -39,7 +56,9 @@ import { ErrorStateMatcher } from '@angular/material/core';
     }
   ]
 })
-export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, MatFormFieldControl<any> {
+
+export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
+  implements OnInit, OnDestroy, DoCheck, CanUpdateErrorState, MatFormFieldControl<any> {
   static nextId = 0;
 
   @Input() preferredCountries: Array<string> = [];
@@ -57,10 +76,9 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   private _disabled = false;
   stateChanges = new Subject<void>();
   focused = false;
-  errorState = false;
   @HostBinding() id = `ngx-mat-intl-tel-input-${NgxMatIntlTelInputComponent.nextId++}`;
   describedBy = '';
-  phoneNumber = '';
+  phoneNumber: E164Number = '';
   allCountries: Array<Country> = [];
   preferredCountriesInDropDown: Array<Country> = [];
   selectedCountry: Country;
@@ -99,17 +117,24 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   }
 
   onTouched = () => {
-  }
+  };
 
   propagateChange = (_: any) => {
-  }
+  };
 
   constructor(
     private countryCodeData: CountryCode,
     private fm: FocusMonitor,
     private elRef: ElementRef<HTMLElement>,
-    @Optional() @Self() public ngControl: NgControl
+    @Optional() @Self() public ngControl: NgControl,
+    // tslint:disable-next-line:variable-name
+    @Optional() _parentForm: NgForm,
+    // tslint:disable-next-line:variable-name
+    @Optional() _parentFormGroup: FormGroupDirective,
+    // tslint:disable-next-line:variable-name
+    _defaultErrorStateMatcher: ErrorStateMatcher,
   ) {
+    super(_defaultErrorStateMatcher, _parentForm, _parentFormGroup, ngControl);
     fm.monitor(elRef, true).subscribe(origin => {
       if (this.focused && !origin) {
         this.onTouched();
@@ -150,22 +175,24 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
 
   ngDoCheck(): void {
     if (this.ngControl) {
-      this.errorState = this.ngControl.invalid && this.ngControl.touched;
-      this.stateChanges.next();
+      this.updateErrorState();
     }
   }
 
   public onPhoneNumberChange(): void {
     try {
-      this.numberInstance = parsePhoneNumberFromString(this._getFullNumber());
+      this.numberInstance = parsePhoneNumberFromString(this.phoneNumber.toString());
       this.value = this.numberInstance.number;
       if (this.numberInstance && this.numberInstance.isValid()) {
-        this.phoneNumber = this.numberInstance.formatNational();
+        this.phoneNumber = this.numberInstance.nationalNumber;
+        if (this.selectedCountry.iso2 !== this.numberInstance.country) {
+          this.selectedCountry = this.getCountry(this.numberInstance.country);
+        }
       }
     } catch (e) {
       // if no possible numbers are there,
       // then the full number is passed so that validator could be triggered and proper error could be shown
-      this.value = this._getFullNumber();
+      this.value = this.phoneNumber.toString();
     }
     this.propagateChange(this.value);
   }
@@ -175,6 +202,10 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
     this.countryChanged.emit(this.selectedCountry);
     this.onPhoneNumberChange();
     el.focus();
+  }
+
+  public getCountry(code) {
+    return this.allCountries.find(c => c.iso2 === code.toLowerCase());
   }
 
   public onInputKeyPress(event): void {
@@ -217,10 +248,6 @@ export class NgxMatIntlTelInputComponent implements OnInit, OnDestroy, DoCheck, 
   }
 
   writeValue(value: any): void {
-    // when form is reset
-    if (value === null) {
-      this.reset();
-    }
     if (value) {
       this.numberInstance = parsePhoneNumberFromString(value);
       if (this.numberInstance) {
