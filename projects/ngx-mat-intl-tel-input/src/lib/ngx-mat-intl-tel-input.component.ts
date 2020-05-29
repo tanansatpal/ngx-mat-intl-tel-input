@@ -188,7 +188,6 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
         if (this.selectedCountry.iso2 !== this.numberInstance.country) {
           this.selectedCountry = this.getCountry(this.numberInstance.country);
         }
-        this.preferredCountriesInDropDown.push(this.selectedCountry);
       }
     } catch (e) {
       // if no possible numbers are there,
