@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
-import { FormBuilder } from '@angular/forms';
+import {FormBuilder} from '@angular/forms';
 
 
 @Component({
@@ -21,7 +21,8 @@ export class AppComponent {
     phone: ['']
   });
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder) {
+  }
 
   onSubmit() {
     console.log('onSubmit', this.phoneForm);
