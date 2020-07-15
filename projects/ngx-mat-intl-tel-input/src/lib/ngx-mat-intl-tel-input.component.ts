@@ -1,4 +1,4 @@
-import {MatFormFieldControl} from '@angular/material/form-field';
+import { MatFormFieldControl } from '@angular/material/form-field';
 import {
   Component,
   DoCheck,
@@ -10,30 +10,32 @@ import {
   OnInit,
   Optional,
   Output,
-  Self
+  Self,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
 } from '@angular/core';
 
-import {FormGroupDirective, NG_VALIDATORS, NgControl, NgForm} from '@angular/forms';
-import {CountryCode, Examples} from './data/country-code';
-import {phoneNumberValidator} from './ngx-mat-intl-tel-input.validator';
-import {Country} from './model/country.model';
-import {getExampleNumber, parsePhoneNumberFromString, PhoneNumber, CountryCode as CC} from 'libphonenumber-js';
+import { FormGroupDirective, NG_VALIDATORS, NgControl, NgForm } from '@angular/forms';
+import { CountryCode, Examples } from './data/country-code';
+import { phoneNumberValidator } from './ngx-mat-intl-tel-input.validator';
+import { Country } from './model/country.model';
+import { getExampleNumber, parsePhoneNumberFromString, PhoneNumber, CountryCode as CC } from 'libphonenumber-js';
 
-import {coerceBooleanProperty} from '@angular/cdk/coercion';
-import {Subject} from 'rxjs';
-import {FocusMonitor} from '@angular/cdk/a11y';
-import {CanUpdateErrorState, CanUpdateErrorStateCtor, ErrorStateMatcher, mixinErrorState} from '@angular/material/core';
-import {E164Number} from 'libphonenumber-js/types';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { Subject } from 'rxjs';
+import { FocusMonitor } from '@angular/cdk/a11y';
+import { CanUpdateErrorState, CanUpdateErrorStateCtor, ErrorStateMatcher, mixinErrorState } from '@angular/material/core';
+import { E164Number } from 'libphonenumber-js/types';
 
 class NgxMatIntlTelInputBase {
   // tslint:disable-next-line:variable-name
   constructor(public _defaultErrorStateMatcher: ErrorStateMatcher,
-              // tslint:disable-next-line:variable-name
-              public _parentForm: NgForm,
-              // tslint:disable-next-line:variable-name
-              public _parentFormGroup: FormGroupDirective,
-              /** @docs-private */
-              public ngControl: NgControl) {
+    // tslint:disable-next-line:variable-name
+    public _parentForm: NgForm,
+    // tslint:disable-next-line:variable-name
+    public _parentFormGroup: FormGroupDirective,
+    /** @docs-private */
+    public ngControl: NgControl) {
   }
 }
 
@@ -48,13 +50,14 @@ const _NgxMatIntlTelInputMixinBase: CanUpdateErrorStateCtor & typeof NgxMatIntlT
   styleUrls: ['./ngx-mat-intl-tel-input.component.css'],
   providers: [
     CountryCode,
-    {provide: MatFormFieldControl, useExisting: NgxMatIntlTelInputComponent},
+    { provide: MatFormFieldControl, useExisting: NgxMatIntlTelInputComponent },
     {
       provide: NG_VALIDATORS,
       useValue: phoneNumberValidator,
       multi: true,
     }
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
@@ -123,6 +126,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   };
 
   constructor(
+    private _changeDetectorRef: ChangeDetectorRef,
     private countryCodeData: CountryCode,
     private fm: FocusMonitor,
     private elRef: ElementRef<HTMLElement>,
@@ -171,6 +175,9 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
       }
     }
     this.countryChanged.emit(this.selectedCountry);
+    this._changeDetectorRef.markForCheck();
+    this.stateChanges.next();
+    // console.log('🎉 CHECK 1');
   }
 
   ngDoCheck(): void {
@@ -195,6 +202,8 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
       this.value = this.phoneNumber.toString();
     }
     this.propagateChange(this.value);
+    this._changeDetectorRef.markForCheck();
+    // console.log('🎉 CHECK 2');
   }
 
   public onCountrySelect(country: Country, el): void {
@@ -245,14 +254,19 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
 
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
+    this._changeDetectorRef.markForCheck();
+    // console.log('🎉 CHECK 6');
+    this.stateChanges.next();
   }
 
   writeValue(value: any): void {
+
     if (value) {
       this.numberInstance = parsePhoneNumberFromString(value);
       if (this.numberInstance) {
         const countryCode = this.numberInstance.country;
         this.phoneNumber = this.numberInstance.nationalNumber;
+
         if (!countryCode) {
           return;
         }
@@ -260,11 +274,22 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
           this.selectedCountry = this.allCountries.find(c => c.iso2 === countryCode.toLowerCase());
           this.preferredCountriesInDropDown.push(this.selectedCountry);
           this.countryChanged.emit(this.selectedCountry);
+
+          // Initial value is set
+          this._changeDetectorRef.markForCheck();
+          // console.log('🎉 CHECKED 3 - Important for initial value to display');
+          this.stateChanges.next();
+
         }, 1);
       } else {
         this.phoneNumber = value;
       }
     }
+
+    // Value is set from outeside using setValue()
+    this._changeDetectorRef.markForCheck();
+    this.stateChanges.next();
+    // console.log('🎉 CHECK 4 - Value is set from outeside using setValue()')
   }
 
   get empty() {
@@ -320,6 +345,10 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   reset() {
     this.phoneNumber = '';
     this.propagateChange(null);
+
+     this._changeDetectorRef.markForCheck();
+    //  console.log('🎉 CHECK 5 - Reset')
+     this.stateChanges.next();
   }
 
   ngOnDestroy() {
