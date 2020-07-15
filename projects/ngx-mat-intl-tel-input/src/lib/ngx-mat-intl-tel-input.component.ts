@@ -177,7 +177,6 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
     this.countryChanged.emit(this.selectedCountry);
     this._changeDetectorRef.markForCheck();
     this.stateChanges.next();
-    // console.log('🎉 CHECK 1');
   }
 
   ngDoCheck(): void {
@@ -203,7 +202,6 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
     }
     this.propagateChange(this.value);
     this._changeDetectorRef.markForCheck();
-    // console.log('🎉 CHECK 2');
   }
 
   public onCountrySelect(country: Country, el): void {
@@ -255,7 +253,6 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
     this._changeDetectorRef.markForCheck();
-    // console.log('🎉 CHECK 6');
     this.stateChanges.next();
   }
 
@@ -277,7 +274,6 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
 
           // Initial value is set
           this._changeDetectorRef.markForCheck();
-          // console.log('🎉 CHECKED 3 - Important for initial value to display');
           this.stateChanges.next();
 
         }, 1);
@@ -289,7 +285,6 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
     // Value is set from outeside using setValue()
     this._changeDetectorRef.markForCheck();
     this.stateChanges.next();
-    // console.log('🎉 CHECK 4 - Value is set from outeside using setValue()')
   }
 
   get empty() {
@@ -346,9 +341,8 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
     this.phoneNumber = '';
     this.propagateChange(null);
 
-     this._changeDetectorRef.markForCheck();
-    //  console.log('🎉 CHECK 5 - Reset')
-     this.stateChanges.next();
+    this._changeDetectorRef.markForCheck();
+    this.stateChanges.next();
   }
 
   ngOnDestroy() {
