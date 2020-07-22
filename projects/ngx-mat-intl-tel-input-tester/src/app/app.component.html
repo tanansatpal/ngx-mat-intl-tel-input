@@ -29,7 +29,7 @@
   </form>
 
 
-  <form [formGroup]="profileForm">
+  <form #f1="ngForm" [formGroup]="profileForm">
 
     <label>
       First Name:
@@ -48,10 +48,10 @@
         [enablePlaceholder]="true"
         placeholder="Enter Number"
         name="phone"
-        formControlName="phone" #phone></ngx-mat-intl-tel-input>
-      <mat-hint>e.g. {{phone.selectedCountry.placeHolder}}</mat-hint>
-      <mat-error *ngIf="f.form.controls['phone']?.errors?.required">Required Field</mat-error>
-      <mat-error *ngIf="f.submitted && f.form.controls['phone']?.errors?.validatePhoneNumber">Invalid Number</mat-error>
+        formControlName="phone" #phone1></ngx-mat-intl-tel-input>
+      <mat-hint>e.g. {{phone1.selectedCountry.placeHolder}}</mat-hint>
+      <mat-error *ngIf="f1.form.controls['phone']?.errors?.required">Required Field</mat-error>
+      <mat-error *ngIf="f1.submitted && f.form.controls['phone']?.errors?.validatePhoneNumber">Invalid Number</mat-error>
     </mat-form-field>
 
   </form>
