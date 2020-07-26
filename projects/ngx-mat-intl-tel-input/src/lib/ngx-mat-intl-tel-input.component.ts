@@ -1,29 +1,16 @@
-import {MatFormFieldControl} from '@angular/material/form-field';
-import {
-  Component,
-  DoCheck,
-  ElementRef,
-  EventEmitter,
-  HostBinding,
-  Input,
-  OnDestroy,
-  OnInit,
-  Optional,
-  Output,
-  Self
-} from '@angular/core';
+import { FocusMonitor } from '@angular/cdk/a11y';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { Component, DoCheck, ElementRef, EventEmitter, HostBinding, Input, OnDestroy, OnInit, Optional, Output, Self } from '@angular/core';
+import { FormGroupDirective, NgControl, NgForm, NG_VALIDATORS } from '@angular/forms';
+import { CanUpdateErrorState, CanUpdateErrorStateCtor, ErrorStateMatcher, mixinErrorState } from '@angular/material/core';
+import { MatFormFieldControl } from '@angular/material/form-field';
+import { CountryCode as CC, E164Number, getExampleNumber, parsePhoneNumberFromString, PhoneNumber } from 'libphonenumber-js';
+import { Subject } from 'rxjs';
+import { CountryCode, Examples } from './data/country-code';
+import { Country } from './model/country.model';
+import { phoneNumberValidator } from './ngx-mat-intl-tel-input.validator';
 
-import {FormGroupDirective, NG_VALIDATORS, NgControl, NgForm} from '@angular/forms';
-import {CountryCode, Examples} from './data/country-code';
-import {phoneNumberValidator} from './ngx-mat-intl-tel-input.validator';
-import {Country} from './model/country.model';
-import {getExampleNumber, parsePhoneNumberFromString, PhoneNumber, CountryCode as CC} from 'libphonenumber-js';
 
-import {coerceBooleanProperty} from '@angular/cdk/coercion';
-import {Subject} from 'rxjs';
-import {FocusMonitor} from '@angular/cdk/a11y';
-import {CanUpdateErrorState, CanUpdateErrorStateCtor, ErrorStateMatcher, mixinErrorState} from '@angular/material/core';
-import {E164Number} from 'libphonenumber-js/types';
 
 class NgxMatIntlTelInputBase {
   // tslint:disable-next-line:variable-name
