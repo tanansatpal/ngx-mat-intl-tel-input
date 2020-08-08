@@ -41,7 +41,7 @@ input.country-search {
 
 .icon-wrapper, .label-wrapper {
   display: table-cell;
-  vertical-align: top;
+  vertical-align: middle;
 }
 
 .country-selector {
