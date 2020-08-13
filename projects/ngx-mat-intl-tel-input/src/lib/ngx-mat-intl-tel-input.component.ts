@@ -68,6 +68,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   @Input() onlyCountries: Array<string> = [];
   @Input() errorStateMatcher: ErrorStateMatcher;
   @Input() enableSearch = false;
+  @Input() searchPlaceholder: string;
   // tslint:disable-next-line:variable-name
   private _placeholder: string;
   // tslint:disable-next-line:variable-name
@@ -149,6 +150,9 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   }
 
   ngOnInit() {
+    if (!this.searchPlaceholder) {
+      this.searchPlaceholder = 'Search ...';
+    }
     if (this.preferredCountries.length) {
       this.preferredCountries.forEach(iso2 => {
         const preferredCountry = this.allCountries.filter((c) => {
