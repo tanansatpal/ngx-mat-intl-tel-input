@@ -10,7 +10,8 @@ import {
   OnInit,
   Optional,
   Output,
-  Self
+  Self,
+  ViewChild
 } from '@angular/core';
 
 import {FormGroupDirective, NG_VALIDATORS, NgControl, NgForm} from '@angular/forms';
@@ -24,6 +25,7 @@ import {Subject} from 'rxjs';
 import {FocusMonitor} from '@angular/cdk/a11y';
 import {CanUpdateErrorState, CanUpdateErrorStateCtor, ErrorStateMatcher, mixinErrorState} from '@angular/material/core';
 import {E164Number} from 'libphonenumber-js/types';
+import {MatMenu} from '@angular/material/menu';
 
 class NgxMatIntlTelInputBase {
   // tslint:disable-next-line:variable-name
@@ -68,6 +70,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   @Input() onlyCountries: Array<string> = [];
   @Input() errorStateMatcher: ErrorStateMatcher;
   @Input() enableSearch = false;
+  @ViewChild(MatMenu) matMenu: MatMenu;
   // tslint:disable-next-line:variable-name
   private _placeholder: string;
   // tslint:disable-next-line:variable-name
