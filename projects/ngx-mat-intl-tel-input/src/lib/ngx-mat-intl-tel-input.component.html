@@ -13,7 +13,7 @@
     </button>
     <mat-divider *ngIf="preferredCountriesInDropDown?.length"></mat-divider>
     <ng-container *ngFor="let country of allCountries">
-      <button type="button" mat-menu-item class="country-list-button" *ngIf="country.name | search:searchCriteria" (click)="onCountrySelect(country, focusable)">
+      <button type="button" mat-menu-item class="country-list-button" *ngIf="country | search:searchCriteria" (click)="onCountrySelect(country, focusable)">
         <div class="icon-wrapper">
           <div class="flag" [ngClass]="country.flagClass"></div>
         </div>
