@@ -18,13 +18,13 @@ import {FormGroupDirective, NG_VALIDATORS, NgControl, NgForm} from '@angular/for
 import {CountryCode, Examples} from './data/country-code';
 import {phoneNumberValidator} from './ngx-mat-intl-tel-input.validator';
 import {Country} from './model/country.model';
-import {getExampleNumber, parsePhoneNumberFromString, PhoneNumber, CountryCode as CC} from 'libphonenumber-js';
+import {PhoneNumberFormat} from './model/phone-number-format.model';
+import {AsYouType, CountryCode as CC, E164Number, getExampleNumber, parsePhoneNumberFromString, PhoneNumber} from 'libphonenumber-js';
 
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {Subject} from 'rxjs';
 import {FocusMonitor} from '@angular/cdk/a11y';
 import {CanUpdateErrorState, CanUpdateErrorStateCtor, ErrorStateMatcher, mixinErrorState} from '@angular/material/core';
-import {E164Number} from 'libphonenumber-js/types';
 import {MatMenu} from '@angular/material/menu';
 
 class NgxMatIntlTelInputBase {
@@ -71,6 +71,17 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   @Input() errorStateMatcher: ErrorStateMatcher;
   @Input() enableSearch = false;
   @Input() searchPlaceholder: string;
+
+  @Input()
+  get format(): PhoneNumberFormat {
+    return this._format;
+  }
+  set format(value: PhoneNumberFormat) {
+    this._format = value;
+    this.phoneNumber = this.formattedPhoneNumber;
+    this.stateChanges.next();
+  }
+
   @ViewChild(MatMenu) matMenu: MatMenu;
   // tslint:disable-next-line:variable-name
   private _placeholder: string;
@@ -91,6 +102,10 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   searchCriteria: string;
   @Output()
   countryChanged: EventEmitter<Country> = new EventEmitter<Country>();
+
+  private previousFormattedNumber: string;
+  // tslint:disable-next-line:variable-name
+  private _format: PhoneNumberFormat = 'default';
 
   static getPhoneNumberPlaceHolder(countryISOCode: any): string {
     try {
@@ -189,9 +204,12 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   public onPhoneNumberChange(): void {
     try {
       this.numberInstance = parsePhoneNumberFromString(this.phoneNumber.toString(), this.selectedCountry.iso2.toUpperCase() as CC);
+      this.formatAsYouTypeIfEnabled();
       this.value = this.numberInstance.number;
       if (this.numberInstance && this.numberInstance.isValid()) {
-        this.phoneNumber = this.numberInstance.nationalNumber;
+        if (this.phoneNumber !== this.formattedPhoneNumber) {
+          this.phoneNumber = this.formattedPhoneNumber;
+        }
         if (this.selectedCountry.iso2 !== this.numberInstance.country) {
           this.selectedCountry = this.getCountry(this.numberInstance.country);
         }
@@ -205,6 +223,9 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   }
 
   public onCountrySelect(country: Country, el): void {
+    if (this.phoneNumber) {
+      this.phoneNumber = this.numberInstance.nationalNumber;
+    }
     this.selectedCountry = country;
     this.countryChanged.emit(this.selectedCountry);
     this.onPhoneNumberChange();
@@ -259,7 +280,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
       this.numberInstance = parsePhoneNumberFromString(value);
       if (this.numberInstance) {
         const countryCode = this.numberInstance.country;
-        this.phoneNumber = this.numberInstance.nationalNumber;
+        this.phoneNumber = this.formattedPhoneNumber;
         if (!countryCode) {
           return;
         }
@@ -334,4 +355,29 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
     this.fm.stopMonitoring(this.elRef);
   }
 
+  private get formattedPhoneNumber(): string {
+    if (!this.numberInstance) {
+      return this.phoneNumber.toString();
+    }
+    switch (this.format) {
+      case 'national':
+        return this.numberInstance.formatNational();
+      case 'international':
+        return this.numberInstance.formatInternational();
+      default:
+        return this.numberInstance.nationalNumber.toString();
+    }
+  }
+
+  private formatAsYouTypeIfEnabled(): void {
+    if (this.format === 'default') {
+      return;
+    }
+    const asYouType: AsYouType = new AsYouType(this.selectedCountry.iso2.toUpperCase() as CC);
+    // To avoid caret positioning we apply formatting only if the caret is at the end:
+    if (this.phoneNumber.toString().startsWith(this.previousFormattedNumber || '')) {
+      this.phoneNumber = asYouType.input(this.phoneNumber.toString());
+    }
+    this.previousFormattedNumber = this.phoneNumber.toString();
+  }
 }
