@@ -44,9 +44,11 @@
     <mat-form-field style="width:50%">
       <ngx-mat-intl-tel-input
         [cssClass]="'custom'"
-        [preferredCountries]="['us', 'ca']"
+        [preferredCountries]="['cl', 've']"
         [enablePlaceholder]="true"
         placeholder="Enter Number"
+        [enableSearch]="true"
+        [searchPlaceholder]="'Buscar...'"
         name="phone"
         formControlName="phone" #phone1></ngx-mat-intl-tel-input>
       <mat-hint>e.g. {{phone1.selectedCountry.placeHolder}}</mat-hint>

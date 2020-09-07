@@ -1,16 +1,30 @@
-import { FocusMonitor } from '@angular/cdk/a11y';
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { Component, DoCheck, ElementRef, EventEmitter, HostBinding, Input, OnDestroy, OnInit, Optional, Output, Self } from '@angular/core';
-import { FormGroupDirective, NgControl, NgForm, NG_VALIDATORS } from '@angular/forms';
-import { CanUpdateErrorState, CanUpdateErrorStateCtor, ErrorStateMatcher, mixinErrorState } from '@angular/material/core';
-import { MatFormFieldControl } from '@angular/material/form-field';
-import { CountryCode as CC, E164Number, getExampleNumber, parsePhoneNumberFromString, PhoneNumber } from 'libphonenumber-js';
-import { Subject } from 'rxjs';
-import { CountryCode, Examples } from './data/country-code';
-import { Country } from './model/country.model';
-import { phoneNumberValidator } from './ngx-mat-intl-tel-input.validator';
+import {MatFormFieldControl} from '@angular/material/form-field';
+import {
+  Component,
+  DoCheck,
+  ElementRef,
+  EventEmitter,
+  HostBinding,
+  Input,
+  OnDestroy,
+  OnInit,
+  Optional,
+  Output,
+  Self,
+  ViewChild
+} from '@angular/core';
 
+import {FormGroupDirective, NG_VALIDATORS, NgControl, NgForm} from '@angular/forms';
+import {CountryCode, Examples} from './data/country-code';
+import {phoneNumberValidator} from './ngx-mat-intl-tel-input.validator';
+import {Country} from './model/country.model';
+import {getExampleNumber, parsePhoneNumberFromString, PhoneNumber, CountryCode as CC, E164Number} from 'libphonenumber-js';
 
+import {coerceBooleanProperty} from '@angular/cdk/coercion';
+import {Subject} from 'rxjs';
+import {FocusMonitor} from '@angular/cdk/a11y';
+import {CanUpdateErrorState, CanUpdateErrorStateCtor, ErrorStateMatcher, mixinErrorState} from '@angular/material/core';
+import {MatMenu} from '@angular/material/menu';
 
 class NgxMatIntlTelInputBase {
   // tslint:disable-next-line:variable-name
@@ -55,6 +69,8 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   @Input() onlyCountries: Array<string> = [];
   @Input() errorStateMatcher: ErrorStateMatcher;
   @Input() enableSearch = false;
+  @Input() searchPlaceholder: string;
+  @ViewChild(MatMenu) matMenu: MatMenu;
   // tslint:disable-next-line:variable-name
   private _placeholder: string;
   // tslint:disable-next-line:variable-name
@@ -136,6 +152,9 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   }
 
   ngOnInit() {
+    if (!this.searchPlaceholder) {
+      this.searchPlaceholder = 'Search ...';
+    }
     if (this.preferredCountries.length) {
       this.preferredCountries.forEach(iso2 => {
         const preferredCountry = this.allCountries.filter((c) => {
