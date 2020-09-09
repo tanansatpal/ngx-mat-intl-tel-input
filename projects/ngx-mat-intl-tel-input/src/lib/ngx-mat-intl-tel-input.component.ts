@@ -117,10 +117,10 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   }
 
   onTouched = () => {
-  }
+  };
 
   propagateChange = (_: any) => {
-  }
+  };
 
   constructor(
     private countryCodeData: CountryCode,
@@ -156,8 +156,8 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
       this.preferredCountries.forEach(iso2 => {
         const preferredCountry = this.allCountries.filter((c) => {
           return c.iso2 === iso2;
-        });
-        this.preferredCountriesInDropDown.push(preferredCountry[0]);
+        }).shift();
+        this.preferredCountriesInDropDown.push(preferredCountry);
       });
     }
     if (this.onlyCountries.length) {
@@ -275,7 +275,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
         }
         setTimeout(() => {
           this.selectedCountry = this.getCountry(countryCode);
-          if (this.selectedCountry.dialCode) {
+          if (this.selectedCountry.dialCode && !this.preferredCountries.includes(this.selectedCountry.iso2)) {
             this.preferredCountriesInDropDown.push(this.selectedCountry);
           }
           this.countryChanged.emit(this.selectedCountry);
