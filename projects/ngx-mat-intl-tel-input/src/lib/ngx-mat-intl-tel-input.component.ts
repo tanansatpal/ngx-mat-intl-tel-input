@@ -194,6 +194,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
         this.phoneNumber = this.numberInstance.nationalNumber;
         if (this.selectedCountry.iso2 !== this.numberInstance.country) {
           this.selectedCountry = this.getCountry(this.numberInstance.country);
+          this.countryChanged.emit(this.selectedCountry);
         }
       }
     } catch (e) {
