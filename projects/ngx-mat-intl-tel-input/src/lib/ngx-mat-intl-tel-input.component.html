@@ -1,7 +1,7 @@
 <div class="ngx-mat-tel-input-container">
   <button type="button" mat-button [matMenuTriggerFor]="menu" class="country-selector">
     <span class="country-selector-flag flag" [ngClass]="selectedCountry.flagClass"></span>
-    <span class="country-selector-code">+{{selectedCountry.dialCode}}</span>
+    <span class="country-selector-code" *ngIf="selectedCountry?.dialCode">+{{selectedCountry.dialCode}}</span>
   </button>
   <mat-menu #menu="matMenu">
     <input *ngIf="enableSearch" class="country-search" [(ngModel)]="searchCriteria" type="text" [placeholder]="searchPlaceholder" (click)="$event.stopPropagation()" />
@@ -9,7 +9,7 @@
       <div class="icon-wrapper">
         <div class="flag" [ngClass]="country.flagClass"></div>
       </div>
-      <div class="label-wrapper">{{country.name}} +{{country.dialCode}}</div>
+      <div class="label-wrapper">{{country.name}} <span *ngIf="country?.dialCode">+{{country.dialCode}}</span></div>
     </button>
     <mat-divider *ngIf="preferredCountriesInDropDown?.length"></mat-divider>
     <ng-container *ngFor="let country of allCountries">

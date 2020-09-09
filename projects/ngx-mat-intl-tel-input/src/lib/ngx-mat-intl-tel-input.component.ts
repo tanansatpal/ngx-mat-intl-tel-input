@@ -285,8 +285,23 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
           return;
         }
         setTimeout(() => {
-          this.selectedCountry = this.allCountries.find(c => c.iso2 === countryCode.toLowerCase());
-          this.preferredCountriesInDropDown.push(this.selectedCountry);
+          const selectedCountry = this.allCountries.find(c => c.iso2 === countryCode.toLowerCase());
+          if (selectedCountry) {
+            this.selectedCountry = selectedCountry;
+            this.preferredCountriesInDropDown.push(this.selectedCountry);
+          } else {
+            // this prevents the package from breaking and shows the UN flag in case of non existent country
+            this.selectedCountry = {
+              name: 'UN',
+              iso2: 'UN',
+              dialCode: undefined,
+              priority: 0,
+              areaCodes: undefined,
+              flagClass: 'UN',
+              placeHolder: ''
+            };
+          }
+
           this.countryChanged.emit(this.selectedCountry);
         }, 1);
       } else {

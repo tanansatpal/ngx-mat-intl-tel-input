@@ -28,6 +28,24 @@
     <button type="reset" mat-button (click)="onReset()">Reset</button>
   </form>
 
+  <br>
+  <div><strong>Is input valid:</strong>
+    <pre>{{ !f.form.controls['phone'].invalid }}</pre>
+  </div>
+  <div><strong>Is input touched:</strong>
+    <pre>{{ f.form.controls['phone'].touched }}</pre>
+  </div>
+  <div><strong>Is form valid:</strong>
+    <pre>{{ f.form.valid }}</pre>
+  </div>
+  <div><strong>Form value:</strong>
+    <pre>{{ f.form.value|json }}</pre>
+  </div>
+  <div><strong>Form validation errors:</strong>
+    <pre>{{ f.form.controls['phone'].errors | json }}</pre>
+    <pre>{{ f.form.controls['name'].errors | json }}</pre>
+    <pre>{{ f.form.controls['surname'].errors | json }}</pre>
+  </div>
 
   <form #f1="ngForm" [formGroup]="profileForm">
 
@@ -48,6 +66,7 @@
         [enablePlaceholder]="true"
         placeholder="Enter Number"
         [enableSearch]="true"
+        [onlyCountries]="['us','cl','ve']"
         [searchPlaceholder]="'Buscar...'"
         name="phone"
         formControlName="phone" #phone1></ngx-mat-intl-tel-input>
@@ -57,22 +76,8 @@
     </mat-form-field>
 
   </form>
-  <br>
-  <div><strong>Is input valid:</strong>
-    <pre>{{ !f.form.controls['phone'].invalid }}</pre>
-  </div>
-  <div><strong>Is input touched:</strong>
-    <pre>{{ f.form.controls['phone'].touched }}</pre>
-  </div>
-  <div><strong>Is form valid:</strong>
-    <pre>{{ f.form.valid }}</pre>
-  </div>
+
   <div><strong>Form value:</strong>
-    <pre>{{ f.form.value|json }}</pre>
-  </div>
-  <div><strong>Form validation errors:</strong>
-    <pre>{{ f.form.controls['phone'].errors | json }}</pre>
-    <pre>{{ f.form.controls['name'].errors | json }}</pre>
-    <pre>{{ f.form.controls['surname'].errors | json }}</pre>
+    <pre>{{ f1.form.value|json }}</pre>
   </div>
 </div>
