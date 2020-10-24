@@ -76,6 +76,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   get format(): PhoneNumberFormat {
     return this._format;
   }
+
   set format(value: PhoneNumberFormat) {
     this._format = value;
     this.phoneNumber = this.formattedPhoneNumber;
@@ -113,26 +114,6 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
     } catch (e) {
       return e;
     }
-  }
-
-  private _getFullNumber() {
-    const val = this.phoneNumber.trim();
-    const dialCode = this.selectedCountry.dialCode;
-    let prefix;
-    const numericVal = val.replace(/\D/g, '');
-    // normalized means ensure starts with a 1, so we can match against the full dial code
-    const normalizedVal = numericVal.charAt(0) === '1' ? numericVal : '1'.concat(numericVal);
-    if (val.charAt(0) !== '+') {
-      // when using separateDialCode, it is visible so is effectively part of the typed number
-      prefix = '+'.concat(dialCode);
-    } else if (val && val.charAt(0) !== '+' && val.charAt(0) !== '1' && dialCode && dialCode.charAt(0) === '1'
-      && dialCode.length === 4 && dialCode !== normalizedVal.substr(0, 4)) {
-      // ensure national NANP numbers contain the area code
-      prefix = dialCode.substr(1);
-    } else {
-      prefix = '';
-    }
-    return prefix + numericVal;
   }
 
   onTouched = () => {
@@ -175,8 +156,8 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
       this.preferredCountries.forEach(iso2 => {
         const preferredCountry = this.allCountries.filter((c) => {
           return c.iso2 === iso2;
-        });
-        this.preferredCountriesInDropDown.push(preferredCountry[0]);
+        }).shift();
+        this.preferredCountriesInDropDown.push(preferredCountry);
       });
     }
     if (this.onlyCountries.length) {
@@ -184,7 +165,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
     }
     if (this.numberInstance && this.numberInstance.country) {
       // If an existing number is present, we use it to determine selectedCountry
-      this.selectedCountry = this.allCountries.find(c => c.iso2 === this.numberInstance.country.toLowerCase());
+      this.selectedCountry = this.getCountry(this.numberInstance.country);
     } else {
       if (this.preferredCountriesInDropDown.length) {
         this.selectedCountry = this.preferredCountriesInDropDown[0];
@@ -233,7 +214,15 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   }
 
   public getCountry(code) {
-    return this.allCountries.find(c => c.iso2 === code.toLowerCase());
+    return this.allCountries.find(c => c.iso2 === code.toLowerCase()) || {
+      name: 'UN',
+      iso2: 'UN',
+      dialCode: undefined,
+      priority: 0,
+      areaCodes: undefined,
+      flagClass: 'UN',
+      placeHolder: ''
+    };
   }
 
   public onInputKeyPress(event): void {
@@ -285,8 +274,10 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
           return;
         }
         setTimeout(() => {
-          this.selectedCountry = this.allCountries.find(c => c.iso2 === countryCode.toLowerCase());
-          this.preferredCountriesInDropDown.push(this.selectedCountry);
+          this.selectedCountry = this.getCountry(countryCode);
+          if (this.selectedCountry.dialCode && !this.preferredCountries.includes(this.selectedCountry.iso2)) {
+            this.preferredCountriesInDropDown.push(this.selectedCountry);
+          }
           this.countryChanged.emit(this.selectedCountry);
         }, 1);
       } else {
