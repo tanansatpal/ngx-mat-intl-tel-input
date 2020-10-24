@@ -65,6 +65,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
 
   @Input() preferredCountries: Array<string> = [];
   @Input() enablePlaceholder = true;
+  @Input() inputPlaceholder: string;
   @Input() cssClass;
   @Input() name: string;
   @Input() onlyCountries: Array<string> = [];
