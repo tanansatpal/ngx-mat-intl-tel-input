@@ -193,6 +193,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
         }
         if (this.selectedCountry.iso2 !== this.numberInstance.country) {
           this.selectedCountry = this.getCountry(this.numberInstance.country);
+          this.countryChanged.emit(this.selectedCountry);
         }
       }
     } catch (e) {
