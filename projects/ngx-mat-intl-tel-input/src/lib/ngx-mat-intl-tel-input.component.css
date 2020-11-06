@@ -64,6 +64,10 @@ input.country-search {
   z-index: 1;
 }
 
+.country-selector:disabled {
+  color: rgba(0, 0, 0, 0.38);
+}
+
 :host.ngx-floating .country-selector {
   opacity: 1 !important;
 }
