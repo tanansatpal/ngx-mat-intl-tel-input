@@ -1,23 +1,23 @@
 <div class="ngx-mat-tel-input-container">
   <button type="button" mat-button [matMenuTriggerFor]="menu" class="country-selector">
-    <span class="country-selector-flag flag" [ngClass]="selectedCountry.flagClass"></span>
+    <span class="country-selector-flag flag" *ngIf="showCountryFlag" [ngClass]="selectedCountry.flagClass"></span>
     <span class="country-selector-code" *ngIf="selectedCountry?.dialCode">+{{selectedCountry.dialCode}}</span>
   </button>
   <mat-menu #menu="matMenu">
     <input *ngIf="enableSearch" class="country-search" [(ngModel)]="searchCriteria" type="text" [placeholder]="searchPlaceholder" (click)="$event.stopPropagation()" />
     <button type="button" mat-menu-item class="country-list-button" *ngFor="let country of preferredCountriesInDropDown" (click)="onCountrySelect(country, focusable)">
-      <div class="icon-wrapper">
+      <div class="icon-wrapper" *ngIf="showCountryFlag">
         <div class="flag" [ngClass]="country.flagClass"></div>
       </div>
-      <div class="label-wrapper">{{country.name}} <span *ngIf="country?.dialCode">+{{country.dialCode}}</span></div>
+      <div class="label-wrapper"><span *ngIf="showCountryName">{{country.name}}</span> <span *ngIf="country?.dialCode">+{{country.dialCode}}</span></div>
     </button>
     <mat-divider *ngIf="preferredCountriesInDropDown?.length"></mat-divider>
     <ng-container *ngFor="let country of allCountries">
       <button type="button" mat-menu-item class="country-list-button" *ngIf="country | search:searchCriteria" (click)="onCountrySelect(country, focusable)">
-        <div class="icon-wrapper">
+        <div class="icon-wrapper" *ngIf="showCountryFlag">
           <div class="flag" [ngClass]="country.flagClass"></div>
         </div>
-        <div class="label-wrapper">{{country.name}} +{{country.dialCode}}</div>
+        <div class="label-wrapper"><span *ngIf="showCountryName">{{country.name}}</span> +{{country.dialCode}}</div>
       </button>
     </ng-container>
   </mat-menu>
