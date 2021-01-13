@@ -285,6 +285,8 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
       } else {
         this.phoneNumber = value;
       }
+    } else {
+      this.reset();
     }
   }
 
