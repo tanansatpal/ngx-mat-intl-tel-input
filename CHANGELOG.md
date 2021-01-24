@@ -37,3 +37,14 @@ This release contains the support for updating the input placeholder in cases of
 * Duplicate Preferred Country ([#62](https://github.com/tanansatpal/ngx-mat-intl-tel-input/issues/62))
 * Bug: Emit countryChanged event on enter full phone from other country
 * Placeholder for the input component
+
+<a name="4.0.0"></a>
+# 4.0.0 (2021-01-24)
+
+This release supports the Angular version 11.
+
+### Features
+
+* Upgraded to Angular version 11 ([#86](https://github.com/tanansatpal/ngx-mat-intl-tel-input/issues/86))
+* Component disabled support ([#81](https://github.com/tanansatpal/ngx-mat-intl-tel-input/issues/81))
+* OnPush change detection support ([#55](https://github.com/tanansatpal/ngx-mat-intl-tel-input/issues/55))
