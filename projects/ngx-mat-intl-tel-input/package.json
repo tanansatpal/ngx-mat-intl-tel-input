@@ -41,5 +41,8 @@
         "input",
         "flag"
     ],
-    "license": "MIT"
+    "license": "MIT",
+  "dependencies": {
+    "tslib": "^2.0.0"
+  }
 }
