@@ -1,3 +1,5 @@
+import { Injectable } from "@angular/core";
+@Injectable()
 export class CountryCode {
   public allCountries = [
     ['Afghanistan (‫افغانستان‬‎)', 'af', '93'],

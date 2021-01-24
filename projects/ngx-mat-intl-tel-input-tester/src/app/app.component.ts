@@ -1,6 +1,7 @@
-import {Component} from '@angular/core';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {FormBuilder} from '@angular/forms';
+import {NgxMatIntlTelInputComponent} from '../../../ngx-mat-intl-tel-input/src/lib/ngx-mat-intl-tel-input.component';
 
 
 @Component({
@@ -8,7 +9,8 @@ import {FormBuilder} from '@angular/forms';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
+  @ViewChild(NgxMatIntlTelInputComponent) phoneInput: NgxMatIntlTelInputComponent;
   phoneForm = new FormGroup({
     phone: new FormControl(undefined, [Validators.required]),
     name: new FormControl(undefined, [Validators.required]),
@@ -30,5 +32,9 @@ export class AppComponent {
 
   onReset() {
     this.phoneForm.reset();
+  }
+
+  ngAfterViewInit() {
+    this.phoneInput.matMenu.panelClass = 'custom-panel';
   }
 }

@@ -1,17 +1,23 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+import { Country } from './model/country.model';
+
 @Pipe({
   name: 'search'
 })
 export class SearchPipe implements PipeTransform {
 
   // country | search:'searchCriteria'
-  transform(country: any, searchCriteria?: any): any {
+  transform(country: Country, searchCriteria?: string): boolean {
     if (!searchCriteria || searchCriteria === '') {
       return true;
     }
 
-    return country.toLowerCase().includes(searchCriteria.toLowerCase());
+    return `${country.name}+${country.dialCode}`
+      .toLowerCase()
+      .includes(
+        searchCriteria.toLowerCase()
+      );
   }
 
 }
