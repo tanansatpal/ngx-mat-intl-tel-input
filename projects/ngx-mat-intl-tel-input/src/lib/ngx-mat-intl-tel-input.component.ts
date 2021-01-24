@@ -63,6 +63,8 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   implements OnInit, OnDestroy, DoCheck, CanUpdateErrorState, MatFormFieldControl<any> {
   static nextId = 0;
 
+  @Input() showCountryName = true;
+  @Input() showCountryFlag = true;
   @Input() preferredCountries: Array<string> = [];
   @Input() enablePlaceholder = true;
   @Input() inputPlaceholder: string;
