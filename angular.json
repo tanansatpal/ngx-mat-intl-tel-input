@@ -14,13 +14,13 @@
           "options": {
             "tsConfig": "projects/ngx-mat-intl-tel-input/tsconfig.lib.json",
             "project": "projects/ngx-mat-intl-tel-input/ng-package.json"
-          }
-        ,          "configurations": {
+          },
+          "configurations": {
             "production": {
               "tsConfig": "projects/ngx-mat-intl-tel-input/tsconfig.lib.prod.json"
             }
           }
-},
+        },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -160,5 +160,8 @@
       }
     }
   },
-  "defaultProject": "ngx-mat-intl-tel-input"
+  "defaultProject": "ngx-mat-intl-tel-input",
+  "cli": {
+    "analytics": false
+  }
 }
