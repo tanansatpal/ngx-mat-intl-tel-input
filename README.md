@@ -91,6 +91,9 @@ If you want to show the sample number for the country selected or errors , use m
 | enablePlaceholder             | ```boolean```          | ```true```         | Input placeholder text, which adapts to the country selected.                      |
 | enableSearch                  | ```boolean```          | ```false```        | Whether to display a search bar to help filter down the list of countries          |
 | format                        | ```string```           | ```default```      | Format of "as you type" input. Possible values: national, international, default    |
+| showCountryFlag                  | ```boolean```          | ```true```        | Whether to display a flag of selected country on dropdown          |
+| showCountryCode                  | ```boolean```          | ```false```        | Whether to display a country code (ISO2) of selected country on dropdown          |
+| showFlagInSearch                  | ```boolean```          | ```true```        | Whether to display a flag in the list of countries option          |
 
 
 ## Library Contributions

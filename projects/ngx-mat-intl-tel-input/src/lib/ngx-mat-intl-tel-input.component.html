@@ -9,7 +9,11 @@
     <span
       class="country-selector-flag flag"
       [ngClass]="selectedCountry.flagClass"
+      *ngIf="showCountryFlag"
     ></span>
+    <span class="country-selector-flag" *ngIf="showCountryCode">
+      {{ selectedCountry?.iso2 | uppercase }}
+    </span>
     <span class="country-selector-code" *ngIf="selectedCountry?.dialCode"
       >+{{ selectedCountry.dialCode }}</span
     >
@@ -31,11 +35,20 @@
       (click)="onCountrySelect(country, focusable)"
     >
       <div class="icon-wrapper">
-        <div class="flag" [ngClass]="country.flagClass"></div>
+        <div
+          class="flag"
+          *ngIf="showCountryFlag || showFlagInSearch; else dialCodePref"
+          [ngClass]="country.flagClass"
+        ></div>
+        <div>
+          <ng-template #dialCodePref>+{{ country.dialCode }}</ng-template>
+        </div>
       </div>
       <div class="label-wrapper">
         {{ country.name }}
-        <span *ngIf="country?.dialCode">+{{ country.dialCode }}</span>
+        <span *ngIf="country?.dialCode && (showCountryFlag || showFlagInSearch)"
+          >+{{ country.dialCode }}</span
+        >
       </div>
     </button>
     <mat-divider *ngIf="preferredCountriesInDropDown?.length"></mat-divider>
@@ -48,10 +61,15 @@
         (click)="onCountrySelect(country, focusable)"
       >
         <div class="icon-wrapper">
-          <div class="flag" [ngClass]="country.flagClass"></div>
+          <div class="flag" *ngIf="showCountryFlag || showFlagInSearch; else dialCodeList" [ngClass]="country.flagClass"></div>
+          <div>
+            <ng-template #dialCodeList>+{{ country.dialCode }}</ng-template>
+          </div>
         </div>
         <div class="label-wrapper">
-          {{ country.name }} +{{ country.dialCode }}
+          {{ country.name }} <span *ngIf="country?.dialCode && (showCountryFlag || showFlagInSearch)"
+          >+{{ country.dialCode }}</span
+        >
         </div>
       </button>
     </ng-container>
