@@ -5,29 +5,31 @@ import {NgxMatIntlTelInputComponent} from '../../../ngx-mat-intl-tel-input/src/l
 
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"],
 })
 export class AppComponent implements AfterViewInit {
-  @ViewChild(NgxMatIntlTelInputComponent) phoneInput: NgxMatIntlTelInputComponent;
+  @ViewChild(NgxMatIntlTelInputComponent)
+  phoneInput: NgxMatIntlTelInputComponent;
   phoneForm = new FormGroup({
     phone: new FormControl(undefined, [Validators.required]),
     name: new FormControl(undefined, [Validators.required]),
-    surname: new FormControl(undefined, [Validators.required])
+    surname: new FormControl(undefined, [Validators.required]),
   });
 
   profileForm = this.fb.group({
-    firstName: [''],
-    lastName: [''],
-    phone: ['']
+    firstName: [""],
+    lastName: [""],
+    phone: [""],
+    phone2: [""],
+    phone3: [""],
   });
 
-  constructor(private fb: FormBuilder) {
-  }
+  constructor(private fb: FormBuilder) {}
 
   onSubmit() {
-    console.log('onSubmit', this.phoneForm);
+    console.log("onSubmit", this.phoneForm);
   }
 
   onReset() {
@@ -35,6 +37,6 @@ export class AppComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.phoneInput.matMenu.panelClass = 'custom-panel';
+    this.phoneInput.matMenu.panelClass = "custom-panel";
   }
 }
