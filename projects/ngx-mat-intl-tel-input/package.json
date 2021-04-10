@@ -1,6 +1,6 @@
 {
-    "name": "ngx-mat-intl-tel-input",
-    "version": "4.0.0",
+    "name": "ngx-mat-phone-input",
+    "version": "4.0.1",
     "peerDependencies": {
         "@angular/common": "~9.0.0",
         "@angular/core": "~9.0.0",
@@ -42,7 +42,7 @@
         "flag"
     ],
     "license": "MIT",
-  "dependencies": {
-    "tslib": "^2.0.0"
-  }
+    "dependencies": {
+        "tslib": "^2.0.0"
+    }
 }
