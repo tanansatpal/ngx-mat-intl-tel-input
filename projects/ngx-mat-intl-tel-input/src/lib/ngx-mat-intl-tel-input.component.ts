@@ -13,7 +13,8 @@ import {
   Self,
   ViewChild,
   ChangeDetectionStrategy,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  OnChanges
 } from '@angular/core';
 
 import {FormGroupDirective, NG_VALIDATORS, NgControl, NgForm} from '@angular/forms';
@@ -63,7 +64,7 @@ const _NgxMatIntlTelInputMixinBase: CanUpdateErrorStateCtor & typeof NgxMatIntlT
 })
 
 export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
-  implements OnInit, OnDestroy, DoCheck, CanUpdateErrorState, MatFormFieldControl<any> {
+  implements OnInit, OnChanges, OnDestroy, DoCheck, CanUpdateErrorState, MatFormFieldControl<any> {
   static nextId = 0;
 
   @Input() preferredCountries: Array<string> = [];
@@ -157,14 +158,6 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
     if (!this.searchPlaceholder) {
       this.searchPlaceholder = 'Search ...';
     }
-    if (this.preferredCountries.length) {
-      this.preferredCountries.forEach(iso2 => {
-        const preferredCountry = this.allCountries.filter((c) => {
-          return c.iso2 === iso2;
-        }).shift();
-        this.preferredCountriesInDropDown.push(preferredCountry);
-      });
-    }
     if (this.onlyCountries.length) {
       this.allCountries = this.allCountries.filter(c => this.onlyCountries.includes(c.iso2));
     }
@@ -181,6 +174,19 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
     this.countryChanged.emit(this.selectedCountry);
     this._changeDetectorRef.markForCheck();
     this.stateChanges.next();
+  }
+
+  ngOnChanges(): void {
+    if (this.preferredCountries.length) {
+      this.preferredCountriesInDropDown.splice(0);
+      this.preferredCountries.forEach(iso2 => {
+        const preferredCountry = this.allCountries.filter((c) => {
+          return c.iso2 === iso2;
+        }).shift();
+        this.preferredCountriesInDropDown.push(preferredCountry);
+      });
+      this.selectedCountry = this.preferredCountriesInDropDown[0];
+    }
   }
 
   ngDoCheck(): void {
