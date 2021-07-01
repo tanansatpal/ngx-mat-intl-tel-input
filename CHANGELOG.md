@@ -48,3 +48,13 @@ This release supports the Angular version 11.
 * Upgraded to Angular version 11 ([#86](https://github.com/tanansatpal/ngx-mat-intl-tel-input/issues/86))
 * Component disabled support ([#81](https://github.com/tanansatpal/ngx-mat-intl-tel-input/issues/81))
 * OnPush change detection support ([#55](https://github.com/tanansatpal/ngx-mat-intl-tel-input/issues/55))
+
+<a name="4.1.0"></a>
+# 4.1.0 (2021-07-01)
+This release supports web accessibility compliance - WCAG (https://www.w3.org/WAI/tutorials/menus/#why-is-this-important)
+
+### Features
+* User should be able to navigate between countries using the keyboard arrows and tab to change focus'
+* Screen readers should read the selected country and each individual country with 'aria-label'
+* Input text should display 'aria-invalid' if phone has invalid format or not being informed
+ 
