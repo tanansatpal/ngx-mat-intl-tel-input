@@ -75,6 +75,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   @Input() errorStateMatcher: ErrorStateMatcher;
   @Input() enableSearch = false;
   @Input() searchPlaceholder: string;
+  @Input() enableWCAGAccessibility = false;
 
   @Input()
   get format(): PhoneNumberFormat {
@@ -349,7 +350,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   }
 
   onContainerClick(event: MouseEvent) {
-    if ((event.target as Element).tagName.toLowerCase() !== 'input') {
+    if (!this.enableWCAGAccessibility && (event.target as Element).tagName.toLowerCase() !== 'input') {
       // tslint:disable-next-line:no-non-null-assertion
       this.elRef.nativeElement.querySelector('input')!.focus();
     }
@@ -392,5 +393,17 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
       this.phoneNumber = asYouType.input(this.phoneNumber.toString());
     }
     this.previousFormattedNumber = this.phoneNumber.toString();
+  }
+
+  public getCountryName(country: Country): string {
+    return `${country.name} +${country.dialCode}`;
+  }
+
+  get isInvalid(): boolean {
+    return this.errorState;
+  }
+
+  get selectedCountryName(): string {
+    return this.selectedCountry ? `selected ${this.selectedCountry.name} +${this.selectedCountry.dialCode}` : '';
   }
 }
