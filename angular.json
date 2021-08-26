@@ -53,7 +53,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/ngx-mat-intl-tel-input-tester",
             "index": "projects/ngx-mat-intl-tel-input-tester/src/index.html",
             "main": "projects/ngx-mat-intl-tel-input-tester/src/main.ts",
@@ -67,7 +66,13 @@
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "projects/ngx-mat-intl-tel-input-tester/src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -80,7 +85,6 @@
               "optimization": true,
               "outputHashing": "all",
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -96,7 +100,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
