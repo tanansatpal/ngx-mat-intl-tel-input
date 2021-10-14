@@ -28,6 +28,7 @@ import {Subject} from 'rxjs';
 import {FocusMonitor} from '@angular/cdk/a11y';
 import {CanUpdateErrorState, CanUpdateErrorStateCtor, ErrorStateMatcher, mixinErrorState} from '@angular/material/core';
 import {MatMenu} from '@angular/material/menu';
+import { CountryCodeService } from './service/country-code.service';
 
 class NgxMatIntlTelInputBase {
   // tslint:disable-next-line:variable-name
@@ -75,6 +76,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   @Input() errorStateMatcher: ErrorStateMatcher;
   @Input() enableSearch = false;
   @Input() searchPlaceholder: string;
+  @Input() lang: string;
 
   @Input()
   get format(): PhoneNumberFormat {
@@ -128,7 +130,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
 
   constructor(
     private _changeDetectorRef: ChangeDetectorRef,
-    private countryCodeData: CountryCode,
+    private countryCodeService: CountryCodeService,
     private fm: FocusMonitor,
     private elRef: ElementRef<HTMLElement>,
     @Optional() @Self() public ngControl: NgControl,
@@ -147,13 +149,15 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
       this.focused = !!origin;
       this.stateChanges.next();
     });
-    this.fetchCountryData();
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
     }
   }
 
   ngOnInit() {
+    if(this.allCountries.length === 0){
+      this.fetchCountryData(this.lang);
+    }
     if (!this.searchPlaceholder) {
       this.searchPlaceholder = 'Search ...';
     }
@@ -241,8 +245,9 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
     }
   }
 
-  protected fetchCountryData(): void {
-    this.countryCodeData.allCountries.forEach(c => {
+  protected fetchCountryData(lang: string): void {
+    const countryCodes = this.countryCodeService.findByLang(lang);
+    countryCodes.forEach(c => {
       const country: Country = {
         name: c[0].toString(),
         iso2: c[1].toString(),
