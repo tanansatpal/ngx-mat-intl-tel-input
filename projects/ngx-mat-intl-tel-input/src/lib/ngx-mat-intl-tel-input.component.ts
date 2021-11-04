@@ -26,8 +26,9 @@ import {AsYouType, CountryCode as CC, E164Number, getExampleNumber, parsePhoneNu
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {Subject} from 'rxjs';
 import {FocusMonitor} from '@angular/cdk/a11y';
-import {CanUpdateErrorState, CanUpdateErrorStateCtor, ErrorStateMatcher, mixinErrorState} from '@angular/material/core';
+import {CanUpdateErrorState, ErrorStateMatcher, mixinErrorState} from '@angular/material/core';
 import {MatMenu} from '@angular/material/menu';
+import { AbstractConstructor, Constructor } from '@angular/material/core/common-behaviors/constructor';
 
 class NgxMatIntlTelInputBase {
   // tslint:disable-next-line:variable-name
@@ -42,6 +43,9 @@ class NgxMatIntlTelInputBase {
 }
 
 // tslint:disable-next-line:variable-name
+
+declare type CanUpdateErrorStateCtor = Constructor<CanUpdateErrorState> & AbstractConstructor<CanUpdateErrorState>;
+
 const _NgxMatIntlTelInputMixinBase: CanUpdateErrorStateCtor & typeof NgxMatIntlTelInputBase =
   mixinErrorState(NgxMatIntlTelInputBase);
 
