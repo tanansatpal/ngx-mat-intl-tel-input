@@ -30,4 +30,4 @@ jobs:
     - run: npm ci
     - run: npm run lint
     - run: npm run build --if-present
-    - run: npm test-headless
+    - run: npm run test-headless
