@@ -9,6 +9,7 @@
 
 # dependencies
 /node_modules
+.angular
 
 # profiling files
 chrome-profiler-events.json
@@ -40,7 +41,11 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+/tslint-to-eslint-config.log
+/projects/ngx-mat-intl-tel-input-tester/tslint-to-eslint-config.log
+/projects/ngx-mat-intl-tel-input/tslint-to-eslint-config.log
 
 # System Files
 .DS_Store
 Thumbs.db
+

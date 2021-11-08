@@ -26,27 +26,31 @@ import {AsYouType, CountryCode as CC, E164Number, getExampleNumber, parsePhoneNu
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {Subject} from 'rxjs';
 import {FocusMonitor} from '@angular/cdk/a11y';
-import {CanUpdateErrorState, CanUpdateErrorStateCtor, ErrorStateMatcher, mixinErrorState} from '@angular/material/core';
+import {CanUpdateErrorState, ErrorStateMatcher, mixinErrorState} from '@angular/material/core';
 import {MatMenu} from '@angular/material/menu';
+import { AbstractConstructor, Constructor } from '@angular/material/core/common-behaviors/constructor';
 
 class NgxMatIntlTelInputBase {
-  // tslint:disable-next-line:variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
   constructor(public _defaultErrorStateMatcher: ErrorStateMatcher,
-              // tslint:disable-next-line:variable-name
+              // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
               public _parentForm: NgForm,
-              // tslint:disable-next-line:variable-name
+              // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
               public _parentFormGroup: FormGroupDirective,
               /** @docs-private */
               public ngControl: NgControl) {
   }
 }
 
-// tslint:disable-next-line:variable-name
+// eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
+
+declare type CanUpdateErrorStateCtor = Constructor<CanUpdateErrorState> & AbstractConstructor<CanUpdateErrorState>;
+
 const _NgxMatIntlTelInputMixinBase: CanUpdateErrorStateCtor & typeof NgxMatIntlTelInputBase =
   mixinErrorState(NgxMatIntlTelInputBase);
 
 @Component({
-  // tslint:disable-next-line:component-selector
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'ngx-mat-intl-tel-input',
   templateUrl: './ngx-mat-intl-tel-input.component.html',
   styleUrls: ['./ngx-mat-intl-tel-input.component.css'],
@@ -88,11 +92,11 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   }
 
   @ViewChild(MatMenu) matMenu: MatMenu;
-  // tslint:disable-next-line:variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
   private _placeholder: string;
-  // tslint:disable-next-line:variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
   private _required = false;
-  // tslint:disable-next-line:variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
   private _disabled = false;
   stateChanges = new Subject<void>();
   focused = false;
@@ -109,7 +113,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   countryChanged: EventEmitter<Country> = new EventEmitter<Country>();
 
   private previousFormattedNumber: string;
-  // tslint:disable-next-line:variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
   private _format: PhoneNumberFormat = 'default';
 
   static getPhoneNumberPlaceHolder(countryISOCode: any): string {
@@ -132,11 +136,11 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
     private fm: FocusMonitor,
     private elRef: ElementRef<HTMLElement>,
     @Optional() @Self() public ngControl: NgControl,
-    // tslint:disable-next-line:variable-name
+    // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
     @Optional() _parentForm: NgForm,
-    // tslint:disable-next-line:variable-name
+    // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
     @Optional() _parentFormGroup: FormGroupDirective,
-    // tslint:disable-next-line:variable-name
+    // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match
     _defaultErrorStateMatcher: ErrorStateMatcher,
   ) {
     super(_defaultErrorStateMatcher, _parentForm, _parentFormGroup, ngControl);
@@ -159,9 +163,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
     }
     if (this.preferredCountries.length) {
       this.preferredCountries.forEach(iso2 => {
-        const preferredCountry = this.allCountries.filter((c) => {
-          return c.iso2 === iso2;
-        }).shift();
+        const preferredCountry = this.allCountries.filter((c) => c.iso2 === iso2).shift();
         this.preferredCountriesInDropDown.push(preferredCountry);
       });
     }
@@ -350,7 +352,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
 
   onContainerClick(event: MouseEvent) {
     if ((event.target as Element).tagName.toLowerCase() !== 'input') {
-      // tslint:disable-next-line:no-non-null-assertion
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.elRef.nativeElement.querySelector('input')!.focus();
     }
   }
