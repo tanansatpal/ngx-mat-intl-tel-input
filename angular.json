@@ -14,13 +14,13 @@
           "options": {
             "tsConfig": "projects/ngx-mat-intl-tel-input/tsconfig.lib.json",
             "project": "projects/ngx-mat-intl-tel-input/ng-package.json"
-          }
-        ,          "configurations": {
+          },
+          "configurations": {
             "production": {
               "tsConfig": "projects/ngx-mat-intl-tel-input/tsconfig.lib.prod.json"
             }
           }
-},
+        },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -30,14 +30,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/ngx-mat-intl-tel-input/tsconfig.lib.json",
-              "projects/ngx-mat-intl-tel-input/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/ngx-mat-intl-tel-input/**/*.ts",
+              "projects/ngx-mat-intl-tel-input/**/*.html"
             ]
           }
         }
@@ -133,15 +130,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/ngx-mat-intl-tel-input-tester/tsconfig.app.json",
-              "projects/ngx-mat-intl-tel-input-tester/tsconfig.spec.json",
-              "projects/ngx-mat-intl-tel-input-tester/e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/ngx-mat-intl-tel-input-tester//**/*.ts",
+              "projects/ngx-mat-intl-tel-input-tester//**/*.html"
             ]
           }
         },
@@ -160,5 +153,8 @@
       }
     }
   },
-  "defaultProject": "ngx-mat-intl-tel-input"
+  "defaultProject": "ngx-mat-intl-tel-input",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }
