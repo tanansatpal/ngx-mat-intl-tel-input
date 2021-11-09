@@ -77,6 +77,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   @Input() errorStateMatcher: ErrorStateMatcher;
   @Input() enableSearch = false;
   @Input() searchPlaceholder: string;
+  @Input() describedBy = '';
 
   @Input()
   get format(): PhoneNumberFormat {
@@ -96,7 +97,6 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   stateChanges = new Subject<void>();
   focused = false;
   @HostBinding() id = `ngx-mat-intl-tel-input-${NgxMatIntlTelInputComponent.nextId++}`;
-  describedBy = '';
   phoneNumber: E164Number = '';
   allCountries: Array<Country> = [];
   preferredCountriesInDropDown: Array<Country> = [];
