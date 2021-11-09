@@ -1,5 +1,5 @@
 <div style="margin: 50px">
-  <h3>Test International Telephone Input Form</h3>
+  <h3 id="phoneInput">Test International Telephone Input Form</h3>
   <br>
   <form #f="ngForm" [formGroup]="phoneForm" (ngSubmit)="onSubmit()">
     <mat-form-field style="width:50%">
@@ -8,6 +8,7 @@
         [preferredCountries]="['us', 'ca']"
         [enablePlaceholder]="true"
         placeholder="Enter Number"
+        describedBy="phoneInput"
         name="phone"
         formControlName="phone" #phone></ngx-mat-intl-tel-input>
       <mat-hint>e.g. {{phone.selectedCountry.placeHolder}}</mat-hint>
