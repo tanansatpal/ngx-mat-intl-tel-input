@@ -12,7 +12,7 @@
     "e2e": "ng e2e",
     "build_lib": "ng build ngx-mat-intl-tel-input",
     "npm_pack": "cd dist/ngx-mat-intl-tel-input && npm pack",
-    "package": "npm run build_lib && copy-files && npm run npm_pack",
+    "package": "npm run build_lib && npm run copy-files && npm run npm_pack",
     "copy-license": "cp ./LICENSE ./dist/ngx-mat-intl-tel-input",
     "copy-readme": "cp ./README.md ./dist/ngx-mat-intl-tel-input",
     "copy-files": "npm run copy-license && npm run copy-readme"
