@@ -48,3 +48,12 @@ This release supports the Angular version 11.
 * Upgraded to Angular version 11 ([#86](https://github.com/tanansatpal/ngx-mat-intl-tel-input/issues/86))
 * Component disabled support ([#81](https://github.com/tanansatpal/ngx-mat-intl-tel-input/issues/81))
 * OnPush change detection support ([#55](https://github.com/tanansatpal/ngx-mat-intl-tel-input/issues/55))
+
+<a name="4.1.0"></a>
+# 4.1.0 (2021-11-11)
+
+This release supports the Angular version 13.
+
+### Features
+
+* Upgraded to Angular version 13 ([#131](https://github.com/tanansatpal/ngx-mat-intl-tel-input/issues/131))
