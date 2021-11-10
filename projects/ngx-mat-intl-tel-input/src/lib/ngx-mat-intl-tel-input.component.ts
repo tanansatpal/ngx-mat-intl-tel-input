@@ -31,7 +31,7 @@ import {Subject} from 'rxjs';
 import {FocusMonitor} from '@angular/cdk/a11y';
 import {CanUpdateErrorState, ErrorStateMatcher, mixinErrorState} from '@angular/material/core';
 import {MatMenu} from '@angular/material/menu';
-import { AbstractConstructor, Constructor } from '@angular/material/core/common-behaviors/constructor';
+import {AbstractConstructor, Constructor} from '@angular/material/core/common-behaviors/constructor';
 
 class NgxMatIntlTelInputBase {
   constructor(public _defaultErrorStateMatcher: ErrorStateMatcher,
@@ -342,8 +342,8 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   }
 
   onContainerClick(event: MouseEvent) {
-    if ((event.target as Element).tagName.toLowerCase() !== 'input') {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    if ((event.target as Element).tagName.toLowerCase() !== 'input'
+      && !this.isDropDownButton(event.target)) {
       this.elRef.nativeElement.querySelector('input')!.focus();
     }
   }
@@ -385,5 +385,10 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
       this.phoneNumber = asYouType.input(this.phoneNumber.toString());
     }
     this.previousFormattedNumber = this.phoneNumber.toString();
+  }
+
+  private isDropDownButton(el: EventTarget) {
+    const countryButton = this.elRef.nativeElement.querySelector('button');
+    return el === countryButton || countryButton.contains(el as Node);
   }
 }
