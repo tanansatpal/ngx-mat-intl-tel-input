@@ -1,11 +1,12 @@
 <div style="margin: 50px">
   <h3 id="phoneInput">Test International Telephone Input Form</h3>
   <br>
+  {{preferredCountries}}
   <form #f="ngForm" [formGroup]="phoneForm" (ngSubmit)="onSubmit()">
     <mat-form-field style="width:50%">
       <ngx-mat-intl-tel-input
         [cssClass]="'custom'"
-        [preferredCountries]="['us', 'ca']"
+        [preferredCountries]="preferredCountries"
         [enablePlaceholder]="true"
         placeholder="Enter Number"
         describedBy="phoneInput"
@@ -67,7 +68,7 @@
         [enablePlaceholder]="true"
         placeholder="Enter Number"
         [enableSearch]="true"
-        [onlyCountries]="['us','cl','ve']"
+        [onlyCountries]="onlyCountries"
         [searchPlaceholder]="'Buscar...'"
         name="phone"
         formControlName="phone" #phone1></ngx-mat-intl-tel-input>

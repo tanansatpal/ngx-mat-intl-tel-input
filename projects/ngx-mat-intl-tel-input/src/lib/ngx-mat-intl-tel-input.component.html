@@ -11,7 +11,7 @@
       [ngClass]="selectedCountry.flagClass"
     ></span>
     <span class="country-selector-code" *ngIf="selectedCountry?.dialCode"
-      >+{{ selectedCountry.dialCode }}</span
+    >+{{ selectedCountry.dialCode }}</span
     >
   </button>
   <mat-menu #menu="matMenu">
@@ -27,7 +27,7 @@
       type="button"
       mat-menu-item
       class="country-list-button"
-      *ngFor="let country of preferredCountriesInDropDown"
+      *ngFor="let country of preferredCountriesInDropDown; trackBy: trackByIso2"
       (click)="onCountrySelect(country, focusable)"
     >
       <div class="icon-wrapper">
@@ -39,7 +39,7 @@
       </div>
     </button>
     <mat-divider *ngIf="preferredCountriesInDropDown?.length"></mat-divider>
-    <ng-container *ngFor="let country of allCountries">
+    <ng-container *ngFor="let country of allCountries; trackBy: trackByIso2">
       <button
         type="button"
         mat-menu-item

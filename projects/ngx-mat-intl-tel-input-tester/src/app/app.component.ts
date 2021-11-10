@@ -11,6 +11,8 @@ import {NgxMatIntlTelInputComponent} from '../../../ngx-mat-intl-tel-input/src/l
 })
 export class AppComponent implements AfterViewInit {
   @ViewChild(NgxMatIntlTelInputComponent) phoneInput: NgxMatIntlTelInputComponent;
+  preferredCountries = ['us', 'ca'];
+  onlyCountries = ['us', 'cl', 've'];
   phoneForm = new FormGroup({
     phone: new FormControl(undefined, [Validators.required]),
     name: new FormControl(undefined, [Validators.required]),
@@ -24,6 +26,13 @@ export class AppComponent implements AfterViewInit {
   });
 
   constructor(private fb: FormBuilder) {
+    setInterval(() => {
+      this.preferredCountries = ['in', 'gb'];
+    }, 5000);
+
+    setInterval(() => {
+      this.onlyCountries = ['cn', 'us', 'nl'];
+    }, 10000);
   }
 
   onSubmit() {

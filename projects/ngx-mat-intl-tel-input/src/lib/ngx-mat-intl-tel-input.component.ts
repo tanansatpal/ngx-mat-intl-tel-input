@@ -16,7 +16,7 @@ import {
   Self,
   ViewChild,
   ChangeDetectionStrategy,
-  ChangeDetectorRef
+  ChangeDetectorRef, SimpleChanges, SimpleChange
 } from '@angular/core';
 
 import {FormGroupDirective, NG_VALIDATORS, NgControl, NgForm} from '@angular/forms';
@@ -152,15 +152,6 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
     if (!this.searchPlaceholder) {
       this.searchPlaceholder = 'Search ...';
     }
-    if (this.preferredCountries.length) {
-      this.preferredCountries.forEach(iso2 => {
-        const preferredCountry = this.allCountries.filter((c) => c.iso2 === iso2).shift();
-        this.preferredCountriesInDropDown.push(preferredCountry);
-      });
-    }
-    if (this.onlyCountries.length) {
-      this.allCountries = this.allCountries.filter(c => this.onlyCountries.includes(c.iso2));
-    }
     if (this.numberInstance && this.numberInstance.country) {
       // If an existing number is present, we use it to determine selectedCountry
       this.selectedCountry = this.getCountry(this.numberInstance.country);
@@ -174,6 +165,27 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
     this.countryChanged.emit(this.selectedCountry);
     this._changeDetectorRef.markForCheck();
     this.stateChanges.next();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.preferredCountries && this.isCountriesArrayChanged(changes.preferredCountries)) {
+      this.preferredCountriesInDropDown.splice(0);
+      changes.preferredCountries.currentValue.forEach(iso2 => {
+        const preferredCountry = this.allCountries.filter((c) => {
+          return c.iso2 === iso2;
+        }).shift();
+        this.preferredCountriesInDropDown.push(preferredCountry);
+      });
+      this.selectedCountry = this.preferredCountriesInDropDown[0];
+    }
+    if (changes.onlyCountries && this.isCountriesArrayChanged(changes.onlyCountries)) {
+      if (!changes.onlyCountries.firstChange) {
+        this.fetchCountryData();
+      }
+      console.log(this.allCountries);
+      this.allCountries = this.allCountries.filter(c => changes.onlyCountries.currentValue.includes(c.iso2));
+      console.log(this.allCountries);
+    }
   }
 
   ngDoCheck(): void {
@@ -235,6 +247,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   }
 
   protected fetchCountryData(): void {
+    this.allCountries = [];
     this.countryCodeData.allCountries.forEach(c => {
       const country: Country = {
         name: c[0].toString(),
@@ -356,6 +369,10 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
     this.stateChanges.next();
   }
 
+  trackByIso2(index: number, item: Country) {
+    return item.iso2;
+  }
+
   ngOnDestroy() {
     this.stateChanges.complete();
     this.fm.stopMonitoring(this.elRef);
@@ -390,5 +407,9 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   private isDropDownButton(el: EventTarget) {
     const countryButton = this.elRef.nativeElement.querySelector('button');
     return el === countryButton || countryButton.contains(el as Node);
+  }
+
+  private isCountriesArrayChanged(change: SimpleChange) {
+    return change.currentValue?.join() !== change.previousValue?.join();
   }
 }
