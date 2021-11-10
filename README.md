@@ -4,8 +4,8 @@ An Angular Material package for entering and validating international telephone 
 
 **Supports:**
 
-- Angular 11
-- Angular Material 11
+- Angular 13
+- Angular Material 13
 - ReactiveFormsModule
 - FormsModule
 - Validation with [libphonenumber-js](https://github.com/catamphetamine/libphonenumber-js)
@@ -46,6 +46,7 @@ Refer to main app in this repository for working example.
   [enablePlaceholder]="true"
   [enableSearch]="true"
   name="phone"
+  describedBy="phoneInput"
   formControlName="phone"></ngx-mat-intl-tel-input>
 </form>
 
@@ -91,6 +92,7 @@ If you want to show the sample number for the country selected or errors , use m
 | enablePlaceholder             | ```boolean```          | ```true```         | Input placeholder text, which adapts to the country selected.                      |
 | enableSearch                  | ```boolean```          | ```false```        | Whether to display a search bar to help filter down the list of countries          |
 | format                        | ```string```           | ```default```      | Format of "as you type" input. Possible values: national, international, default    |
+| describedBy                   | ```string```           | ```undefined```      | Use aria-described by with the input field    |
 
 
 ## Library Contributions

@@ -1,4 +1,6 @@
-import { Injectable } from "@angular/core";
+/* eslint-disable */
+
+import { Injectable } from '@angular/core';
 @Injectable()
 export class CountryCode {
   public allCountries = [

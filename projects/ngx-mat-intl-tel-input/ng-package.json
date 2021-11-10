@@ -3,9 +3,6 @@
   "dest": "../../dist/ngx-mat-intl-tel-input",
   "lib": {
     "entryFile": "src/public-api.ts",
-    "cssUrl": "inline",
-    "umdModuleIds": {
-      "libphonenumber": "^1.7.25"
-    }
+    "cssUrl": "inline"
   }
 }
