@@ -16,8 +16,9 @@
   </button>
   <mat-menu #menu="matMenu">
     <input
+      mat-menu-item
       *ngIf="enableSearch"
-      class="country-search"
+      class="country-search sticky"
       [(ngModel)]="searchCriteria"
       type="text"
       [placeholder]="searchPlaceholder"
