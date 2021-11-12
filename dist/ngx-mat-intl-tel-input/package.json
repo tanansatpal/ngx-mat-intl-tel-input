@@ -1,0 +1,73 @@
+{
+  "name": "ngx-mat-intl-tel-input",
+  "version": "4.1.0",
+  "peerDependencies": {
+    "@angular/common": "~13.0.0",
+    "@angular/core": "~13.0.0",
+    "@angular/forms": "~13.0.0",
+    "@angular/platform-browser": "~13.0.0",
+    "@angular/platform-browser-dynamic": "~13.0.0",
+    "libphonenumber-js": "^1.9.41"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tanansatpal/ngx-mat-intl-tel-input"
+  },
+  "author": {
+    "name": "Satpal Tanan",
+    "email": "tanansatpal@gmail.com"
+  },
+  "keywords": [
+    "angular",
+    "material",
+    "ng2",
+    "ng4",
+    "ng5",
+    "ng6",
+    "ng7",
+    "ng8",
+    "ng9",
+    "ng10",
+    "ng11",
+    "ng12",
+    "ng13",
+    "intl-tel-input",
+    "ng-intl-tel-input",
+    "phone number",
+    "phone",
+    "validation",
+    "international",
+    "i18n",
+    "country",
+    "dial",
+    "code",
+    "telephone",
+    "mobile",
+    "input",
+    "flag"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "tslib": "^2.3.1"
+  },
+  "module": "fesm2015/ngx-mat-intl-tel-input.mjs",
+  "es2020": "fesm2020/ngx-mat-intl-tel-input.mjs",
+  "esm2020": "esm2020/ngx-mat-intl-tel-input.mjs",
+  "fesm2020": "fesm2020/ngx-mat-intl-tel-input.mjs",
+  "fesm2015": "fesm2015/ngx-mat-intl-tel-input.mjs",
+  "typings": "ngx-mat-intl-tel-input.d.ts",
+  "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./ngx-mat-intl-tel-input.d.ts",
+      "esm2020": "./esm2020/ngx-mat-intl-tel-input.mjs",
+      "es2020": "./fesm2020/ngx-mat-intl-tel-input.mjs",
+      "es2015": "./fesm2015/ngx-mat-intl-tel-input.mjs",
+      "node": "./fesm2015/ngx-mat-intl-tel-input.mjs",
+      "default": "./fesm2020/ngx-mat-intl-tel-input.mjs"
+    }
+  },
+  "sideEffects": false
+}
