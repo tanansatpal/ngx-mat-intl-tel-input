@@ -14,7 +14,10 @@
       >+{{ selectedCountry.dialCode }}</span
     >
   </button>
-  <mat-menu #menu="matMenu">
+  <mat-menu #menu="matMenu"
+    class="ngx-mat-tel-input-mat-menu-panel"
+    backdropClass="ngx-mat-tel-input-overlay-backdrop"
+    overlayPanelClass="ngx-mat-tel-input-overlay-pane">
     <input
       *ngIf="enableSearch"
       class="country-search"
