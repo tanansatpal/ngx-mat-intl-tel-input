@@ -1,3 +1,11 @@
+.sticky {
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 1;
+}
+
+
 input:not(.country-search) {
   border: none;
   background: none;

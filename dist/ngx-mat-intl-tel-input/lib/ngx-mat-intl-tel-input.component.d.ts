@@ -1,0 +1,95 @@
+import { MatFormFieldControl } from '@angular/material/form-field';
+import { DoCheck, ElementRef, EventEmitter, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
+import { FormGroupDirective, NgControl, NgForm } from '@angular/forms';
+import { CountryCode } from './data/country-code';
+import { Country } from './model/country.model';
+import { PhoneNumberFormat } from './model/phone-number-format.model';
+import { E164Number, PhoneNumber } from 'libphonenumber-js';
+import { Subject } from 'rxjs';
+import { FocusMonitor } from '@angular/cdk/a11y';
+import { CanUpdateErrorState, ErrorStateMatcher } from '@angular/material/core';
+import { MatMenu } from '@angular/material/menu';
+import { AbstractConstructor, Constructor } from '@angular/material/core/common-behaviors/constructor';
+import * as i0 from "@angular/core";
+declare class NgxMatIntlTelInputBase {
+    _defaultErrorStateMatcher: ErrorStateMatcher;
+    _parentForm: NgForm;
+    _parentFormGroup: FormGroupDirective;
+    /** @docs-private */
+    ngControl: NgControl;
+    constructor(_defaultErrorStateMatcher: ErrorStateMatcher, _parentForm: NgForm, _parentFormGroup: FormGroupDirective, 
+    /** @docs-private */
+    ngControl: NgControl);
+}
+declare type CanUpdateErrorStateCtor = Constructor<CanUpdateErrorState> & AbstractConstructor<CanUpdateErrorState>;
+declare const _NgxMatIntlTelInputMixinBase: CanUpdateErrorStateCtor & typeof NgxMatIntlTelInputBase;
+export declare class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase implements OnInit, OnDestroy, DoCheck, CanUpdateErrorState, MatFormFieldControl<any> {
+    private _changeDetectorRef;
+    private countryCodeData;
+    private fm;
+    private elRef;
+    ngControl: NgControl;
+    static nextId: number;
+    preferredCountries: Array<string>;
+    enablePlaceholder: boolean;
+    inputPlaceholder: string;
+    cssClass: any;
+    name: string;
+    onlyCountries: Array<string>;
+    errorStateMatcher: ErrorStateMatcher;
+    enableSearch: boolean;
+    searchPlaceholder: string;
+    describedBy: string;
+    get format(): PhoneNumberFormat;
+    set format(value: PhoneNumberFormat);
+    matMenu: MatMenu;
+    private _placeholder;
+    private _required;
+    private _disabled;
+    stateChanges: Subject<void>;
+    focused: boolean;
+    id: string;
+    phoneNumber: E164Number;
+    allCountries: Array<Country>;
+    preferredCountriesInDropDown: Array<Country>;
+    selectedCountry: Country;
+    numberInstance: PhoneNumber;
+    value: any;
+    searchCriteria: string;
+    countryChanged: EventEmitter<Country>;
+    private previousFormattedNumber;
+    private _format;
+    static getPhoneNumberPlaceHolder(countryISOCode: any): string;
+    onTouched: () => void;
+    propagateChange: (_: any) => void;
+    constructor(_changeDetectorRef: ChangeDetectorRef, countryCodeData: CountryCode, fm: FocusMonitor, elRef: ElementRef<HTMLElement>, ngControl: NgControl, _parentForm: NgForm, _parentFormGroup: FormGroupDirective, _defaultErrorStateMatcher: ErrorStateMatcher);
+    ngOnInit(): void;
+    ngDoCheck(): void;
+    onPhoneNumberChange(): void;
+    onCountrySelect(country: Country, el: any): void;
+    getCountry(code: any): Country;
+    onInputKeyPress(event: any): void;
+    protected fetchCountryData(): void;
+    registerOnChange(fn: any): void;
+    registerOnTouched(fn: any): void;
+    setDisabledState(isDisabled: boolean): void;
+    writeValue(value: any): void;
+    get empty(): boolean;
+    get shouldLabelFloat(): boolean;
+    get placeholder(): string;
+    set placeholder(value: string);
+    get required(): boolean;
+    set required(value: boolean);
+    get disabled(): boolean;
+    set disabled(value: boolean);
+    setDescribedByIds(ids: string[]): void;
+    onContainerClick(event: MouseEvent): void;
+    reset(): void;
+    ngOnDestroy(): void;
+    private get formattedPhoneNumber();
+    private formatAsYouTypeIfEnabled;
+    static ɵfac: i0.ɵɵFactoryDeclaration<NgxMatIntlTelInputComponent, [null, null, null, null, { optional: true; self: true; }, { optional: true; }, { optional: true; }, null]>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<NgxMatIntlTelInputComponent, "ngx-mat-intl-tel-input", never, { "preferredCountries": "preferredCountries"; "enablePlaceholder": "enablePlaceholder"; "inputPlaceholder": "inputPlaceholder"; "cssClass": "cssClass"; "name": "name"; "onlyCountries": "onlyCountries"; "errorStateMatcher": "errorStateMatcher"; "enableSearch": "enableSearch"; "searchPlaceholder": "searchPlaceholder"; "describedBy": "describedBy"; "format": "format"; "placeholder": "placeholder"; "required": "required"; "disabled": "disabled"; }, { "countryChanged": "countryChanged"; }, never, never>;
+}
+export {};
+//# sourceMappingURL=ngx-mat-intl-tel-input.component.d.ts.map
