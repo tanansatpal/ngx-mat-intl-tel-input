@@ -19,6 +19,7 @@
       mat-menu-item
       *ngIf="enableSearch"
       class="country-search sticky"
+      (blur)="this.onBlur($event)"
       [(ngModel)]="searchCriteria"
       type="text"
       [placeholder]="searchPlaceholder"

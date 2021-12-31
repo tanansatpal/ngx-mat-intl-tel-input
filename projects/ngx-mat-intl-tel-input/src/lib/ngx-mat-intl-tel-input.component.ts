@@ -386,4 +386,10 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
     }
     this.previousFormattedNumber = this.phoneNumber.toString();
   }
+
+  onBlur(ev){
+    const classList = ev?.relatedTarget?.classList;
+    if(classList && classList?.contains('ng-star-inserted') && classList?.contains('mat-menu-item'))
+      ev.target.focus();
+  }
 }
