@@ -1122,3 +1122,7 @@ input.country-search {
 .flag.ZW {
   background-position: 0 -3598px
 }
+
+.no-pointer-events {
+  pointer-events: none;
+}

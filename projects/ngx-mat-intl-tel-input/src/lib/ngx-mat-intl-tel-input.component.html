@@ -5,6 +5,7 @@
     [matMenuTriggerFor]="menu"
     class="country-selector"
     [disabled]="disabled"
+    [class.no-pointer-events]="readonly"
   >
     <span
       class="country-selector-flag flag"
@@ -69,6 +70,7 @@
     [errorStateMatcher]="errorStateMatcher"
     [placeholder]="inputPlaceholder"
     [disabled]="disabled"
+    [readonly]="readonly"
     [aria-describedby]="describedBy"
     #focusable
   />

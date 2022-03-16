@@ -94,6 +94,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   private _placeholder: string;
   private _required = false;
   private _disabled = false;
+  private _readonly = false;
   stateChanges = new Subject<void>();
   focused = false;
   @HostBinding() id = `ngx-mat-intl-tel-input-${NgxMatIntlTelInputComponent.nextId++}`;
@@ -334,6 +335,16 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
 
   set disabled(value: boolean) {
     this._disabled = coerceBooleanProperty(value);
+    this.stateChanges.next();
+  }
+
+  @Input()
+  get readonly(): boolean {
+    return this._readonly;
+  }
+
+  set readonly(value: boolean) {
+    this._readonly = coerceBooleanProperty(value);
     this.stateChanges.next();
   }
 
