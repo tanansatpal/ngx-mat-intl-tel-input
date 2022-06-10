@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
-import {FormGroup, FormControl, Validators} from '@angular/forms';
-import {FormBuilder} from '@angular/forms';
+import {UntypedFormGroup, UntypedFormControl, Validators} from '@angular/forms';
+import {UntypedFormBuilder} from '@angular/forms';
 import {NgxMatIntlTelInputComponent} from '../../../ngx-mat-intl-tel-input/src/lib/ngx-mat-intl-tel-input.component';
 
 
@@ -11,10 +11,10 @@ import {NgxMatIntlTelInputComponent} from '../../../ngx-mat-intl-tel-input/src/l
 })
 export class AppComponent implements AfterViewInit {
   @ViewChild(NgxMatIntlTelInputComponent) phoneInput: NgxMatIntlTelInputComponent;
-  phoneForm = new FormGroup({
-    phone: new FormControl(undefined, [Validators.required]),
-    name: new FormControl(undefined, [Validators.required]),
-    surname: new FormControl(undefined, [Validators.required])
+  phoneForm = new UntypedFormGroup({
+    phone: new UntypedFormControl(undefined, [Validators.required]),
+    name: new UntypedFormControl(undefined, [Validators.required]),
+    surname: new UntypedFormControl(undefined, [Validators.required])
   });
 
   profileForm = this.fb.group({
@@ -23,7 +23,7 @@ export class AppComponent implements AfterViewInit {
     phone: ['']
   });
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: UntypedFormBuilder) {
   }
 
   onSubmit() {

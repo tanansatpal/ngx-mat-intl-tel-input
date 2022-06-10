@@ -153,8 +153,9 @@
       }
     }
   },
-  "defaultProject": "ngx-mat-intl-tel-input",
   "cli": {
-    "defaultCollection": "@angular-eslint/schematics"
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }
