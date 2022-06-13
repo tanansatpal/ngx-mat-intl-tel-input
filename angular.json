@@ -70,7 +70,7 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "projects/ngx-mat-intl-tel-input-tester/src/styles.css"
+              "projects/ngx-mat-intl-tel-input-tester/src/styles.scss"
             ],
             "scripts": []
           },
@@ -132,7 +132,7 @@
               "projects/ngx-mat-intl-tel-input-tester/src/assets"
             ],
             "styles": [
-              "projects/ngx-mat-intl-tel-input-tester/src/styles.css"
+              "projects/ngx-mat-intl-tel-input-tester/src/styles.scss"
             ],
             "scripts": []
           }
