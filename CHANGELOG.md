@@ -57,3 +57,12 @@ This release supports the Angular version 13.
 ### Features
 
 * Upgraded to Angular version 13 ([#131](https://github.com/tanansatpal/ngx-mat-intl-tel-input/issues/131))
+
+<a name="5.0.0"></a>
+# 5.0.0 (2022-06-14)
+
+This release supports the Angular version 14.
+
+### Features
+
+* Upgraded to Angular version 14 ([#155](https://github.com/tanansatpal/ngx-mat-intl-tel-input/issues/155))

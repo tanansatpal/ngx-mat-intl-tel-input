@@ -1,12 +1,12 @@
 {
     "name": "ngx-mat-intl-tel-input",
-    "version": "4.1.0",
+    "version": "5.0.0",
     "peerDependencies": {
-        "@angular/common": "~14.0.1",
-        "@angular/core": "~14.0.1",
-        "@angular/forms": "~14.0.1",
-        "@angular/platform-browser": "~14.0.1",
-        "@angular/platform-browser-dynamic": "~14.0.1",
+        "@angular/common": ">=14.x",
+        "@angular/core": ">=14.x",
+        "@angular/forms": ">=14.x",
+        "@angular/platform-browser": ">=14.x",
+        "@angular/platform-browser-dynamic": ">=14.x",
         "libphonenumber-js": "^1.10.6"
     },
     "repository": {
@@ -31,6 +31,7 @@
         "ng11",
         "ng12",
         "ng13",
+        "ng14",
         "intl-tel-input",
         "ng-intl-tel-input",
         "phone number",
@@ -48,6 +49,6 @@
     ],
     "license": "MIT",
   "dependencies": {
-    "tslib": "^2.4.0"
+    "tslib": "^2.x"
   }
 }
