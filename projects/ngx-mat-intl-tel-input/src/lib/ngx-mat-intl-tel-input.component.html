@@ -8,7 +8,7 @@
   >
     <span
       class="country-selector-flag flag"
-      [ngClass]="selectedCountry.flagClass"
+      [ngClass]="selectedCountry?.flagClass"
     ></span>
     <span class="country-selector-code" *ngIf="selectedCountry?.dialCode"
       >+{{ selectedCountry.dialCode }}</span

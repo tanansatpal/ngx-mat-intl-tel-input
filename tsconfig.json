@@ -5,6 +5,7 @@
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
+    "strict": true,
     "module": "ES2020",
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
