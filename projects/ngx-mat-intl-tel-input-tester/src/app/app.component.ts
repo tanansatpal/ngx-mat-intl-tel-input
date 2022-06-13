@@ -1,6 +1,16 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgxMatIntlTelInputComponent } from '../../../ngx-mat-intl-tel-input/src/lib/ngx-mat-intl-tel-input.component';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgxMatIntlTelInputComponent } from './../../../ngx-mat-intl-tel-input/src/lib/ngx-mat-intl-tel-input.component';
 
 interface PhoneForm {
   name: FormControl<string | null>;
@@ -18,6 +28,16 @@ interface ProfileForm {
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  standalone: true,
+  imports: [
+    BrowserModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatDividerModule,
+    NgxMatIntlTelInputComponent,
+  ],
 })
 export class AppComponent implements AfterViewInit {
   @ViewChild(NgxMatIntlTelInputComponent) phoneInput:

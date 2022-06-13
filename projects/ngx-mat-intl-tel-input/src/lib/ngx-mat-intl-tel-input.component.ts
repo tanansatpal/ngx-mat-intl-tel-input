@@ -21,9 +21,11 @@ import { MatFormFieldControl } from '@angular/material/form-field';
 
 import {
   FormGroupDirective,
+  FormsModule,
   NgControl,
   NgForm,
   NG_VALIDATORS,
+  ReactiveFormsModule,
 } from '@angular/forms';
 import {
   AsYouType,
@@ -41,6 +43,8 @@ import { phoneNumberValidator } from './ngx-mat-intl-tel-input.validator';
 
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 import {
   CanUpdateErrorState,
   ErrorStateMatcher,
@@ -48,9 +52,11 @@ import {
   _AbstractConstructor,
   _Constructor,
 } from '@angular/material/core';
-import { MatMenu } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatInput, MatInputModule } from '@angular/material/input';
+import { MatMenu, MatMenuModule } from '@angular/material/menu';
 import { Subject } from 'rxjs';
-import { MatInput } from '@angular/material/input';
+import { SearchPipe } from 'projects/ngx-mat-intl-tel-input/src/lib/search.pipe';
 class NgxMatIntlTelInputBase {
   readonly stateChanges = new Subject<void>();
   constructor(
@@ -73,6 +79,17 @@ const _NgxMatIntlTelInputMixinBase: CanUpdateErrorStateCtor &
   selector: 'ngx-mat-intl-tel-input',
   templateUrl: './ngx-mat-intl-tel-input.component.html',
   styleUrls: ['./ngx-mat-intl-tel-input.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatInputModule,
+    MatMenuModule,
+    MatButtonModule,
+    MatDividerModule,
+    ReactiveFormsModule,
+    SearchPipe
+  ],
   providers: [
     CountryCode,
     { provide: MatFormFieldControl, useExisting: NgxMatIntlTelInputComponent },
