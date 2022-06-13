@@ -1,10 +1,5 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  UntypedFormBuilder,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgxMatIntlTelInputComponent } from '../../../ngx-mat-intl-tel-input/src/lib/ngx-mat-intl-tel-input.component';
 
 interface PhoneForm {
@@ -22,7 +17,7 @@ interface ProfileForm {
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements AfterViewInit {
   @ViewChild(NgxMatIntlTelInputComponent) phoneInput:
@@ -41,7 +36,7 @@ export class AppComponent implements AfterViewInit {
     phone: new FormControl(null),
   });
 
-  constructor(private fb: UntypedFormBuilder) {}
+  constructor() {}
 
   onSubmit() {
     console.log('onSubmit', this.phoneForm);

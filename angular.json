@@ -8,6 +8,14 @@
       "sourceRoot": "projects/ngx-mat-intl-tel-input/src",
       "projectType": "library",
       "prefix": "lib",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",

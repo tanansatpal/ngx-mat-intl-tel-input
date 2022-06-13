@@ -72,7 +72,7 @@ const _NgxMatIntlTelInputMixinBase: CanUpdateErrorStateCtor &
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'ngx-mat-intl-tel-input',
   templateUrl: './ngx-mat-intl-tel-input.component.html',
-  styleUrls: ['./ngx-mat-intl-tel-input.component.css'],
+  styleUrls: ['./ngx-mat-intl-tel-input.component.scss'],
   providers: [
     CountryCode,
     { provide: MatFormFieldControl, useExisting: NgxMatIntlTelInputComponent },
