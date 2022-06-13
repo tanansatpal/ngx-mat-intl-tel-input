@@ -1,24 +1,19 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxMatIntlTelInputModule } from './../../../ngx-mat-intl-tel-input/src/lib/ngx-mat-intl-tel-input.module';
-import { TestBed, async } from '@angular/core/testing';
-import { AppComponent } from './app.component';
+import { CommonModule } from '@angular/common';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatDividerModule } from '@angular/material/divider';
 import { BrowserModule } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
-      ],
       imports: [
-        BrowserModule,
         FormsModule,
         ReactiveFormsModule,
         MatFormFieldModule,
@@ -26,9 +21,9 @@ describe('AppComponent', () => {
         MatButtonModule,
         MatMenuModule,
         MatDividerModule,
-        NgxMatIntlTelInputModule,
         BrowserAnimationsModule,
         CommonModule,
+        AppComponent
       ],
     }).compileComponents();
   }));

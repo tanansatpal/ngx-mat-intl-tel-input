@@ -1,34 +1,32 @@
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatDividerModule } from '@angular/material/divider';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NgxMatIntlTelInputComponent } from './ngx-mat-intl-tel-input.component';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatButtonModule } from '@angular/material/button';
-import { MatMenuModule} from '@angular/material/menu';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
+import { NgxMatIntlTelInputComponent } from './ngx-mat-intl-tel-input.component';
 import { SearchPipe } from './search.pipe';
 
 describe('NgxMatIntlTelInputComponent', () => {
   let component: NgxMatIntlTelInputComponent;
   let fixture: ComponentFixture<NgxMatIntlTelInputComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ NgxMatIntlTelInputComponent,
-        SearchPipe ],
       imports: [
         CommonModule,
-    FormsModule,
-    MatInputModule,
-    MatMenuModule,
-    MatButtonModule,
-    MatDividerModule,
-    ReactiveFormsModule
-      ]
-    })
-    .compileComponents();
+        FormsModule,
+        MatInputModule,
+        MatMenuModule,
+        MatButtonModule,
+        MatDividerModule,
+        ReactiveFormsModule,
+        NgxMatIntlTelInputComponent,
+        SearchPipe
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

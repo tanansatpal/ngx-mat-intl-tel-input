@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import {
   FormControl,
@@ -9,7 +10,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { BrowserModule } from '@angular/platform-browser';
 import { NgxMatIntlTelInputComponent } from './../../../ngx-mat-intl-tel-input/src/lib/ngx-mat-intl-tel-input.component';
 
 interface PhoneForm {
@@ -30,7 +30,7 @@ interface ProfileForm {
   styleUrls: ['./app.component.scss'],
   standalone: true,
   imports: [
-    BrowserModule,
+    CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
