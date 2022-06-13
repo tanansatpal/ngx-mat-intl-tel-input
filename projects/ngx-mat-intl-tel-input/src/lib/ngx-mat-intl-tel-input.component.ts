@@ -24,16 +24,16 @@ import {CountryCode, Examples} from './data/country-code';
 import {phoneNumberValidator} from './ngx-mat-intl-tel-input.validator';
 import {Country} from './model/country.model';
 import {PhoneNumberFormat} from './model/phone-number-format.model';
-import {AsYouType, CountryCode as CC, E164Number, getExampleNumber, parsePhoneNumberFromString, PhoneNumber} from 'libphonenumber-js';
+import {AsYouType, CountryCode as CC, getExampleNumber, NationalNumber, parsePhoneNumberFromString, PhoneNumber} from 'libphonenumber-js';
 
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {Subject} from 'rxjs';
 import {FocusMonitor} from '@angular/cdk/a11y';
 import {CanUpdateErrorState, ErrorStateMatcher, mixinErrorState} from '@angular/material/core';
 import {MatMenu} from '@angular/material/menu';
-import { AbstractConstructor, Constructor } from '@angular/material/core/common-behaviors/constructor';
-
+import { _AbstractConstructor, _Constructor } from '@angular/material/core';
 class NgxMatIntlTelInputBase {
+  readonly stateChanges = new Subject<void>();
   constructor(public _defaultErrorStateMatcher: ErrorStateMatcher,
               public _parentForm: NgForm,
               public _parentFormGroup: FormGroupDirective,
@@ -42,7 +42,7 @@ class NgxMatIntlTelInputBase {
   }
 }
 
-declare type CanUpdateErrorStateCtor = Constructor<CanUpdateErrorState> & AbstractConstructor<CanUpdateErrorState>;
+declare type CanUpdateErrorStateCtor = _Constructor<CanUpdateErrorState> & _AbstractConstructor<CanUpdateErrorState>;
 
 const _NgxMatIntlTelInputMixinBase: CanUpdateErrorStateCtor & typeof NgxMatIntlTelInputBase =
   mixinErrorState(NgxMatIntlTelInputBase);
@@ -87,7 +87,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   set format(value: PhoneNumberFormat) {
     this._format = value;
     this.phoneNumber = this.formattedPhoneNumber;
-    this.stateChanges.next();
+    this.stateChanges.next(null);
   }
 
   @ViewChild(MatMenu) matMenu: MatMenu;
@@ -97,7 +97,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   stateChanges = new Subject<void>();
   focused = false;
   @HostBinding() id = `ngx-mat-intl-tel-input-${NgxMatIntlTelInputComponent.nextId++}`;
-  phoneNumber: E164Number = '';
+  phoneNumber: NationalNumber = '';
   allCountries: Array<Country> = [];
   preferredCountriesInDropDown: Array<Country> = [];
   selectedCountry: Country;
@@ -140,7 +140,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
         this.onTouched();
       }
       this.focused = !!origin;
-      this.stateChanges.next();
+      this.stateChanges.next(null);
     });
     this.fetchCountryData();
     if (this.ngControl != null) {
@@ -173,7 +173,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
     }
     this.countryChanged.emit(this.selectedCountry);
     this._changeDetectorRef.markForCheck();
-    this.stateChanges.next();
+    this.stateChanges.next(null);
   }
 
   ngDoCheck(): void {
@@ -265,7 +265,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
     this._changeDetectorRef.markForCheck();
-    this.stateChanges.next();
+    this.stateChanges.next(null);
   }
 
   writeValue(value: any): void {
@@ -286,7 +286,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
 
           // Initial value is set
           this._changeDetectorRef.markForCheck();
-          this.stateChanges.next();
+          this.stateChanges.next(null);
         }, 1);
       } else {
         this.phoneNumber = value;
@@ -295,7 +295,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
 
     // Value is set from outside using setValue()
     this._changeDetectorRef.markForCheck();
-    this.stateChanges.next();
+    this.stateChanges.next(null);
   }
 
   get empty() {
@@ -314,7 +314,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
 
   set placeholder(value: string) {
     this._placeholder = value;
-    this.stateChanges.next();
+    this.stateChanges.next(null);
   }
 
   @Input()
@@ -324,7 +324,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
 
   set required(value: boolean) {
     this._required = coerceBooleanProperty(value);
-    this.stateChanges.next();
+    this.stateChanges.next(null);
   }
 
   @Input()
@@ -334,7 +334,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
 
   set disabled(value: boolean) {
     this._disabled = coerceBooleanProperty(value);
-    this.stateChanges.next();
+    this.stateChanges.next(null);
   }
 
   setDescribedByIds(ids: string[]) {
@@ -353,7 +353,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
     this.propagateChange(null);
 
     this._changeDetectorRef.markForCheck();
-    this.stateChanges.next();
+    this.stateChanges.next(null);
   }
 
   ngOnDestroy() {
