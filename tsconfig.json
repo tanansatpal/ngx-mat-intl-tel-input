@@ -27,8 +27,5 @@
         "dist/ngx-mat-intl-tel-input/*"
       ]
     }
-  },
-  "angularCompilerOptions": {
-    "enableIvy": false
   }
 }
