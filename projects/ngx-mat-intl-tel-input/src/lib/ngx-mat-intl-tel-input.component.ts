@@ -38,7 +38,7 @@ import {FocusMonitor} from '@angular/cdk/a11y';
 import {CanUpdateErrorState, ErrorStateMatcher, mixinErrorState} from '@angular/material/core';
 import {MatMenu} from '@angular/material/menu';
 import {AbstractConstructor, Constructor} from '@angular/material/core/common-behaviors/constructor';
-import {NationalNumber} from "libphonenumber-js/types";
+import {NationalNumber} from 'libphonenumber-js/types';
 
 class NgxMatIntlTelInputBase {
   constructor(public _defaultErrorStateMatcher: ErrorStateMatcher,
