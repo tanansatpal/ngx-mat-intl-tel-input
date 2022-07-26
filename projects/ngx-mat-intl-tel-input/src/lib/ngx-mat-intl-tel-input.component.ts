@@ -24,14 +24,21 @@ import {CountryCode, Examples} from './data/country-code';
 import {phoneNumberValidator} from './ngx-mat-intl-tel-input.validator';
 import {Country} from './model/country.model';
 import {PhoneNumberFormat} from './model/phone-number-format.model';
-import {AsYouType, CountryCode as CC, E164Number, getExampleNumber, parsePhoneNumberFromString, PhoneNumber} from 'libphonenumber-js';
+import {
+  AsYouType,
+  CountryCode as CC,
+  getExampleNumber,
+  parsePhoneNumberFromString,
+  PhoneNumber
+} from 'libphonenumber-js';
 
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {Subject} from 'rxjs';
 import {FocusMonitor} from '@angular/cdk/a11y';
 import {CanUpdateErrorState, ErrorStateMatcher, mixinErrorState} from '@angular/material/core';
 import {MatMenu} from '@angular/material/menu';
-import { AbstractConstructor, Constructor } from '@angular/material/core/common-behaviors/constructor';
+import {AbstractConstructor, Constructor} from '@angular/material/core/common-behaviors/constructor';
+import {NationalNumber} from "libphonenumber-js/types";
 
 class NgxMatIntlTelInputBase {
   constructor(public _defaultErrorStateMatcher: ErrorStateMatcher,
@@ -97,7 +104,7 @@ export class NgxMatIntlTelInputComponent extends _NgxMatIntlTelInputMixinBase
   stateChanges = new Subject<void>();
   focused = false;
   @HostBinding() id = `ngx-mat-intl-tel-input-${NgxMatIntlTelInputComponent.nextId++}`;
-  phoneNumber: E164Number = '';
+  phoneNumber: NationalNumber = '';
   allCountries: Array<Country> = [];
   preferredCountriesInDropDown: Array<Country> = [];
   selectedCountry: Country;
