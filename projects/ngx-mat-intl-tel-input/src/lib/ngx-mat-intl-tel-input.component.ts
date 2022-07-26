@@ -56,7 +56,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatInput, MatInputModule } from '@angular/material/input';
 import { MatMenu, MatMenuModule } from '@angular/material/menu';
 import { Subject } from 'rxjs';
-import { SearchPipe } from 'projects/ngx-mat-intl-tel-input/src/lib/search.pipe';
+import { SearchPipe } from './search.pipe';
+
 class NgxMatIntlTelInputBase {
   readonly stateChanges = new Subject<void>();
   constructor(
@@ -187,7 +188,7 @@ export class NgxMatIntlTelInputComponent
     }
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (!this.searchPlaceholder) {
       this.searchPlaceholder = 'Search ...';
     }
@@ -314,7 +315,7 @@ export class NgxMatIntlTelInputComponent
     this.propagateChange = fn;
   }
 
-  registerOnTouched(fn: any) {
+  registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
 
@@ -357,12 +358,12 @@ export class NgxMatIntlTelInputComponent
     this.stateChanges.next(undefined);
   }
 
-  get empty() {
+  get empty(): boolean {
     return !this.phoneNumber;
   }
 
   @HostBinding('class.ngx-floating')
-  get shouldLabelFloat() {
+  get shouldLabelFloat(): boolean {
     return this.focused || !this.empty;
   }
 
@@ -400,14 +401,14 @@ export class NgxMatIntlTelInputComponent
     this.describedBy = ids.join(' ');
   }
 
-  onContainerClick(event: MouseEvent) {
+  onContainerClick(event: MouseEvent): void {
     if ((event.target as Element).tagName.toLowerCase() !== 'input') {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.elRef.nativeElement.querySelector('input')!.focus();
     }
   }
 
-  reset() {
+  reset(): void {
     this.phoneNumber = '';
     this.propagateChange(null);
 
@@ -415,7 +416,7 @@ export class NgxMatIntlTelInputComponent
     this.stateChanges.next(undefined);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.stateChanges.complete();
     this.fm.stopMonitoring(this.elRef);
   }
