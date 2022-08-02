@@ -1,84 +1,125 @@
 <div style="margin: 50px">
   <h3 id="phoneInput">Test International Telephone Input Form</h3>
-  <br>
+  <br />
   <form #f="ngForm" [formGroup]="phoneForm" (ngSubmit)="onSubmit()">
-    <mat-form-field style="width:50%">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input
+        matInput
+        placeholder="Name"
+        [formControl]="phoneForm.controls.name"
+      />
+      <mat-error *ngIf="phoneForm.controls.name.errors?.required">
+        Required Field
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Surname</mat-label>
+      <input
+        matInput
+        placeholder="surname"
+        [formControl]="phoneForm.controls.surname"
+      />
+      <mat-error *ngIf="phoneForm.controls.surname.errors?.required">
+        Required Field
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field style="width: 50%">
       <ngx-mat-intl-tel-input
         [cssClass]="'custom'"
         [preferredCountries]="['us', 'ca']"
         [enablePlaceholder]="true"
+        [formControl]="phoneForm.controls.phone"
         placeholder="Enter Number"
         describedBy="phoneInput"
-        name="phone"
-        formControlName="phone" #phone></ngx-mat-intl-tel-input>
-      <mat-hint>e.g. {{phone.selectedCountry.placeHolder}}</mat-hint>
-      <mat-error *ngIf="f.form.controls['phone']?.errors?.required">Required Field</mat-error>
-      <mat-error *ngIf="f.submitted && f.form.controls['phone']?.errors?.validatePhoneNumber">Invalid Number</mat-error>
-    </mat-form-field>
-
-    <mat-form-field>
-      <input name="name" matInput placeholder="Name" formControlName="name"/>
-      <mat-error *ngIf="f.form.controls['name']?.errors?.required">Required Field</mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <input name="surname" matInput placeholder="surname" formControlName="surname"/>
-      <mat-error *ngIf="f.form.controls['surname']?.errors?.required">Required Field</mat-error>
+        #phone
+      ></ngx-mat-intl-tel-input>
+      <mat-hint>e.g. {{ phone.selectedCountry.placeHolder }}</mat-hint>
+      <mat-error *ngIf="phoneForm.controls.phone.errors?.required">
+        Required Field
+      </mat-error>
+      <mat-error
+        *ngIf="
+          f.submitted && phoneForm.controls.phone.errors?.validatePhoneNumber
+        "
+      >
+        Invalid Number
+      </mat-error>
     </mat-form-field>
 
     <button mat-button>Submit</button>
     <button type="reset" mat-button (click)="onReset()">Reset</button>
   </form>
 
-  <br>
-  <div><strong>Is input valid:</strong>
-    <pre>{{ !f.form.controls['phone'].invalid }}</pre>
+  <br />
+  <div>
+    <strong>Is input valid:</strong>
+    <pre>{{ !phoneForm.controls.phone.invalid }}</pre>
   </div>
-  <div><strong>Is input touched:</strong>
-    <pre>{{ f.form.controls['phone'].touched }}</pre>
+  <div>
+    <strong>Is input touched:</strong>
+    <pre>{{ phoneForm.controls.phone.touched }}</pre>
   </div>
-  <div><strong>Is form valid:</strong>
-    <pre>{{ f.form.valid }}</pre>
+  <div>
+    <strong>Is form valid:</strong>
+    <pre>{{ phoneForm.valid }}</pre>
   </div>
-  <div><strong>Form value:</strong>
-    <pre>{{ f.form.value|json }}</pre>
+  <div>
+    <strong>Form value:</strong>
+    <pre>{{ phoneForm.value | json }}</pre>
   </div>
-  <div><strong>Form validation errors:</strong>
-    <pre>{{ f.form.controls['phone'].errors | json }}</pre>
-    <pre>{{ f.form.controls['name'].errors | json }}</pre>
-    <pre>{{ f.form.controls['surname'].errors | json }}</pre>
+  <div>
+    <strong>Form validation errors:</strong>
+    <pre *ngFor="let control of phoneForm.controls | keyvalue">
+      {{ control.key }}: {{ control.value.errors | json }}
+    </pre>
   </div>
+
+  <mat-divider></mat-divider>
 
   <form #f1="ngForm" [formGroup]="profileForm">
-
-    <label>
-      First Name:
-      <input type="text" formControlName="firstName">
-    </label>
-
-    <label>
-      Last Name:
-      <input type="text" formControlName="lastName">
-    </label>
-
-    <mat-form-field style="width:50%">
+    <mat-form-field>
+      <mat-label> First Name:</mat-label>
+      <input
+        matInput
+        type="text"
+        [formControl]="profileForm.controls.firstName"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label> Last Name: </mat-label>
+      <input
+        matInput
+        type="text"
+        [formControl]="profileForm.controls.lastName"
+      />
+    </mat-form-field>
+    <mat-form-field style="width: 50%">
       <ngx-mat-intl-tel-input
         [cssClass]="'custom'"
         [preferredCountries]="['cl', 've']"
         [enablePlaceholder]="true"
-        placeholder="Enter Number"
         [enableSearch]="true"
-        [onlyCountries]="['us','cl','ve']"
+        [onlyCountries]="['us', 'cl', 've']"
         [searchPlaceholder]="'Buscar...'"
-        name="phone"
-        formControlName="phone" #phone1></ngx-mat-intl-tel-input>
-      <mat-hint>e.g. {{phone1.selectedCountry.placeHolder}}</mat-hint>
-      <mat-error *ngIf="f1.form.controls['phone']?.errors?.required">Required Field</mat-error>
-      <mat-error *ngIf="f1.submitted && f.form.controls['phone']?.errors?.validatePhoneNumber">Invalid Number</mat-error>
+        [formControl]="profileForm.controls.phone"
+        placeholder="Enter Number"
+        #phone1
+      ></ngx-mat-intl-tel-input>
+      <mat-hint>e.g. {{ phone1.selectedCountry.placeHolder }}</mat-hint>
+      <mat-error *ngIf="profileForm.controls.phone.errors?.required">
+        Required Field
+      </mat-error>
+      <mat-error *ngIf="profileForm.controls.phone.errors?.validatePhoneNumber">
+        Invalid Number
+      </mat-error>
     </mat-form-field>
-
   </form>
 
-  <div><strong>Form value:</strong>
-    <pre>{{ f1.form.value|json }}</pre>
+  <div>
+    <strong>Form value:</strong>
+    <pre>{{ f1.form.value | json }}</pre>
   </div>
 </div>

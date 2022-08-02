@@ -8,6 +8,15 @@
       "sourceRoot": "projects/ngx-mat-intl-tel-input/src",
       "projectType": "library",
       "prefix": "lib",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "standalone": true
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
@@ -62,7 +71,7 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "projects/ngx-mat-intl-tel-input-tester/src/styles.css"
+              "projects/ngx-mat-intl-tel-input-tester/src/styles.scss"
             ],
             "scripts": []
           },
@@ -124,7 +133,7 @@
               "projects/ngx-mat-intl-tel-input-tester/src/assets"
             ],
             "styles": [
-              "projects/ngx-mat-intl-tel-input-tester/src/styles.css"
+              "projects/ngx-mat-intl-tel-input-tester/src/styles.scss"
             ],
             "scripts": []
           }
@@ -153,8 +162,7 @@
       }
     }
   },
-  "defaultProject": "ngx-mat-intl-tel-input",
   "cli": {
-    "defaultCollection": "@angular-eslint/schematics"
+    "schematicCollections": ["@angular-eslint/schematics"]
   }
 }

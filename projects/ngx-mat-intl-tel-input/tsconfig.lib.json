@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
     "declarationMap": true,
-    "target": "es2015",
+    "target": "es2020",
     "declaration": true,
     "inlineSources": true,
     "types": [],
@@ -13,11 +13,9 @@
     ]
   },
   "angularCompilerOptions": {
-    "skipTemplateCodegen": true,
-    "strictMetadataEmit": true,
-    "fullTemplateTypeCheck": true,
+    "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
-    "enableResourceInlining": true
+    "strictInputAccessModifiers": true
   },
   "exclude": [
     "src/test.ts",

@@ -5,5 +5,5 @@ export interface Country {
   priority: number;
   areaCodes?: string[];
   flagClass: string;
-  placeHolder: string;
+  placeHolder?: string;
 }

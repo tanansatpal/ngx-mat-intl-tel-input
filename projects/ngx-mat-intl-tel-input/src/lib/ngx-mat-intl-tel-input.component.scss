@@ -1,0 +1,374 @@
+$color-black: #000;
+
+input {
+  &:not(.country-search) {
+    border: none;
+    background: none;
+    outline: none;
+    font: inherit;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 6px 0 90px;
+    position: relative;
+    z-index: 0;
+    margin: {
+      top: 0 !important;
+      bottom: 0 !important;
+      right: 0;
+      left: 0;
+    }
+  }
+
+  &.country-search {
+    width: 100%;
+    height: 34px;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+    padding: 20px 20px 24px;
+  }
+}
+.icon-wrapper {
+  padding-right: 24px;
+}
+
+.flag {
+  background: {
+    image: url(assets/flags_sprite_2x.png);
+    size: 100% auto;
+  }
+  filter: drop-shadow(1px 1px 1px rgba($color-black, 0.54));
+  height: 14px;
+  width: 24px;
+}
+
+.icon-wrapper,
+.label-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.country-selector {
+
+  border-radius: 0;
+  color: rgba($color-black, 0.87);
+  flex-shrink: 0;
+  height: initial;
+  line-height: unset;
+  width: 90px;
+  padding: 1px;
+  opacity: 0;
+  transition: opacity 200ms;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  right: auto;
+  left: 0;
+  font: {
+    size: inherit;
+    weight: inherit;
+  }
+  background: {
+    image: url(assets/arrow_drop_down_grey600_18dp.png);
+    position: right center;
+    repeat: no-repeat;
+    size: 18px auto;
+  }
+
+  &:disabled {
+    color: rgba($color-black, 0.38);
+  }
+}
+
+:host.ngx-floating .country-selector {
+  opacity: 1 !important;
+}
+
+.country-selector-flag {
+  display: inline-block;
+  margin-right: 0.5ex;
+}
+
+.country-list-button {
+  color: rgba($color-black, 0.87);
+  direction: ltr;
+  font-size: 16px;
+  font-weight: 400;
+  height: initial;
+  line-height: normal;
+  min-height: 48px;
+  padding: 14px 24px;
+  text-align: left;
+  text-transform: none;
+  width: 100%;
+}
+
+$country-flags: (
+  KY: 0,
+  AC: -14px,
+  AE: -28px,
+  AF: -42px,
+  AG: -56px,
+  AI: -70px,
+  AL: -84px,
+  AM: -98px,
+  AO: -112px,
+  AQ: -126px,
+  AR: -140px,
+  AS: -154px,
+  AT: -168px,
+  AU: -182px,
+  AW: -196px,
+  AX: -210px,
+  AZ: -224px,
+  BA: -238px,
+  BB: -252px,
+  BD: -266px,
+  BE: -280px,
+  BF: -294px,
+  BG: -308px,
+  BH: -322px,
+  BI: -336px,
+  BJ: -350px,
+  BL: -364px,
+  BM: -378px,
+  BN: -392px,
+  BO: -406px,
+  BQ: -420px,
+  BR: -434px,
+  BS: -448px,
+  BT: -462px,
+  BV: -476px,
+  BW: -490px,
+  BY: -504px,
+  BZ: -518px,
+  CA: -532px,
+  CC: -546px,
+  CD: -560px,
+  CF: -574px,
+  CG: -588px,
+  CH: -602px,
+  CI: -616px,
+  CK: -630px,
+  CL: -644px,
+  CM: -658px,
+  CN: -672px,
+  CO: -686px,
+  CP: -700px,
+  CR: -714px,
+  CU: -728px,
+  CV: -742px,
+  CW: -756px,
+  CX: -770px,
+  CY: -784px,
+  CZ: -798px,
+  DE: -812px,
+  DG: -826px,
+  DJ: -840px,
+  DK: -854px,
+  DM: -868px,
+  DO: -882px,
+  DZ: -896px,
+  EA: -910px,
+  EC: -924px,
+  EE: -938px,
+  EG: -952px,
+  EH: -966px,
+  ER: -980px,
+  ES: -994px,
+  ET: -1008px,
+  EU: -1022px,
+  FI: -1036px,
+  FJ: -1050px,
+  FK: -1064px,
+  FM: -1078px,
+  FO: -1092px,
+  FR: -1106px,
+  GA: -1120px,
+  GB: -1134px,
+  GD: -1148px,
+  GE: -1162px,
+  GF: -1176px,
+  GG: -1190px,
+  GH: -1204px,
+  GI: -1218px,
+  GL: -1232px,
+  GM: -1246px,
+  GN: -1260px,
+  GP: -1274px,
+  GQ: -1288px,
+  GR: -1302px,
+  GS: -1316px,
+  GT: -1330px,
+  GU: -1344px,
+  GW: -1358px,
+  GY: -1372px,
+  HK: -1386px,
+  HM: -1400px,
+  HN: -1414px,
+  HR: -1428px,
+  HT: -1442px,
+  HU: -1456px,
+  IC: -1470px,
+  ID: -1484px,
+  IE: -1498px,
+  IL: -1512px,
+  IM: -1526px,
+  IN: -1540px,
+  IO: -1554px,
+  IQ: -1568px,
+  IR: -1582px,
+  IS: -1596px,
+  IT: -1610px,
+  JE: -1624px,
+  JM: -1638px,
+  JO: -1652px,
+  JP: -1666px,
+  KE: -1680px,
+  KG: -1694px,
+  KH: -1708px,
+  KI: -1722px,
+  KM: -1736px,
+  KN: -1750px,
+  KP: -1764px,
+  KR: -1778px,
+  KW: -1792px,
+  AD: -1806px,
+  KZ: -1820px,
+  LA: -1834px,
+  LB: -1848px,
+  LC: -1862px,
+  LI: -1876px,
+  LK: -1890px,
+  LR: -1904px,
+  LS: -1918px,
+  LT: -1932px,
+  LU: -1946px,
+  LV: -1960px,
+  LY: -1974px,
+  MA: -1988px,
+  MC: -2002px,
+  MD: -2016px,
+  ME: -2030px,
+  MF: -2044px,
+  MG: -2058px,
+  MH: -2072px,
+  MK: -2086px,
+  ML: -2100px,
+  MM: -2114px,
+  MN: -2128px,
+  MO: -2142px,
+  MP: -2156px,
+  MQ: -2170px,
+  MR: -2184px,
+  MS: -2198px,
+  MT: -2212px,
+  MU: -2226px,
+  MV: -2240px,
+  MW: -2254px,
+  MX: -2268px,
+  MY: -2282px,
+  MZ: -2296px,
+  NA: -2310px,
+  NC: -2324px,
+  NE: -2338px,
+  NF: -2352px,
+  NG: -2366px,
+  NI: -2380px,
+  NL: -2394px,
+  NO: -2408px,
+  NP: -2422px,
+  NR: -2436px,
+  NU: -2450px,
+  NZ: -2464px,
+  OM: -2478px,
+  PA: -2492px,
+  PE: -2506px,
+  PF: -2520px,
+  PG: -2534px,
+  PH: -2548px,
+  PK: -2562px,
+  PL: -2576px,
+  PM: -2590px,
+  PN: -2604px,
+  PR: -2618px,
+  PS: -2632px,
+  PT: -2646px,
+  PW: -2660px,
+  PY: -2674px,
+  QA: -2688px,
+  RE: -2702px,
+  RO: -2716px,
+  RS: -2730px,
+  RU: -2744px,
+  RW: -2758px,
+  SA: -2772px,
+  SB: -2786px,
+  SC: -2800px,
+  SD: -2814px,
+  SE: -2828px,
+  SG: -2842px,
+  SH: -2856px,
+  SI: -2870px,
+  SJ: -2884px,
+  SK: -2898px,
+  SL: -2912px,
+  SM: -2926px,
+  SN: -2940px,
+  SO: -2954px,
+  SR: -2968px,
+  SS: -2982px,
+  ST: -2996px,
+  SV: -3010px,
+  SX: -3024px,
+  SY: -3038px,
+  SZ: -3052px,
+  TA: -3066px,
+  TC: -3080px,
+  TD: -3094px,
+  TF: -3108px,
+  TG: -3122px,
+  TH: -3136px,
+  TJ: -3150px,
+  TK: -3164px,
+  TL: -3178px,
+  TM: -3192px,
+  TN: -3206px,
+  TO: -3220px,
+  TR: -3234px,
+  TT: -3248px,
+  TV: -3262px,
+  TW: -3276px,
+  TZ: -3290px,
+  UA: -3304px,
+  UG: -3318px,
+  UM: -3332px,
+  UN: -3346px,
+  US: -3360px,
+  UY: -3374px,
+  UZ: -3388px,
+  VA: -3402px,
+  VC: -3416px,
+  VE: -3430px,
+  VG: -3444px,
+  VI: -3458px,
+  VN: -3472px,
+  VU: -3486px,
+  WF: -3500px,
+  WS: -3514px,
+  XK: -3528px,
+  YE: -3542px,
+  YT: -3556px,
+  ZA: -3570px,
+  ZM: -3584px,
+  ZW: -3598px,
+);
+
+.flag {
+  @each $country-class, $flag-position in $country-flags {
+    &.#{$country-class} {
+      background-position: 0 $flag-position;
+    }
+  }
+}
