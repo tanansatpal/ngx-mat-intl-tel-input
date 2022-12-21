@@ -74,21 +74,21 @@ If you want to show the sample number for the country selected or errors , use m
     #phone
   ></ngx-mat-intl-tel-input>
   <mat-hint>e.g. {{phone.selectedCountry.placeHolder}}</mat-hint>
-  <mat-error *ngIf="f.form.controls['phone']?.errors?.required"
-    >Required Field</mat-error
-  >
-  <mat-error *ngIf="f.form.controls['phone']?.errors?.validatePhoneNumber"
-    >Invalid Number</mat-error
-  >
+  <mat-error *ngIf="f.form.controls['phone']?.errors?.required">
+    Required Field
+  </mat-error>
+  <mat-error *ngIf="f.form.controls['phone']?.errors?.validatePhoneNumber">
+    Invalid Number
+  </mat-error>
 </form>
 ```
 
 ## Options
 
 | Options            | Type       | Default     | Description                                                                         |
-| ------------------ | ---------- | ----------- | ----------------------------------------------------------------------------------- | --- |
+| ------------------ | ---------- | ----------- | ----------------------------------------------------------------------------------- |
 | preferredCountries | `string[]` | `[]`        | List of country abbreviations, which will appear at the top.                        |
-| onlyCountries      | `string[]` | `[]`        | List of manually selected country abbreviations, which will appear in the dropdown. |     |
+| onlyCountries      | `string[]` | `[]`        | List of manually selected country abbreviations, which will appear in the dropdown. |
 | inputPlaceholder   | `string`   | `undefined` | Placeholder for the input component.                                                |
 | enablePlaceholder  | `boolean`  | `true`      | Input placeholder text, which adapts to the country selected.                       |
 | enableSearch       | `boolean`  | `false`     | Whether to display a search bar to help filter down the list of countries           |

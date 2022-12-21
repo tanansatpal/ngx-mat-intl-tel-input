@@ -66,3 +66,10 @@ This release supports the Angular version 14.
 ### Features
 
 * Upgraded to Angular version 14 ([#155](https://github.com/tanansatpal/ngx-mat-intl-tel-input/issues/155))
+
+<a name="5.0.1"></a>
+# 5.0.1 (2022-12-22)
+
+### Bug fixes
+
+* Error isn't present if one numeric character is filled ([#176](https://github.com/tanansatpal/ngx-mat-intl-tel-input/issues/176))
