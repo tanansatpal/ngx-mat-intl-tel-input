@@ -33,7 +33,7 @@ import {
   E164Number,
   getExampleNumber,
   NationalNumber,
-  parsePhoneNumberFromString,
+  parsePhoneNumber,
   PhoneNumber,
 } from 'libphonenumber-js';
 import { CountryCode, Examples } from './data/country-code';
@@ -230,7 +230,7 @@ export class NgxMatIntlTelInputComponent
 
   public onPhoneNumberChange(): void {
     try {
-      this.numberInstance = parsePhoneNumberFromString(
+      this.numberInstance = parsePhoneNumber(
         this.phoneNumber?.toString() || '',
         this.selectedCountry?.iso2.toUpperCase() as CC
       );
@@ -327,7 +327,7 @@ export class NgxMatIntlTelInputComponent
 
   writeValue(value: any): void {
     if (value) {
-      this.numberInstance = parsePhoneNumberFromString(value);
+      this.numberInstance = parsePhoneNumber(value);
       if (this.numberInstance) {
         const countryCode = this.numberInstance.country;
         this.phoneNumber = this.formattedPhoneNumber;
