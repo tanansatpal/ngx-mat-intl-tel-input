@@ -26,6 +26,10 @@ input {
     border-bottom: 1px solid #ddd;
     font-size: 14px;
     padding: 20px 20px 24px;
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 9;
   }
 }
 .icon-wrapper {

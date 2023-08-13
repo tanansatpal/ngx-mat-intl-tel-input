@@ -11,13 +11,13 @@
       [ngClass]="selectedCountry?.flagClass"
     ></span>
     <span class="country-selector-code" *ngIf="selectedCountry?.dialCode"
-      >+{{ selectedCountry.dialCode }}</span
+    >+{{ selectedCountry.dialCode }}</span
     >
   </button>
   <mat-menu #menu="matMenu"
-    class="ngx-mat-tel-input-mat-menu-panel"
-    backdropClass="ngx-mat-tel-input-overlay-backdrop"
-    overlayPanelClass="ngx-mat-tel-input-overlay-pane">
+            class="ngx-mat-tel-input-mat-menu-panel"
+            backdropClass="ngx-mat-tel-input-overlay-backdrop"
+            overlayPanelClass="ngx-mat-tel-input-overlay-pane">
     <input
       *ngIf="enableSearch"
       class="country-search"
@@ -26,22 +26,24 @@
       [placeholder]="searchPlaceholder"
       (click)="$event.stopPropagation()"
     />
-    <button
-      type="button"
-      mat-menu-item
-      class="country-list-button"
-      *ngFor="let country of preferredCountriesInDropDown"
-      (click)="onCountrySelect(country, focusable)"
-    >
-      <div class="icon-wrapper">
-        <div class="flag" [ngClass]="country.flagClass"></div>
-      </div>
-      <div class="label-wrapper">
-        {{ country.name }}
-        <span *ngIf="country?.dialCode">+{{ country.dialCode }}</span>
-      </div>
-    </button>
-    <mat-divider *ngIf="preferredCountriesInDropDown?.length"></mat-divider>
+    <ng-container *ngIf="!searchCriteria">
+      <button
+        type="button"
+        mat-menu-item
+        class="country-list-button"
+        *ngFor="let country of preferredCountriesInDropDown"
+        (click)="onCountrySelect(country, focusable)"
+      >
+        <div class="icon-wrapper">
+          <div class="flag" [ngClass]="country.flagClass"></div>
+        </div>
+        <div class="label-wrapper">
+          {{ country.name }}
+          <span *ngIf="country?.dialCode">+{{ country.dialCode }}</span>
+        </div>
+      </button>
+      <mat-divider *ngIf="preferredCountriesInDropDown?.length"></mat-divider>
+    </ng-container>
     <ng-container *ngFor="let country of allCountries">
       <button
         type="button"
@@ -63,7 +65,7 @@
   <input
     matInput
     type="tel"
-    autocomplete="off"
+    autocomplete="tel"
     [ngClass]="cssClass"
     (blur)="onTouched()"
     (keypress)="onInputKeyPress($event)"
