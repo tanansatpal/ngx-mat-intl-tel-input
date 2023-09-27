@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/member-ordering, no-underscore-dangle, id-blacklist,
-id-match, @typescript-eslint/naming-convention */
-
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -17,7 +14,7 @@ import {
   Self,
   ViewChild,
 } from '@angular/core';
-import { MatFormFieldControl } from '@angular/material/form-field';
+import {MatFormFieldControl} from '@angular/material/form-field';
 
 import {
   FormGroupDirective,
@@ -36,15 +33,15 @@ import {
   parsePhoneNumberFromString,
   PhoneNumber,
 } from 'libphonenumber-js';
-import { CountryCode, Examples } from './data/country-code';
-import { Country } from './model/country.model';
-import { PhoneNumberFormat } from './model/phone-number-format.model';
-import { phoneNumberValidator } from './ngx-mat-intl-tel-input.validator';
+import {CountryCode, Examples} from './data/country-code';
+import {Country} from './model/country.model';
+import {PhoneNumberFormat} from './model/phone-number-format.model';
+import {phoneNumberValidator} from './ngx-mat-intl-tel-input.validator';
 
-import { FocusMonitor } from '@angular/cdk/a11y';
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
+import {FocusMonitor} from '@angular/cdk/a11y';
+import {coerceBooleanProperty} from '@angular/cdk/coercion';
+import {CommonModule} from '@angular/common';
+import {MatButtonModule} from '@angular/material/button';
 import {
   CanUpdateErrorState,
   ErrorStateMatcher,
@@ -52,21 +49,23 @@ import {
   _AbstractConstructor,
   _Constructor,
 } from '@angular/material/core';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatInput, MatInputModule } from '@angular/material/input';
-import { MatMenu, MatMenuModule } from '@angular/material/menu';
-import { Subject } from 'rxjs';
-import { SearchPipe } from './search.pipe';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatInput, MatInputModule} from '@angular/material/input';
+import {MatMenu, MatMenuModule} from '@angular/material/menu';
+import {Subject} from 'rxjs';
+import {SearchPipe} from './search.pipe';
 
 class NgxMatIntlTelInputBase {
   readonly stateChanges = new Subject<void>();
+
   constructor(
     public _defaultErrorStateMatcher: ErrorStateMatcher,
     public _parentForm: NgForm,
     public _parentFormGroup: FormGroupDirective,
     /** @docs-private */
     public ngControl: NgControl
-  ) {}
+  ) {
+  }
 }
 
 declare type CanUpdateErrorStateCtor = _Constructor<CanUpdateErrorState> &
@@ -93,7 +92,7 @@ const _NgxMatIntlTelInputMixinBase: CanUpdateErrorStateCtor &
   ],
   providers: [
     CountryCode,
-    { provide: MatFormFieldControl, useExisting: NgxMatIntlTelInputComponent },
+    {provide: MatFormFieldControl, useExisting: NgxMatIntlTelInputComponent},
     {
       provide: NG_VALIDATORS,
       useValue: phoneNumberValidator,
@@ -104,13 +103,11 @@ const _NgxMatIntlTelInputMixinBase: CanUpdateErrorStateCtor &
 })
 export class NgxMatIntlTelInputComponent
   extends _NgxMatIntlTelInputMixinBase
-  implements
-    OnInit,
+  implements OnInit,
     OnDestroy,
     DoCheck,
     CanUpdateErrorState,
-    MatFormFieldControl<any>
-{
+    MatFormFieldControl<any> {
   static nextId = 0;
 
   @Input() preferredCountries: Array<string> = [];
@@ -160,9 +157,11 @@ export class NgxMatIntlTelInputComponent
     return !!result ? result.number.toString() : undefined;
   }
 
-  onTouched = () => {};
+  onTouched = () => {
+  };
 
-  propagateChange = (_: any) => {};
+  propagateChange = (_: any) => {
+  };
 
   constructor(
     private _changeDetectorRef: ChangeDetectorRef,
@@ -403,7 +402,6 @@ export class NgxMatIntlTelInputComponent
 
   onContainerClick(event: MouseEvent): void {
     if ((event.target as Element).tagName.toLowerCase() !== 'input') {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.elRef.nativeElement.querySelector('input')!.focus();
     }
   }
