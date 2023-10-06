@@ -1,6 +1,7 @@
 <div class="ngx-mat-tel-input-container">
   <button
     type="button"
+    tabindex="-1"
     mat-button
     [matMenuTriggerFor]="menu"
     class="country-selector"
@@ -23,6 +24,7 @@
       class="country-search"
       [(ngModel)]="searchCriteria"
       type="text"
+      tabindex="-1"
       [placeholder]="searchPlaceholder"
       (click)="$event.stopPropagation()"
     />
