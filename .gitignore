@@ -42,8 +42,8 @@ yarn-error.log
 testem.log
 /typings
 /tslint-to-eslint-config.log
-/projects/ngx-mat-intl-tel-input-tester/tslint-to-eslint-config.log
-/projects/ngx-mat-intl-tel-input/tslint-to-eslint-config.log
+/projects/ngx-mat-intl-tel-input-dfcountry-tester/tslint-to-eslint-config.log
+/projects/ngx-mat-intl-tel-input-dfcountry/tslint-to-eslint-config.log
 
 # System Files
 .DS_Store

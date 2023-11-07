@@ -28,6 +28,6 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run lint
-    - run: npm run build ngx-mat-intl-tel-input-tester
+    - run: npm run build ngx-mat-intl-tel-input-dfcountry-tester
     - run: npm run build_lib
     - run: npm run test-headless

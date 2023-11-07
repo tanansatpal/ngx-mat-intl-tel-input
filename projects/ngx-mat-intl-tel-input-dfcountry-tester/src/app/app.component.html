@@ -27,7 +27,7 @@
     </mat-form-field>
 
     <mat-form-field style="width: 50%">
-      <ngx-mat-intl-tel-input
+      <ngx-mat-intl-tel-input-dfcountry
         [cssClass]="'custom'"
         [preferredCountries]="['us', 'ca']"
         [enablePlaceholder]="true"
@@ -35,7 +35,7 @@
         placeholder="Enter Number"
         describedBy="phoneInput"
         #phone
-      ></ngx-mat-intl-tel-input>
+      ></ngx-mat-intl-tel-input-dfcountry>
       <mat-hint>e.g. {{ phone.selectedCountry.placeHolder }}</mat-hint>
       <mat-error *ngIf="phoneForm.controls.phone.errors?.required">
         Required Field
@@ -97,8 +97,9 @@
       />
     </mat-form-field>
     <mat-form-field style="width: 50%">
-      <ngx-mat-intl-tel-input
+      <ngx-mat-intl-tel-input-dfcountry
         [cssClass]="'custom'"
+        [defaultSelectedCountry]="'ve'"
         [preferredCountries]="['cl', 've']"
         [enablePlaceholder]="true"
         [enableSearch]="true"
@@ -107,7 +108,7 @@
         [formControl]="profileForm.controls.phone"
         placeholder="Enter Number"
         #phone1
-      ></ngx-mat-intl-tel-input>
+      ></ngx-mat-intl-tel-input-dfcountry>
       <mat-hint>e.g. {{ phone1.selectedCountry.placeHolder }}</mat-hint>
       <mat-error *ngIf="profileForm.controls.phone.errors?.required">
         Required Field

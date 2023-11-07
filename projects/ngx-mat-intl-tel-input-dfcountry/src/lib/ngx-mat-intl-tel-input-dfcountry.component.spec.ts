@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
-import { NgxMatIntlTelInputComponent } from './ngx-mat-intl-tel-input.component';
+import { NgxMatIntlTelInputComponent } from './ngx-mat-intl-tel-input-dfcountry.component';
 import { SearchPipe } from './search.pipe';
 
 describe('NgxMatIntlTelInputComponent', () => {
