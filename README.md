@@ -18,7 +18,7 @@ An Angular Material package for entering and validating international telephone 
 
 ### Install This Library
 
-`$ npm install ngx-mat-intl-tel-input --save`
+`$ npm install ngx-mat-intl-tel-input-dfcountry --save`
 
 ## Usage
 

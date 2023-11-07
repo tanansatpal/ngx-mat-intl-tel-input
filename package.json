@@ -1,6 +1,6 @@
 {
-  "name": "ngx-mat-intl-tel-input",
-  "version": "5.0.0",
+  "name": "ngx-mat-intl-tel-input-dfcountry",
+  "version": "1.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -17,7 +17,7 @@
     "copy-readme": "cp ./README.md ./dist/ngx-mat-intl-tel-input",
     "copy-files": "npm run copy-license && npm run copy-readme"
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/animations": "^16.2.6",
     "@angular/cdk": "^16.2.5",
