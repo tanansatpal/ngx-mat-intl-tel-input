@@ -10,7 +10,7 @@ describe('workspace-project App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('Welcome to ngx-mat-intl-tel-input-tester!');
+    expect(page.getTitleText()).toEqual('Welcome to ngx-mat-intl-tel-input-dfcountry-tester!');
   });
 
   afterEach(async () => {

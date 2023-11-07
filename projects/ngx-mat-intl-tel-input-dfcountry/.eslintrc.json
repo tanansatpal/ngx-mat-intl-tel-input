@@ -10,8 +10,8 @@
       ],
       "parserOptions": {
         "project": [
-          "projects/ngx-mat-intl-tel-input/tsconfig.lib.json",
-          "projects/ngx-mat-intl-tel-input/tsconfig.spec.json"
+          "projects/ngx-mat-intl-tel-input-dfcountry/tsconfig.lib.json",
+          "projects/ngx-mat-intl-tel-input-dfcountry/tsconfig.spec.json"
         ],
         "createDefaultProgram": true
       },

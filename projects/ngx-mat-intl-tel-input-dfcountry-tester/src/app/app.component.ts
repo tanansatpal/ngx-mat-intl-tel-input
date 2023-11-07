@@ -10,7 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { NgxMatIntlTelInputComponent } from './../../../ngx-mat-intl-tel-input/src/lib/ngx-mat-intl-tel-input.component';
+import { NgxMatIntlTelInputComponent } from './../../../ngx-mat-intl-tel-input-dfcountry/src/lib/ngx-mat-intl-tel-input-dfcountry.component';
 
 interface PhoneForm {
   name: FormControl<string | null>;

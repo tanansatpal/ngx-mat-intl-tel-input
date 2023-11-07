@@ -21,11 +21,11 @@
       "dom"
     ],
     "paths": {
-      "ngx-mat-intl-tel-input": [
-        "dist/ngx-mat-intl-tel-input"
+      "ngx-mat-intl-tel-input-dfcountry": [
+        "dist/ngx-mat-intl-tel-input-dfcountry"
       ],
-      "ngx-mat-intl-tel-input/*": [
-        "dist/ngx-mat-intl-tel-input/*"
+      "ngx-mat-intl-tel-input-dfcountry/*": [
+        "dist/ngx-mat-intl-tel-input-dfcountry/*"
       ]
     }
   },

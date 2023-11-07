@@ -36,7 +36,7 @@ Refer to main app in this repository for working example.
 
 ```html
 <form #f="ngForm" [formGroup]="phoneForm">
-  <ngx-mat-intl-tel-input
+  <ngx-mat-intl-tel-input-dfcountry
     [defaultSelectedCountry]="'gb'"
     [preferredCountries]="['us', 'gb']"
     [enablePlaceholder]="true"
@@ -44,21 +44,21 @@ Refer to main app in this repository for working example.
     name="phone"
     describedBy="phoneInput"
     formControlName="phone"
-  ></ngx-mat-intl-tel-input>
+  ></ngx-mat-intl-tel-input-dfcountry>
 </form>
 ```
 
 ```html
 
 <form #f="ngForm" [formGroup]="phoneForm">
-  <ngx-mat-intl-tel-input
+  <ngx-mat-intl-tel-input-dfcountry
   [defaultSelectedCountry]="'gb'"
   [preferredCountries]="['us', 'gb']"
   [enablePlaceholder]="true"
   [enableSearch]="true"
   name="phone"
   (countryChanged)="yourComponentMethodToTreatyCountryChangedEvent($event)" // $event is a instance of current select Country
-  formControlName="phone"></ngx-mat-intl-tel-input>
+  formControlName="phone"></ngx-mat-intl-tel-input-dfcountry>
 </form>
 
 ```
@@ -67,7 +67,7 @@ If you want to show the sample number for the country selected or errors , use m
 
 ```html
 <form #f="ngForm" [formGroup]="phoneForm">
-  <ngx-mat-intl-tel-input
+  <ngx-mat-intl-tel-input-dfcountry
     [defaultSelectedCountry]="'gb'"
     [preferredCountries]="['us', 'gb']"
     [onlyCountries]="['us', 'gb', 'es']"
@@ -75,7 +75,7 @@ If you want to show the sample number for the country selected or errors , use m
     name="phone"
     formControlName="phone"
     #phone
-  ></ngx-mat-intl-tel-input>
+  ></ngx-mat-intl-tel-input-dfcountry>
   <mat-hint>e.g. {{phone.selectedCountry.placeHolder}}</mat-hint>
   <mat-error *ngIf="f.form.controls['phone']?.errors?.required"
     >Required Field</mat-error
@@ -102,7 +102,7 @@ If you want to show the sample number for the country selected or errors , use m
 ## Library Contributions
 
 - Fork repo.
-- Go to `./projects/ngx-mat-intl-tel-input`
+- Go to `./projects/ngx-mat-intl-tel-input-dfcountry`
 - Update `./src/lib` with new functionality.
 - Update README.md
 - Pull request.

@@ -1,5 +1,5 @@
 {
-  "name": "ngx-mat-intl-tel-input",
+  "name": "ngx-mat-intl-tel-input-dfcountry",
   "version": "5.0.0",
   "peerDependencies": {
     "@angular/common": ">=14.x",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tanansatpal/ngx-mat-intl-tel-input"
+    "url": "git+https://github.com/tanansatpal/ngx-mat-intl-tel-input-dfcountry"
   },
   "author": {
     "name": "Satpal Tanan",

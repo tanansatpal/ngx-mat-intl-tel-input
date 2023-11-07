@@ -36,7 +36,7 @@ import {
 import { CountryCode, Examples } from './data/country-code';
 import { Country } from './model/country.model';
 import { PhoneNumberFormat } from './model/phone-number-format.model';
-import { phoneNumberValidator } from './ngx-mat-intl-tel-input.validator';
+import { phoneNumberValidator } from './ngx-mat-intl-tel-input-dfcountry.validator';
 
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
@@ -76,9 +76,9 @@ const _NgxMatIntlTelInputMixinBase: CanUpdateErrorStateCtor &
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'ngx-mat-intl-tel-input',
-  templateUrl: './ngx-mat-intl-tel-input.component.html',
-  styleUrls: ['./ngx-mat-intl-tel-input.component.scss'],
+  selector: 'ngx-mat-intl-tel-input-dfcountry',
+  templateUrl: './ngx-mat-intl-tel-input-dfcountry.component.html',
+  styleUrls: ['./ngx-mat-intl-tel-input-dfcountry.component.scss'],
   standalone: true,
   imports: [
     CommonModule,
@@ -140,7 +140,7 @@ export class NgxMatIntlTelInputComponent
   stateChanges = new Subject<void>();
   focused = false;
   @HostBinding()
-  id = `ngx-mat-intl-tel-input-${NgxMatIntlTelInputComponent.nextId++}`;
+  id = `ngx-mat-intl-tel-input-dfcountry-${NgxMatIntlTelInputComponent.nextId++}`;
   phoneNumber: NationalNumber | undefined;
   allCountries: Array<Country> = [];
   preferredCountriesInDropDown: Array<Country> = [];

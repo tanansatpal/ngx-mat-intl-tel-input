@@ -3,9 +3,9 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ngx-mat-intl-tel-input": {
-      "root": "projects/ngx-mat-intl-tel-input",
-      "sourceRoot": "projects/ngx-mat-intl-tel-input/src",
+    "ngx-mat-intl-tel-input-dfcountry": {
+      "root": "projects/ngx-mat-intl-tel-input-dfcountry",
+      "sourceRoot": "projects/ngx-mat-intl-tel-input-dfcountry/src",
       "projectType": "library",
       "prefix": "lib",
       "schematics": {
@@ -21,12 +21,12 @@
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "tsConfig": "projects/ngx-mat-intl-tel-input/tsconfig.lib.json",
-            "project": "projects/ngx-mat-intl-tel-input/ng-package.json"
+            "tsConfig": "projects/ngx-mat-intl-tel-input-dfcountry/tsconfig.lib.json",
+            "project": "projects/ngx-mat-intl-tel-input-dfcountry/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/ngx-mat-intl-tel-input/tsconfig.lib.prod.json"
+              "tsConfig": "projects/ngx-mat-intl-tel-input-dfcountry/tsconfig.lib.prod.json"
             }
           }
         },
@@ -37,24 +37,24 @@
               "zone.js",
               "zone.js/testing"
             ],
-            "tsConfig": "projects/ngx-mat-intl-tel-input/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-mat-intl-tel-input/karma.conf.js"
+            "tsConfig": "projects/ngx-mat-intl-tel-input-dfcountry/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-mat-intl-tel-input-dfcountry/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
             "lintFilePatterns": [
-              "projects/ngx-mat-intl-tel-input/**/*.ts",
-              "projects/ngx-mat-intl-tel-input/**/*.html"
+              "projects/ngx-mat-intl-tel-input-dfcountry/**/*.ts",
+              "projects/ngx-mat-intl-tel-input-dfcountry/**/*.html"
             ]
           }
         }
       }
     },
-    "ngx-mat-intl-tel-input-tester": {
-      "root": "projects/ngx-mat-intl-tel-input-tester/",
-      "sourceRoot": "projects/ngx-mat-intl-tel-input-tester/src",
+    "ngx-mat-intl-tel-input-dfcountry-tester": {
+      "root": "projects/ngx-mat-intl-tel-input-dfcountry-tester/",
+      "sourceRoot": "projects/ngx-mat-intl-tel-input-dfcountry-tester/src",
       "projectType": "application",
       "prefix": "app",
       "schematics": {},
@@ -63,18 +63,18 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "aot": true,
-            "outputPath": "dist/ngx-mat-intl-tel-input-tester",
-            "index": "projects/ngx-mat-intl-tel-input-tester/src/index.html",
-            "main": "projects/ngx-mat-intl-tel-input-tester/src/main.ts",
-            "polyfills": "projects/ngx-mat-intl-tel-input-tester/src/polyfills.ts",
-            "tsConfig": "projects/ngx-mat-intl-tel-input-tester/tsconfig.app.json",
+            "outputPath": "dist/ngx-mat-intl-tel-input-dfcountry-tester",
+            "index": "projects/ngx-mat-intl-tel-input-dfcountry-tester/src/index.html",
+            "main": "projects/ngx-mat-intl-tel-input-dfcountry-tester/src/main.ts",
+            "polyfills": "projects/ngx-mat-intl-tel-input-dfcountry-tester/src/polyfills.ts",
+            "tsConfig": "projects/ngx-mat-intl-tel-input-dfcountry-tester/tsconfig.app.json",
             "assets": [
-              "projects/ngx-mat-intl-tel-input-tester/src/favicon.ico",
-              "projects/ngx-mat-intl-tel-input-tester/src/assets"
+              "projects/ngx-mat-intl-tel-input-dfcountry-tester/src/favicon.ico",
+              "projects/ngx-mat-intl-tel-input-dfcountry-tester/src/assets"
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "projects/ngx-mat-intl-tel-input-tester/src/styles.scss"
+              "projects/ngx-mat-intl-tel-input-dfcountry-tester/src/styles.scss"
             ],
             "scripts": []
           },
@@ -82,8 +82,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "projects/ngx-mat-intl-tel-input-tester/src/environments/environment.ts",
-                  "with": "projects/ngx-mat-intl-tel-input-tester/src/environments/environment.prod.ts"
+                  "replace": "projects/ngx-mat-intl-tel-input-dfcountry-tester/src/environments/environment.ts",
+                  "with": "projects/ngx-mat-intl-tel-input-dfcountry-tester/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -110,18 +110,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ngx-mat-intl-tel-input-tester:build"
+            "browserTarget": "ngx-mat-intl-tel-input-dfcountry-tester:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ngx-mat-intl-tel-input-tester:build:production"
+              "browserTarget": "ngx-mat-intl-tel-input-dfcountry-tester:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ngx-mat-intl-tel-input-tester:build"
+            "browserTarget": "ngx-mat-intl-tel-input-dfcountry-tester:build"
           }
         },
         "test": {
@@ -131,14 +131,14 @@
               "zone.js",
               "zone.js/testing"
             ],
-            "tsConfig": "projects/ngx-mat-intl-tel-input-tester/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-mat-intl-tel-input-tester/karma.conf.js",
+            "tsConfig": "projects/ngx-mat-intl-tel-input-dfcountry-tester/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-mat-intl-tel-input-dfcountry-tester/karma.conf.js",
             "assets": [
-              "projects/ngx-mat-intl-tel-input-tester/src/favicon.ico",
-              "projects/ngx-mat-intl-tel-input-tester/src/assets"
+              "projects/ngx-mat-intl-tel-input-dfcountry-tester/src/favicon.ico",
+              "projects/ngx-mat-intl-tel-input-dfcountry-tester/src/assets"
             ],
             "styles": [
-              "projects/ngx-mat-intl-tel-input-tester/src/styles.scss"
+              "projects/ngx-mat-intl-tel-input-dfcountry-tester/src/styles.scss"
             ],
             "scripts": []
           }
@@ -147,20 +147,20 @@
           "builder": "@angular-eslint/builder:lint",
           "options": {
             "lintFilePatterns": [
-              "projects/ngx-mat-intl-tel-input-tester//**/*.ts",
-              "projects/ngx-mat-intl-tel-input-tester//**/*.html"
+              "projects/ngx-mat-intl-tel-input-dfcountry-tester//**/*.ts",
+              "projects/ngx-mat-intl-tel-input-dfcountry-tester//**/*.html"
             ]
           }
         },
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "projects/ngx-mat-intl-tel-input-tester/e2e/protractor.conf.js",
-            "devServerTarget": "ngx-mat-intl-tel-input-tester:serve"
+            "protractorConfig": "projects/ngx-mat-intl-tel-input-dfcountry-tester/e2e/protractor.conf.js",
+            "devServerTarget": "ngx-mat-intl-tel-input-dfcountry-tester:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "ngx-mat-intl-tel-input-tester:serve:production"
+              "devServerTarget": "ngx-mat-intl-tel-input-dfcountry-tester:serve:production"
             }
           }
         }
