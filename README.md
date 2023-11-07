@@ -37,6 +37,7 @@ Refer to main app in this repository for working example.
 ```html
 <form #f="ngForm" [formGroup]="phoneForm">
   <ngx-mat-intl-tel-input
+    [defaultSelectedCountry]="'gb'"
     [preferredCountries]="['us', 'gb']"
     [enablePlaceholder]="true"
     [enableSearch]="true"
@@ -51,6 +52,7 @@ Refer to main app in this repository for working example.
 
 <form #f="ngForm" [formGroup]="phoneForm">
   <ngx-mat-intl-tel-input
+  [defaultSelectedCountry]="'gb'"
   [preferredCountries]="['us', 'gb']"
   [enablePlaceholder]="true"
   [enableSearch]="true"
@@ -66,6 +68,7 @@ If you want to show the sample number for the country selected or errors , use m
 ```html
 <form #f="ngForm" [formGroup]="phoneForm">
   <ngx-mat-intl-tel-input
+    [defaultSelectedCountry]="'gb'"
     [preferredCountries]="['us', 'gb']"
     [onlyCountries]="['us', 'gb', 'es']"
     [enablePlaceholder]="true"
@@ -85,15 +88,16 @@ If you want to show the sample number for the country selected or errors , use m
 
 ## Options
 
-| Options            | Type       | Default     | Description                                                                         |
-| ------------------ | ---------- | ----------- | ----------------------------------------------------------------------------------- | --- |
-| preferredCountries | `string[]` | `[]`        | List of country abbreviations, which will appear at the top.                        |
-| onlyCountries      | `string[]` | `[]`        | List of manually selected country abbreviations, which will appear in the dropdown. |     |
-| inputPlaceholder   | `string`   | `undefined` | Placeholder for the input component.                                                |
-| enablePlaceholder  | `boolean`  | `true`      | Input placeholder text, which adapts to the country selected.                       |
-| enableSearch       | `boolean`  | `false`     | Whether to display a search bar to help filter down the list of countries           |
-| format             | `string`   | `default`   | Format of "as you type" input. Possible values: national, international, default    |
-| describedBy        | `string`   | `undefined` | Use aria-described by with the input field                                          |
+| Options                 | Type        | Default     | Description                                                                         |
+| ---                     | :---:       | :---:       | :---:                                                                               |
+| preferredCountries      | `string[]`  | `[]`        | List of country abbreviations, which will appear at the top.                        |
+| defaultSelectedCountry  | `string`    | `undefined` | Manually selected default country code.                                             |
+| onlyCountries           | `string[]`  | `[]`        | List of manually selected country abbreviations, which will appear in the dropdown. |
+| inputPlaceholder        | `string`    | `undefined` | Placeholder for the input component.                                                |
+| enablePlaceholder       | `boolean`   | `true`      | Input placeholder text, which adapts to the country selected.                       |
+| enableSearch            | `boolean`   | `false`     | Whether to display a search bar to help filter down the list of countries           |
+| format                  | `string`    | `default`   | Format of "as you type" input. Possible values: national, international, default    |
+| describedBy             | `string`    | `undefined` | Use aria-described by with the input field                                          |
 
 ## Library Contributions
 

@@ -14,7 +14,7 @@ import {
   Self,
   ViewChild,
 } from '@angular/core';
-import {MatFormFieldControl} from '@angular/material/form-field';
+import { MatFormFieldControl } from '@angular/material/form-field';
 
 import {
   FormGroupDirective,
@@ -33,15 +33,15 @@ import {
   parsePhoneNumberFromString,
   PhoneNumber,
 } from 'libphonenumber-js';
-import {CountryCode, Examples} from './data/country-code';
-import {Country} from './model/country.model';
-import {PhoneNumberFormat} from './model/phone-number-format.model';
-import {phoneNumberValidator} from './ngx-mat-intl-tel-input.validator';
+import { CountryCode, Examples } from './data/country-code';
+import { Country } from './model/country.model';
+import { PhoneNumberFormat } from './model/phone-number-format.model';
+import { phoneNumberValidator } from './ngx-mat-intl-tel-input.validator';
 
-import {FocusMonitor} from '@angular/cdk/a11y';
-import {coerceBooleanProperty} from '@angular/cdk/coercion';
-import {CommonModule} from '@angular/common';
-import {MatButtonModule} from '@angular/material/button';
+import { FocusMonitor } from '@angular/cdk/a11y';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 import {
   CanUpdateErrorState,
   ErrorStateMatcher,
@@ -49,11 +49,11 @@ import {
   _AbstractConstructor,
   _Constructor,
 } from '@angular/material/core';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatInput, MatInputModule} from '@angular/material/input';
-import {MatMenu, MatMenuModule} from '@angular/material/menu';
-import {Subject} from 'rxjs';
-import {SearchPipe} from './search.pipe';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatInput, MatInputModule } from '@angular/material/input';
+import { MatMenu, MatMenuModule } from '@angular/material/menu';
+import { Subject } from 'rxjs';
+import { SearchPipe } from './search.pipe';
 
 class NgxMatIntlTelInputBase {
   readonly stateChanges = new Subject<void>();
@@ -92,7 +92,7 @@ const _NgxMatIntlTelInputMixinBase: CanUpdateErrorStateCtor &
   ],
   providers: [
     CountryCode,
-    {provide: MatFormFieldControl, useExisting: NgxMatIntlTelInputComponent},
+    { provide: MatFormFieldControl, useExisting: NgxMatIntlTelInputComponent },
     {
       provide: NG_VALIDATORS,
       useValue: phoneNumberValidator,
@@ -104,12 +104,13 @@ const _NgxMatIntlTelInputMixinBase: CanUpdateErrorStateCtor &
 export class NgxMatIntlTelInputComponent
   extends _NgxMatIntlTelInputMixinBase
   implements OnInit,
-    OnDestroy,
-    DoCheck,
-    CanUpdateErrorState,
-    MatFormFieldControl<any> {
+  OnDestroy,
+  DoCheck,
+  CanUpdateErrorState,
+  MatFormFieldControl<any> {
   static nextId = 0;
 
+  @Input() defaultSelectedCountry: string | undefined;
   @Input() preferredCountries: Array<string> = [];
   @Input() enablePlaceholder = true;
   @Input() inputPlaceholder: string | undefined;
@@ -210,10 +211,17 @@ export class NgxMatIntlTelInputComponent
       // If an existing number is present, we use it to determine selectedCountry
       this.selectedCountry = this.getCountry(this.numberInstance.country);
     } else {
-      if (this.preferredCountriesInDropDown.length) {
-        this.selectedCountry = this.preferredCountriesInDropDown[0];
-      } else {
-        this.selectedCountry = this.allCountries[0];
+      // If default selected country provided, we use it to determine selectedCountry
+      if (this.defaultSelectedCountry) {
+        const defaultSelectedCountry = this.allCountries.filter((c) => c.iso2 === this.defaultSelectedCountry).shift();
+        if (defaultSelectedCountry) {
+          this.selectedCountry = defaultSelectedCountry;
+        } else {
+          this.selectedCountry = this.preferredCountriesInDropDown.length ? this.preferredCountriesInDropDown[0] : this.allCountries[0];
+        }
+      }
+      else {
+        this.selectedCountry = this.preferredCountriesInDropDown.length ? this.preferredCountriesInDropDown[0] : this.allCountries[0];
       }
     }
     this.countryChanged.emit(this.selectedCountry);
